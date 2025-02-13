@@ -68,12 +68,7 @@ export class EventComponent {
 
   checkUserData(){
     if (this.jwtService.getToken()){
-      this.purchaseService.postPurchase(
-        {
-          ticketType_id: this.selectedTicketType.id, 
-          ticket_quantity: this.ticketAmount, 
-          user_id: this.jwtService.currentUserSig().id
-        }).subscribe((res:any) => {console.log(res);  alert('Compra realizada. Cantidad de tickets: ' + res.data.ticket_numbers)})
+      this.postThePurchase()
     }
     else {
       this.openLogin()
@@ -83,7 +78,17 @@ export class EventComponent {
   openLogin() {
     const dialogRef = this.dialog.open(LoginComponent, {height: '80%', width: '50%',});
     dialogRef.afterClosed().subscribe(result => {
-    console.log(`Dialog result: ${result}`);
+    if (this.jwtService.getToken()) {this.postThePurchase()}
   });
   }
+
+  postThePurchase(){
+    this.purchaseService.postPurchase(
+    {
+      ticketType_id: this.selectedTicketType.id, 
+      ticket_quantity: this.ticketAmount, 
+      user_id: this.jwtService.currentUserSig().id
+    }).subscribe((res:any) => {alert('Compra realizada. Cantidad de tickets: ' + res.data.ticket_numbers)})
+  }
+
 }

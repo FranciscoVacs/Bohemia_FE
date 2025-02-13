@@ -40,7 +40,8 @@
         <mat-label>Tipo de entrada </mat-label>
         <mat-select (selectionChange)="optSelected()" formControlName="firstCtrl" required>
           @for (ticket of event.ticketType; track ticket) {
-          <mat-option [value]="ticket">{{ticket.ticketType_name}}</mat-option>
+          <mat-option *ngIf="ticket.available_tickets > 0" [value]="ticket">{{ticket.ticketType_name}}</mat-option>
+          <mat-option *ngIf="ticket.available_tickets === 0" [value]="ticket" disabled>{{ticket.ticketType_name}} (AGOTADO)</mat-option>
           }
         </mat-select>
       </mat-form-field>
