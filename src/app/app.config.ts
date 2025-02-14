@@ -6,7 +6,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { ErrorHandlerService } from './services/error-handler.service.js';
+import { ErrorHandlerService } from './core/services/error-handler.service.js';
 import { authInterceptor } from './auth.interceptor.js';
 
 export const appConfig: ApplicationConfig = {

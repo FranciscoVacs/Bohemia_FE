@@ -11,9 +11,9 @@ import { MatOption } from '@angular/material/select';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
-import { EventService } from '../../services/event.service.js';
-import { JWTService } from '../../services/jwt.service.js';
-import { PurchaseService } from '../../services/purchase.service.js';
+import { EventService } from '../../core/services/event.service.js';
+import { JWTService } from '../../core/services/jwt.service.js';
+import { PurchaseService } from '../../core/services/purchase.service.js';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../../login/login.component.js';
 

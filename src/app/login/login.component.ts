@@ -6,12 +6,12 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { NgIf } from '@angular/common';
-import { UserService } from '../services/user.service.js';
-import { DateService } from '../services/date.service.js';
+import { UserService } from '../core/services/user.service.js';
+import { DateService } from '../core/services/date.service.js';
 import { catchError, of } from 'rxjs';
 import { MatDatepickerModule, MatDatepickerToggle } from '@angular/material/datepicker';
 import {jwtDecode} from 'jwt-decode';
-import { JWTService } from '../services/jwt.service.js';
+import { JWTService } from '../core/services/jwt.service.js';
 
 @Component({
   selector: 'app-login',

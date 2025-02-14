@@ -3,8 +3,8 @@ import { JsonPipe, CommonModule } from '@angular/common';
 import { EventPreviewComponent } from '../event-comps/event-preview/event-preview.component';
 import { AutocompleteComponent } from '../autocomplete/autocomplete.component';
 import { ListOfEventsComponent } from '../event-comps/list-of-events/list-of-events.component.js';
-import { EventService } from '../services/event.service.js';
-import { LocationService } from '../services/location.service.js';
+import { EventService } from '../core/services/event.service.js';
+import { LocationService } from '../core/services/location.service.js';
 import { NgFor } from '@angular/common';
 
 

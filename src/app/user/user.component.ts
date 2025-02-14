@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialogTitle, MatDialogActions, MatDialogContent, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
-import { JWTService } from '../services/jwt.service.js';
+import { JWTService } from '../core/services/jwt.service.js';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';

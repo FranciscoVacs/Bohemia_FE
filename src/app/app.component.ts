@@ -9,9 +9,9 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {LoginComponent} from './login/login.component.js';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
-import { JWTService } from './services/jwt.service.js';
+import { JWTService } from './core/services/jwt.service.js';
 import { jwtDecode } from 'jwt-decode';
-import { UserService } from './services/user.service.js';
+import { UserService } from './core/services/user.service.js';
 import { UserComponent } from './user/user.component.js';
 
 @Component({

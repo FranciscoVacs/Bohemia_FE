@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { UserService } from '../services/user.service.js';
-import { JWTService } from '../services/jwt.service.js';
+import { UserService } from '../core/services/user.service.js';
+import { JWTService } from '../core/services/jwt.service.js';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
 import { LoginComponent } from '../login/login.component.js';

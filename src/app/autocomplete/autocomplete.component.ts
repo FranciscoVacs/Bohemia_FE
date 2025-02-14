@@ -9,7 +9,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { CityService } from '../services/city.service.js';
+import { CityService } from '../core/services/city.service.js';
 
 @Component({
   selector: 'app-autocomplete',

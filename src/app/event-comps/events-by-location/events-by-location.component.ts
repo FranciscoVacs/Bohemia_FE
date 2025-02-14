@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ListOfEventsComponent } from '../list-of-events/list-of-events.component.js';
-import { LocationService } from '../../services/location.service.js';
+import { LocationService } from '../../core/services/location.service.js';
 
 @Component({
   selector: 'app-events-by-location',

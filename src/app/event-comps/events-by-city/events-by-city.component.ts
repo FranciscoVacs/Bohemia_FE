@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ListOfEventsComponent } from '../list-of-events/list-of-events.component.js';
 import {CommonModule} from '@angular/common';
-import { CityService } from '../../services/city.service.js';
+import { CityService } from '../../core/services/city.service.js';
 
 @Component({
   selector: 'app-events-by-city',

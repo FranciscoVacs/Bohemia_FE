@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
-import { JWTService } from '../services/jwt.service.js';
+import { JWTService } from '../core/services/jwt.service.js';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NgFor } from '@angular/common';
-import { PurchaseService } from '../services/purchase.service.js';
+import { PurchaseService } from '../core/services/purchase.service.js';
 
 @Component({
   selector: 'app-ticket-by-purchase',

@@ -8,11 +8,11 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { ActivatedRoute } from '@angular/router';
 import { ManageTickettypesComponent } from '../manage-tickettypes/manage-tickettypes.component.js';
-import { TicketTypeService } from '../services/ticket-type.service.js';
-import { EventService } from '../services/event.service.js';
-import { LocationService } from '../services/location.service.js';
-import { DjService } from '../services/dj.service.js';
-import { DateService } from '../services/date.service.js';
+import { TicketTypeService } from '../core/services/ticket-type.service.js';
+import { EventService } from '../core/services/event.service.js';
+import { LocationService } from '../core/services/location.service.js';
+import { DjService } from '../core/services/dj.service.js';
+import { DateService } from '../core/services/date.service.js';
 
 @Component({
   selector: 'app-manage-event',

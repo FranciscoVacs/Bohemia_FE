@@ -2,9 +2,9 @@ import { Component, Input } from '@angular/core';
 import {Router } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import { EventService } from '../../services/event.service.js';
+import { EventService } from '../../core/services/event.service.js';
 import { NgIf } from '@angular/common';
-import { JWTService } from '../../services/jwt.service.js';
+import { JWTService } from '../../core/services/jwt.service.js';
 import {MatCardModule} from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 
