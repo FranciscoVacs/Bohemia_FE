@@ -3,13 +3,14 @@ import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {AsyncPipe} from '@angular/common';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { CityService } from '../core/services/city.service.js';
+import { City, Location } from '../core/entities';
 
 @Component({
   selector: 'app-autocomplete',
@@ -21,21 +22,22 @@ import { CityService } from '../core/services/city.service.js';
 export class AutocompleteComponent {
   constructor(private router: Router, private cityService: CityService){}
 
-  @Input() locationList: any;
+  @Input() locationList: Location[] = [];
   myControl = new FormControl('');
   options: string[] = [];
   filteredOptions?: Observable<string[]>;
-  cityList: any;
+  cityList: City[] = [];
   optionName: string = '';
   targetRoute: string ='';
-  foundValue: any;
-  targetID: number = 0;
+  foundLocation: Location | undefined;
+  foundCity: City | undefined;
+  targetID: number | undefined = 0;
 
   ngOnInit() {
     this.cityService.getCities().subscribe( cities => {
       this.cityList = cities;
-      this.options = this.cityList.map((city: any) => city.city_name)
-      .concat(this.locationList.map((location: any) => location.location_name));
+      this.options = this.cityList.map((city: City) => city.city_name)
+      .concat(this.locationList.map((location: Location) => location.location_name));
     }) 
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -50,22 +52,23 @@ export class AutocompleteComponent {
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  onOptionSelected(event:any){
+  onOptionSelected(event:MatAutocompleteSelectedEvent){
+    console.log(event)
     this.optionName = event.option.value;
-    this.foundValue = this.locationList.find((loc:any) => loc.location_name === this.optionName)
-    if (this.foundValue) {
+    this.foundLocation = this.locationList.find((loc:Location) => loc.location_name === this.optionName)
+    if (this.foundLocation) {
       this.targetRoute = 'location';
-      this.targetID = this.foundValue.id
+      this.targetID = this.foundLocation.id
     }
     else {
-      this.foundValue = this.cityList.find((city:any) => city.city_name === this.optionName)
-      if (this.foundValue) {
+      this.foundCity = this.cityList.find((city:City) => city.city_name === this.optionName)
+      if (this.foundCity) {
         this.targetRoute = 'city';
-        this.targetID = this.foundValue.id
-       }
+        this.targetID = this.foundCity.id
+      }
       else {
         this.targetRoute = '';
-       }    
+      }    
     }
     this.onSearchPrompted()
   }

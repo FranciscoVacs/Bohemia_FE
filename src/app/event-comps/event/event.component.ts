@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { NgIf, NgSwitch, NgSwitchCase, NgFor } from '@angular/common';
+import { NgIf, NgSwitch, NgSwitchCase, NgFor, Location } from '@angular/common';
 import {MatListModule} from '@angular/material/list';
 import { MatFormField } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
@@ -16,6 +16,7 @@ import { JWTService } from '../../core/services/jwt.service.js';
 import { PurchaseService } from '../../core/services/purchase.service.js';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../../login/login.component.js';
+import { Event, TicketType } from '../../core/entities';
 
 @Component({
   selector: 'app-event',
@@ -27,24 +28,25 @@ import { LoginComponent } from '../../login/login.component.js';
 export class EventComponent {
   constructor(
     private route: ActivatedRoute, 
+    private router: Router,
     private eventService: EventService,
     private purchaseService: PurchaseService, 
     public jwtService: JWTService){}
 
   readonly dialog = inject(MatDialog)
 
-  event: any;
-  eventID: any;
-  ticketAmount: any;
-  selectedTicketType: any;
+  event!: Event 
+  eventID: number = 0;
+  ticketAmount: number = 0;
+  selectedTicketType!: TicketType;
   amounts: number[] = [1,2,3,4,5];
   state: number = 0;
 
   firstFormGroup  = new FormGroup ({
-    firstCtrl: new FormControl('', Validators.required)
+    firstCtrl: new FormControl<TicketType | null>(null, Validators.required)
     })  
   secondFormGroup   = new FormGroup ({
-    secondCtrl: new FormControl('', Validators.required)
+    secondCtrl: new FormControl<number>(0, Validators.required)
     })
 
   ngOnInit(){
@@ -59,11 +61,11 @@ export class EventComponent {
   }
 
   optSelected() {
-    this.selectedTicketType = this.firstFormGroup.value.firstCtrl
+    this.selectedTicketType = this.firstFormGroup.value.firstCtrl as TicketType
   }
 
   amountSelected(){
-    this.ticketAmount = this.secondFormGroup.value.secondCtrl
+    this.ticketAmount = this.secondFormGroup.value.secondCtrl ?? 0
   }
 
   checkUserData(){
@@ -88,7 +90,9 @@ export class EventComponent {
       ticketType_id: this.selectedTicketType.id, 
       ticket_quantity: this.ticketAmount, 
       user_id: this.jwtService.currentUserSig().id
-    }).subscribe((res:any) => {alert('Compra realizada. Cantidad de tickets: ' + res.data.ticket_numbers)})
+    }).subscribe((res:any) => {
+        alert('Compra realizada. Cantidad de tickets: ' + res.data.ticket_numbers); 
+        this.router.navigate([`purchases`]);
+      })
   }
-
 }

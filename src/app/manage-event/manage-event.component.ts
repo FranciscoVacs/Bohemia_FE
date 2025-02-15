@@ -51,8 +51,8 @@ export class ManageEventComponent {
   
   eventForm = new FormGroup ({
     event_name: new FormControl('', Validators.required),  
-    begin_datetime: new FormControl('', Validators.required),
-    finish_datetime: new FormControl('', Validators.required),
+    begin_datetime: new FormControl<Date|null>(null, Validators.required),
+    finish_datetime: new FormControl<Date|null>(null, Validators.required),
     event_description: new FormControl(''),
     min_age: new FormControl(''),
     location: new FormControl('', Validators.required),
@@ -120,8 +120,8 @@ export class ManageEventComponent {
     this.event = 
     {
      "event_name": this.eventForm.value.event_name,
-     "begin_datetime": this.dateService.formatDateTime(this.eventForm.value.begin_datetime, this.selectedStartHour, this.selectedStartMinute),
-     "finish_datetime":this.dateService.formatDateTime(this.eventForm.value.finish_datetime, this.selectedFinishHour, this.selectedFinishMinute),
+     "begin_datetime": this.dateService.formatDateTime(this.eventForm.value.begin_datetime as Date, this.selectedStartHour, this.selectedStartMinute),
+     "finish_datetime":this.dateService.formatDateTime(this.eventForm.value.finish_datetime as Date, this.selectedFinishHour, this.selectedFinishMinute),
      "event_description": this.eventForm.value.event_description,
      "min_age": minage,
      "location": this.eventForm.value.location,

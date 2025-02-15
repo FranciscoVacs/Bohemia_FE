@@ -64,7 +64,7 @@ export class AdminComponent {
     let city = {
       city_name: this.cityFormGroup.value.city_name ?? '',
       province: this.cityFormGroup.value.province ?? '',
-      zip_code: this.cityFormGroup.value.zip_code ?? 0
+      zip_code: this.cityFormGroup.value.zip_code? (+this.cityFormGroup.value.zip_code) : 0
     }     
     this.cityService.postCity(city).subscribe(res=>{ this.citiesIDs.push(res.data.id)})
   }
@@ -98,7 +98,7 @@ export class AdminComponent {
       let city = {
         city_name: this.cityFormGroup.value.city_name ?? '',
         province: this.cityFormGroup.value.province ?? '',
-        zip_code: this.cityFormGroup.value.zip_code ?? 0
+        zip_code: this.cityFormGroup.value.zip_code? (+this.cityFormGroup.value.zip_code) : 0
       }   
       this.cityService.updateCityById(city, id).subscribe(res=>{})
     }

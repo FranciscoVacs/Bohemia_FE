@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service.js';
 import { map } from 'rxjs/operators';
+import { City } from '../entities';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,8 @@ export class CityService {
 
   constructor(private apiService: ApiService) { }
 
-  postCity(event: any) {
-    return this.apiService.post(`/city`, event)
+  postCity(city: City) {
+    return this.apiService.post(`/city`, city)
     .pipe(map((response: any) => response.data))
   }  
 
@@ -24,7 +25,7 @@ export class CityService {
     .pipe(map((response: any) => response.data))
   }
 
-  updateCityById(city:any, id: number) {
+  updateCityById(city:City, id: number) {
     return this.apiService.patch(`/city` + `/${id}`, city)
   }
 

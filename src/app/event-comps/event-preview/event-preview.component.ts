@@ -7,6 +7,7 @@ import { NgIf } from '@angular/common';
 import { JWTService } from '../../core/services/jwt.service.js';
 import {MatCardModule} from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
+import { Event } from '../../core/entities';
 
 @Component({
   selector: 'app-event-preview',
@@ -17,23 +18,24 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class EventPreviewComponent {
   constructor(private router: Router, private eventService: EventService, public jwtService: JWTService ){}
- @Input() eventInput: any;
-  routename: any;
+ @Input() eventInput!: Event;
 
   onClicked(){
     setTimeout(()=> this.router.navigate([`event`, {eventID: this.eventInput.id}]));
   }
 
-  onDelete(event: Event){
+  onDelete(event: MouseEvent){
+    console.log(typeof event)
     event.stopPropagation()
-    this.eventService.deleteEvent(this.eventInput.id)
+    this.eventService.deleteEvent(this.eventInput.id ?? 0)
     .subscribe({
         next: (value) => {alert("Evento eliminado")},
         error: (err) => {if(err.status===500)alert('Este evento tiene compras asociadas y no puede ser eliminado directamente.')}
   })
   }
 
-  onUpdate(event: Event){
+  onUpdate(event: MouseEvent){
+    console.log(typeof event)
     event.stopPropagation()
     setTimeout(()=> this.router.navigate([`manageevent`, {updating: true, eventID: this.eventInput.id}]));
   }

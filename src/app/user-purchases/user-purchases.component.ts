@@ -20,7 +20,7 @@ export class UserPurchasesComponent {
   readonly dialog = inject(MatDialog)
   
   loginPrompt: boolean = false
-  purchases : { cover_photo: string, event_name: string, event_date: string, ticketAmount: string, ticketTypeName: string, purchaseId: number}[] = []
+  purchases : { cover_photo: string, event_name: string, begin_datetime: string, ticket_numbers: string, ticketType_name: string, purchaseId: number}[] = []
 
   ngOnInit(){
     if(this.jwtService.getToken() !== null){
@@ -31,9 +31,9 @@ export class UserPurchasesComponent {
           this.purchases.push({
             event_name: purchase.ticket_type.event.event_name,
             cover_photo : purchase.ticket_type.event.cover_photo, 
-            event_date : purchase.ticket_type.event.begin_datetime,
-            ticketAmount : purchase.ticket_numbers,
-            ticketTypeName : purchase.ticket_type.ticketType_name,
+            begin_datetime : purchase.ticket_type.event.begin_datetime,
+            ticket_numbers : purchase.ticket_numbers,
+            ticketType_name : purchase.ticket_type.ticketType_name,
             purchaseId: purchase.id
           })
         })

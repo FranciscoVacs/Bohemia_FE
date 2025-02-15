@@ -48,13 +48,13 @@ export class LoginComponent {
   registerForm = new FormGroup ({
     user_name: new FormControl(''),  
     user_surname: new FormControl(''),
-    birth_date: new FormControl(''),
+    birth_date: new FormControl<Date|null>(null),
     email: new FormControl(''),
     password: new FormControl('')
   })
 
   register(){
-    let formattedDate: string = this.dateService.formatDateTime(this.registerForm.value.birth_date,'00','00')
+    let formattedDate: string = this.dateService.formatDateTime(this.registerForm.value.birth_date as Date,'00','00')
     let newUser = {
       "email" : this.registerForm.value.email,
       "user_name" : this.registerForm.value.user_name,
