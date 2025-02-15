@@ -38,20 +38,20 @@
   <div *ngIf="cityOption===2">
     <mat-form-field>
       <mat-label>ID de entidad</mat-label>
-      <input type="number" matInput [formControl]="getcitybyid" />
+      <input type="number" matInput [formControl]="cityIdInput" />
     </mat-form-field>
       <button mat-stroked-button (click)="getcity()">
         GET
       </button>
-    <p> {{actualCity.city_name}}</p>
-    <p>{{actualCity.province}}</p>
-    <p>{{actualCity.zip_code}}</p>
+    <p> {{actualCity?.city_name}}</p>
+    <p>{{actualCity?.province}}</p>
+    <p>{{actualCity?.zip_code}}</p>
   </div>
 
   <div *ngIf="cityOption===3">
     <mat-form-field>
       <mat-label>ID de entidad</mat-label>
-      <input type="number" matInput [formControl]="getcitybyid" />
+      <input type="number" matInput [formControl]="cityIdInput" />
     </mat-form-field>
     <form [formGroup]="cityFormGroup">
       <mat-form-field>
@@ -77,7 +77,7 @@
   <div *ngIf="cityOption===4">
     <mat-form-field>
       <mat-label>ID de entidad</mat-label>
-      <input type="number" matInput [formControl]="getcitybyid" />
+      <input type="number" matInput [formControl]="cityIdInput" />
     </mat-form-field>
       <button mat-stroked-button (click)="deletecity()">
         DELETE
@@ -123,20 +123,20 @@
   <div *ngIf="djOption===2">
     <mat-form-field>
       <mat-label>ID de entidad</mat-label>
-      <input type="number" matInput [formControl]="getdjbyid"/>
+      <input type="number" matInput [formControl]="djIdInput"/>
     </mat-form-field>
       <button mat-stroked-button (click)="getdj()">
         GET
       </button>
-    <p>{{actualdj.dj_name}}</p>
-    <p>{{actualdj.dj_surname}}</p>
-    <p>{{actualdj.dj_apodo}}</p>
+    <p>{{actualdj?.dj_name}}</p>
+    <p>{{actualdj?.dj_surname}}</p>
+    <p>{{actualdj?.dj_apodo}}</p>
   </div>
 
   <div *ngIf="djOption===3">
     <mat-form-field>
       <mat-label>ID de entidad</mat-label>
-      <input type="number" matInput [formControl]="getdjbyid" />
+      <input type="number" matInput [formControl]="djIdInput" />
     </mat-form-field>
 
     <form [formGroup]="djFormGroup" >
@@ -163,7 +163,7 @@
   <div *ngIf="djOption===4">
     <mat-form-field>
       <mat-label>ID de entidad</mat-label>
-      <input type="number" matInput [formControl]="getdjbyid" />
+      <input type="number" matInput [formControl]="djIdInput" />
     </mat-form-field>
       <button mat-stroked-button (click)="deletedj()">
         DELETE

@@ -1,8 +1,9 @@
-import { User } from './user.entity'
-import { TicketType } from './ticketType.entity'
-import { Ticket } from './ticket.entity';
+import { User } from './'
+import { TicketType } from './'
+import { Ticket } from './';
+import { BaseEntity } from './';
 
-export interface Purchase {
+export interface Purchase extends BaseEntity {
   ticket_numbers: number;
   payment_status: PaymentStatus;
   discount_applied: number;

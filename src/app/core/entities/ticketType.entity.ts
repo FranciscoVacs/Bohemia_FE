@@ -1,7 +1,8 @@
-import { Event } from './event.entity'
-import { Purchase } from './purchase.entity';
+import { Event } from './'
+import { Purchase } from './';
+import { BaseEntity } from './';
 
-export interface TicketType {
+export interface TicketType extends BaseEntity {
   ticketType_name: string;
   begin_datetime: Date;
   finish_datetime: Date;  

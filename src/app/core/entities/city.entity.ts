@@ -1,6 +1,7 @@
-import {Location} from './location.entity'
+import {Location} from './'
+import { BaseEntity } from './';
 
-export interface City {
+export interface City extends BaseEntity {
   city_name: string;
   province: string;
   zip_code: number;

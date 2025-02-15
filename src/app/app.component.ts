@@ -10,7 +10,7 @@ import {LoginComponent} from './login/login.component.js';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { JWTService } from './core/services/jwt.service.js';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { UserService } from './core/services/user.service.js';
 import { UserComponent } from './user/user.component.js';
 
@@ -35,10 +35,10 @@ export class AppComponent {
   title = 'QRera-FE';
 
   ngOnInit(){
-    let token = this.jwtService.getToken()
+    let token: string | null = this.jwtService.getToken()
     if(token){
-      let decodedToken: any = jwtDecode(token)
-      let isTokenExpired: boolean = decodedToken.exp * 1000 < Date.now()
+      let decodedToken: JwtPayload = jwtDecode(token)
+      let isTokenExpired: boolean = (decodedToken.exp?? 0) * 1000 < Date.now()
       if (!isTokenExpired){
         this.jwtService.setCurrentUser(decodedToken)
       }

@@ -1,6 +1,7 @@
-import { Purchase } from './purchase.entity';
+import { Purchase } from './';
+import { BaseEntity } from './';
 
-export interface User {
+export interface User extends BaseEntity {
   email: string;
   user_name: string;
   user_surname: string;

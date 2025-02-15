@@ -9,6 +9,7 @@ import { MatButton } from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import { City, Dj } from '../core/entities';
 
 @Component({
   selector: 'app-admin',
@@ -21,14 +22,14 @@ export class AdminComponent {
 
   constructor(private djService: DjService, private cityService: CityService){}
 
-  cityOption:number = 0
+  cityOption: number = 0
   djOption: number = 0
 
-  actualCity:any
-  actualdj:any
+  actualCity: City | undefined
+  actualdj: Dj | undefined
 
-  citiesIDs: number[] = []
-  djIDs: number[] = []
+  citiesIDs: (number | undefined)[] = []
+  djIDs: (number | undefined)[] = []
 
   
   cityFormGroup  = new FormGroup ({
@@ -43,17 +44,17 @@ export class AdminComponent {
     dj_apodo: new FormControl('', Validators.required),
     })  
 
-  getcitybyid = new FormControl('', [Validators.required, Validators.min(0)]);
-  getdjbyid = new FormControl('', [Validators.required, Validators.min(0)]);
+  cityIdInput = new FormControl('', [Validators.required, Validators.min(0)]);
+  djIdInput = new FormControl('', [Validators.required, Validators.min(0)]);
   
   ngOnInit(){
-    this.cityService.getCities().subscribe(res => {console.log(res)
-      res.forEach((city:any) => {
-        this.citiesIDs.push(city.id)        
+    this.cityService.getCities().subscribe(res => {
+      res.forEach((city:City) => {
+        this.citiesIDs.push(city.id)
       });
     })
-    this.djService.getDJs().subscribe(res=>{console.log(res)
-      res.forEach((dj:any) => {
+    this.djService.getDJs().subscribe(res=>{
+      res.forEach((dj:Dj) => {
         this.djIDs.push(dj.id)        
       });
     })
@@ -61,71 +62,76 @@ export class AdminComponent {
 
   loadCity(){
     let city = {
-      city_name: this.cityFormGroup.value.city_name,
-      province: this.cityFormGroup.value.province,
-      zip_code: this.cityFormGroup.value.zip_code
+      city_name: this.cityFormGroup.value.city_name ?? '',
+      province: this.cityFormGroup.value.province ?? '',
+      zip_code: this.cityFormGroup.value.zip_code ?? 0
     }     
     this.cityService.postCity(city).subscribe(res=>{ this.citiesIDs.push(res.data.id)})
   }
 
   loaddj(){
-    let dj = {
-      dj_name: this.djFormGroup.value.dj_name,
-      dj_surname: this.djFormGroup.value.dj_surname,
-      dj_apodo: this.djFormGroup.value.dj_apodo
+    let dj: Dj = {
+      dj_name: this.djFormGroup.value.dj_name ?? '',
+      dj_surname: this.djFormGroup.value.dj_surname ?? '',
+      dj_apodo: this.djFormGroup.value.dj_apodo ?? ''
     }   
     this.djService.postDJ(dj).subscribe(res=>{this.djIDs.push(res.data.id)})
   }
   
   getcity(){
-    let id = this.inputNumber(this.getcitybyid.value)
-    this.cityService.getCityById(id).subscribe(res => {this.actualCity = res})
+    let id = this.cityIdInput.value? +this.cityIdInput.value : undefined
+    if (id){
+      this.cityService.getCityById(id).subscribe(res => {this.actualCity = res})
+    }  
   }
 
   getdj(){
-    let id = this.inputNumber(this.getdjbyid.value)
-    this.djService.getDJById(id).subscribe(res => {this.actualdj = res})
+    let id = this.djIdInput.value? +this.djIdInput.value : undefined
+    if (id){
+      this.djService.getDJById(id).subscribe(res => {this.actualdj = res})
+    }
   }
 
   updatecity(){
-    let id = this.inputNumber(this.getcitybyid.value)
-    let city = {
-      city_name: this.cityFormGroup.value.city_name,
-      province: this.cityFormGroup.value.province,
-      zip_code: this.cityFormGroup.value.zip_code
-    }     
-    this.cityService.updateCityById(city, id).subscribe(res=>{})
+    let id = this.cityIdInput.value? +this.cityIdInput.value : undefined
+    if (id) {
+      let city = {
+        city_name: this.cityFormGroup.value.city_name ?? '',
+        province: this.cityFormGroup.value.province ?? '',
+        zip_code: this.cityFormGroup.value.zip_code ?? 0
+      }   
+      this.cityService.updateCityById(city, id).subscribe(res=>{})
+    }
   }
 
   updatedj(){
-    let id = this.inputNumber(this.getdjbyid.value)
+    let id = this.djIdInput.value? +this.djIdInput.value : undefined
+    if (id) {
     let dj = {
-      dj_name: this.djFormGroup.value.dj_name,
-      dj_surname: this.djFormGroup.value.dj_surname,
-      dj_apodo: this.djFormGroup.value.dj_apodo
+      dj_name: this.djFormGroup.value.dj_name ?? '',
+      dj_surname: this.djFormGroup.value.dj_surname ?? '',
+      dj_apodo: this.djFormGroup.value.dj_apodo ?? ''
     }   
     this.djService.updateDJById(dj, id).subscribe(res=>{})
+    }
   }
 
   deletecity(){
-    let id = this.inputNumber(this.getcitybyid.value)
+    let id = this.cityIdInput.value? +this.cityIdInput.value : undefined
+    if (id){
     this.cityService.deleteCity(id).subscribe(res=>{ this.citiesIDs.splice(id as number,1)})
+    }
   }
 
   deletedj(){
-    let id = this.inputNumber(this.getdjbyid.value)
+    let id = this.djIdInput.value? +this.djIdInput.value : undefined
+    if (id){
     this.djService.deleteDJ(id).subscribe(res=>{ this.djIDs.splice(id as number,1)})
+    }
   }
 
   check(opt:number){
     return (opt !== 0);
   }
   
-  inputNumber(value: any){
-    let id
-    if (value) {
-      id = +value
-    }     
-    return id
-  }
 }

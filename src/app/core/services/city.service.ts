@@ -19,16 +19,16 @@ export class CityService {
     .pipe(map((response: any) => response.data))
   }
 
-  getCityById(id:any) {
+  getCityById(id:number) {
     return this.apiService.get(`/city` + `/${id}`)
     .pipe(map((response: any) => response.data))
   }
 
-  updateCityById(city:any, id: any) {
+  updateCityById(city:any, id: number) {
     return this.apiService.patch(`/city` + `/${id}`, city)
   }
 
-  deleteCity(id:any){
+  deleteCity(id:number){
     return this.apiService.delete(`/city` + `/${id}`)
   }
 }

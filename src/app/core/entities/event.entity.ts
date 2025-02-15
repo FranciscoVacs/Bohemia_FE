@@ -1,8 +1,9 @@
-import { Location } from './location.entity'
-import { Dj } from './dj.entity'
-import { TicketType } from './ticketType.entity';
+import { Location } from './'
+import { Dj } from './'
+import { TicketType } from './';
+import { BaseEntity } from './';
 
-export interface Event {
+export interface Event extends BaseEntity {
   event_name: string;
   begin_datetime: string;
   finish_datetime: string;

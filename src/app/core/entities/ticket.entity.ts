@@ -1,6 +1,7 @@
-import { Purchase } from './purchase.entity'
+import { Purchase } from './'
+import { BaseEntity } from './';
 
-export interface Ticket {
+export interface Ticket extends BaseEntity {
   qr_code: string;
   number_in_purchase: number;
   number_in_ticket_type: number;

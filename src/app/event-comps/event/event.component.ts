@@ -33,7 +33,7 @@ export class EventComponent {
 
   readonly dialog = inject(MatDialog)
 
-    event: any;
+  event: any;
   eventID: any;
   ticketAmount: any;
   selectedTicketType: any;
