@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ListOfEventsComponent } from '../list-of-events/list-of-events.component.js';
 import {CommonModule} from '@angular/common';
 import { CityService } from '../../core/services/city.service.js';
+import { City, Event, Location } from '../../core/entities';
 
 @Component({
   selector: 'app-events-by-city',
@@ -15,19 +16,19 @@ export class EventsByCityComponent {
   constructor(private route: ActivatedRoute, private cityService: CityService){}
 
   cityID: number = 0;
-  city: any;
-  eventList: any[] = [];
-  locations: any[] = [];
+  city!: City;
+  eventList: Event[] = [];
+  locationsList: Location[] = [];
 
   ngOnInit(){
   this.route.params.subscribe(params => {
     this.cityID = params['ID'];
   })
 
-  this.cityService.getCityById(this.cityID).subscribe(city => 
+  this.cityService.getCityById(this.cityID).subscribe((city: City) => 
     {
       this.city = city
-      this.locations = this.city.location
+      this.locationsList = this.city.location ?? []
     })
 }
 }

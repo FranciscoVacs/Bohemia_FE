@@ -1,5 +1,5 @@
 <h1 class="title">Eventos disponibles en {{city.city_name}}</h1>
-<div *ngFor="let loc of locations; index as i">
-<h1 class="title"> Eventos disponibles en {{locations[i].location_name}}</h1>
-<app-list-of-events [eventList]="locations[i].event"></app-list-of-events>
+<div *ngFor="let loc of locationList; index as i">
+<h1 class="title"> Eventos disponibles en {{locationList[i].location_name}}</h1>
+<app-list-of-events [eventList]="locationList[i].event"></app-list-of-events>
 </div>

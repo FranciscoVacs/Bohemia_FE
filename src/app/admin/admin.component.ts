@@ -26,7 +26,7 @@ export class AdminComponent {
   djOption: number = 0
 
   actualCity: City | undefined
-  actualdj: Dj | undefined
+  actualDj: Dj | undefined
 
   citiesIDs: (number | undefined)[] = []
   djIDs: (number | undefined)[] = []
@@ -88,7 +88,7 @@ export class AdminComponent {
   getdj(){
     let id = this.djIdInput.value? +this.djIdInput.value : undefined
     if (id){
-      this.djService.getDJById(id).subscribe(res => {this.actualdj = res})
+      this.djService.getDJById(id).subscribe(res => {this.actualDj = res})
     }
   }
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service.js';
 import { map } from 'rxjs/operators';
 import { City } from '../entities';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +16,14 @@ export class CityService {
     .pipe(map((response: any) => response.data))
   }  
 
-  getCities() {
+  getCities(): Observable<[City]>{
     return this.apiService.get(`/city`)
-    .pipe(map((response: any) => response.data))
+    .pipe(map(response => response.data))
   }
 
-  getCityById(id:number) {
+  getCityById(id:number): Observable<City> {
     return this.apiService.get(`/city` + `/${id}`)
-    .pipe(map((response: any) => response.data))
+    .pipe(map((response) => response.data))
   }
 
   updateCityById(city:City, id: number) {
