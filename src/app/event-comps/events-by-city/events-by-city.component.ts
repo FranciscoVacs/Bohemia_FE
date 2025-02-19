@@ -18,7 +18,7 @@ export class EventsByCityComponent {
   cityID: number = 0;
   city!: City;
   eventList: Event[] = [];
-  locationsList: Location[] = [];
+  locationList: Location[] = [];
 
   ngOnInit(){
   this.route.params.subscribe(params => {
@@ -28,7 +28,7 @@ export class EventsByCityComponent {
   this.cityService.getCityById(this.cityID).subscribe((city: City) => 
     {
       this.city = city
-      this.locationsList = this.city.location ?? []
+      this.locationList = this.city.location ?? []
     })
 }
 }

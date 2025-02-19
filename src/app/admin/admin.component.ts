@@ -53,11 +53,12 @@ export class AdminComponent {
         this.citiesIDs.push(city.id)
       });
     })
-    this.djService.getDJs().subscribe(res=>{
+    this.djService.getDJs().subscribe(res=>
+      {
       res.forEach((dj:Dj) => {
         this.djIDs.push(dj.id)        
-      });
-    })
+        });
+      })
   }
 
   loadCity(){
@@ -66,7 +67,11 @@ export class AdminComponent {
       province: this.cityFormGroup.value.province ?? '',
       zip_code: this.cityFormGroup.value.zip_code? (+this.cityFormGroup.value.zip_code) : 0
     }     
-    this.cityService.postCity(city).subscribe(res=>{ this.citiesIDs.push(res.data.id)})
+    this.cityService.postCity(city).subscribe(res=>
+      { 
+        alert('Ciudad cargada con éxito');
+        this.citiesIDs.push(res.id)
+      })
   }
 
   loaddj(){
@@ -75,7 +80,11 @@ export class AdminComponent {
       dj_surname: this.djFormGroup.value.dj_surname ?? '',
       dj_apodo: this.djFormGroup.value.dj_apodo ?? ''
     }   
-    this.djService.postDJ(dj).subscribe(res=>{this.djIDs.push(res.data.id)})
+    this.djService.postDJ(dj).subscribe(res=>
+      {
+        alert('Dj cargado con éxito');
+        this.djIDs.push(res.id)
+      })
   }
   
   getcity(){

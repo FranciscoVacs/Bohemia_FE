@@ -1,6 +1,20 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service.js';
-import { map } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Purchase } from '../entities';
+
+export class PurchaseData {  
+
+  ticketType_id: number|undefined = 0; 
+  ticket_quantity: number = 0; 
+  user_id: number = 0;
+
+  constructor(tType_id: number|undefined, quantity: number, user_id: number){
+    this.ticketType_id= tType_id; 
+    this.ticket_quantity = quantity; 
+    this.user_id= user_id;
+  }
+}
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +23,11 @@ export class PurchaseService {
 
   constructor(private apiService: ApiService) { }
 
-  getPurchaseById(id: number) {
+  getPurchaseById(id: number): Observable<Purchase> {
     return this.apiService.get(`/purchase` + `/${id}`)
-    .pipe(map((response:any) => response));;
   }
 
-  postPurchase(purchase: any){
-    return this.apiService.post('/purchase', purchase)
+  postPurchase(purchaseData: PurchaseData): Observable<Purchase> {
+    return this.apiService.post('/purchase', purchaseData)
   }
 }

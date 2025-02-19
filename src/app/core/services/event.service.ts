@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service.js';
-import { map } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Event } from '../entities';
 
 @Injectable({
   providedIn: 'root'
@@ -9,22 +10,19 @@ export class EventService {
 
   constructor(private apiService: ApiService) { }
 
-  getEvents() {
+  getEvents(): Observable<[Event]> {
     return this.apiService.get(`/event`)
-    .pipe(map((response: any) => response.data))
   }
 
-  getEventById(id: number) {
+  getEventById(id: number): Observable<Event> {
     return this.apiService.get(`/event` + `/${id}`)
-    .pipe(map((response: any) => response.data))
   }
-  postEvent(event: any) {
+
+  postEvent(event: Event): Observable<Event> {
     return this.apiService.post(`/event`, event)
-    .pipe(map((response: any) => response.data))
-
   }
 
-  updateEvent(event: any, id: number) {
+  updateEvent(event: Event, id: number) {
     return this.apiService.patch(`/event` + `/${id}`, event);
   }
 

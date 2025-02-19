@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service.js';
-import { map } from 'rxjs';
+import { Observable } from 'rxjs';
+import { User } from '../entities';
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +10,15 @@ export class UserService {
 
   constructor(private apiService: ApiService) { }
 
-  getUserById(id: number){
-    return this.apiService.get(`/user` + `/${id}`).pipe(
-      map((response: any) => response.data))
+  getUserById(id: number): Observable<User>{
+    return this.apiService.get(`/user` + `/${id}`)
   }
 
   getUserPurchases(id: number){
-    return this.apiService.get('/user/tickets' + `/${id}`).pipe(
-      map((response: any) => response.data ))
+    return this.apiService.get('/user/tickets' + `/${id}`)
   }
 
-  registerUser(user: any){
+  registerUser(user: User){
     return this.apiService.postWithHeaders('/user/register', user)
   }
 

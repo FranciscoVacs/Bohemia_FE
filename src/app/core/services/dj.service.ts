@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service.js';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Dj } from '../entities';
 
 @Injectable({
@@ -10,19 +10,16 @@ export class DjService {
 
   constructor(private apiService: ApiService) { }
 
-  postDJ(dj: Dj) {
+  postDJ(dj: Dj): Observable<Dj> {
     return this.apiService.post(`/dj`, dj)
-    .pipe(map((response: any) => response.data))
   }  
 
-  getDJs() {
+  getDJs(): Observable<[Dj]> {
     return this.apiService.get(`/dj`)
-    .pipe(map((response: any) => response.data))
   }
 
-  getDJById(id:number) {
+  getDJById(id:number): Observable<Dj> {
     return this.apiService.get(`/dj` + `/${id}`)
-    .pipe(map((response: any) => response.data))
   }
 
   updateDJById(dj:Dj, id: number) {
