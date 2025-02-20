@@ -11,6 +11,6 @@ export class TicketTypeService {
   constructor(private apiService: ApiService) { }
 
   postTicketType(ticketType: TicketType, id: number): Observable<TicketType> {
-    return this.apiService.post(`/event` + `/${id}` + `/ticketType` , ticketType);
+    return this.apiService.post<TicketType>(`/event` + `/${id}` + `/ticketType` , ticketType);
   }
 }

@@ -11,10 +11,10 @@ export class UserService {
   constructor(private apiService: ApiService) { }
 
   getUserById(id: number): Observable<User>{
-    return this.apiService.get(`/user` + `/${id}`)
+    return this.apiService.get<User>(`/user` + `/${id}`)
   }
 
-  getUserPurchases(id: number){
+  getUserPurchases(id: number): Observable<any>{
     return this.apiService.get('/user/tickets' + `/${id}`)
   }
 

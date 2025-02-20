@@ -24,10 +24,10 @@ export class PurchaseService {
   constructor(private apiService: ApiService) { }
 
   getPurchaseById(id: number): Observable<Purchase> {
-    return this.apiService.get(`/purchase` + `/${id}`)
+    return this.apiService.get<Purchase>(`/purchase` + `/${id}`)
   }
 
   postPurchase(purchaseData: PurchaseData): Observable<Purchase> {
-    return this.apiService.post('/purchase', purchaseData)
+    return this.apiService.post<Purchase>('/purchase', purchaseData)
   }
 }

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -10,11 +11,11 @@ export class ApiService {
   constructor(private httpClient: HttpClient) { }
   baseRoute = 'http://localhost:3000/api';
   
-  get<T>(path: string){
+  get<T>(path: string): Observable<T>{
     return this.httpClient.get<{data: T}>(this.baseRoute + path).pipe(map(response => response.data))
   }
 
-  post<T>(path: string, body: any){
+  post<T>(path: string, body: any): Observable<T>{
     return this.httpClient.post<{data: T}>(this.baseRoute + path, body).pipe(map(response => response.data))
   }
 

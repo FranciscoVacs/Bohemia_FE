@@ -11,18 +11,18 @@ export class CityService {
   constructor(private apiService: ApiService) { }
 
   postCity(city: City): Observable<City> {
-    return this.apiService.post(`/city`, city)
+    return this.apiService.post<City>(`/city`, city)
   }  
 
   getCities(): Observable<[City]>{
-    return this.apiService.get(`/city`)
+    return this.apiService.get<[City]>(`/city`)
   }
 
-  getCityById(id:number): Observable<City> {
-    return this.apiService.get(`/city` + `/${id}`)
+  getCityById(id:number): Observable<City>{
+    return this.apiService.get<City>(`/city` + `/${id}`)
   }
 
-  updateCityById(city:City, id: number) {
+  updateCityById(city:City, id: number){
     return this.apiService.patch(`/city` + `/${id}`, city)
   }
 

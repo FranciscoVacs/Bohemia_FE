@@ -7,6 +7,6 @@ export interface User extends BaseEntity {
   user_surname: string;
   password: string;
   birth_date: Date;
-  isAdmin: boolean;
-  purchase: Purchase[];
+  isAdmin?: boolean;
+  purchase?: Purchase[];
 }

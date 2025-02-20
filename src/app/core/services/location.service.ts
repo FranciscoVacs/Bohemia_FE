@@ -11,11 +11,11 @@ export class LocationService {
   constructor(private apiService: ApiService) { }
 
   getLocations(): Observable<[Location]> {
-    return this.apiService.get(`/location`)
+    return this.apiService.get<[Location]>(`/location`)
   }
 
   getLocationById(id: number): Observable<Location> {
-    return this.apiService.get(`/location` + `/${id}`)
+    return this.apiService.get<Location>(`/location` + `/${id}`)
   }
 
 }

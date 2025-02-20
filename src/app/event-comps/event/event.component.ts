@@ -17,6 +17,7 @@ import { PurchaseService } from '../../core/services/purchase.service.js';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../../login/login.component.js';
 import { Event, TicketType } from '../../core/entities';
+import { PurchaseData } from '../../core/services/purchase.service.js';
 
 @Component({
   selector: 'app-event',
@@ -85,12 +86,8 @@ export class EventComponent {
   }
 
   postThePurchase(){
-    this.purchaseService.postPurchase(
-    {
-      ticketType_id: this.selectedTicketType.id, 
-      ticket_quantity: this.ticketAmount, 
-      user_id: this.jwtService.currentUserSig().id
-    }).subscribe((res:any) => {
+    this.purchaseService.postPurchase(new PurchaseData(this.selectedTicketType.id, this.ticketAmount, this.jwtService.currentUserSig().id)
+    ).subscribe((res:any) => {
         alert('Compra realizada. Cantidad de tickets: ' + res.data.ticket_numbers); 
         this.router.navigate([`purchases`]);
       })

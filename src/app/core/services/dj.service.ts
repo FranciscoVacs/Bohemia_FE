@@ -11,15 +11,15 @@ export class DjService {
   constructor(private apiService: ApiService) { }
 
   postDJ(dj: Dj): Observable<Dj> {
-    return this.apiService.post(`/dj`, dj)
+    return this.apiService.post<Dj>(`/dj`, dj)
   }  
 
   getDJs(): Observable<[Dj]> {
-    return this.apiService.get(`/dj`)
+    return this.apiService.get<[Dj]>(`/dj`)
   }
 
   getDJById(id:number): Observable<Dj> {
-    return this.apiService.get(`/dj` + `/${id}`)
+    return this.apiService.get<Dj>(`/dj` + `/${id}`)
   }
 
   updateDJById(dj:Dj, id: number) {

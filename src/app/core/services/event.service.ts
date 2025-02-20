@@ -11,18 +11,18 @@ export class EventService {
   constructor(private apiService: ApiService) { }
 
   getEvents(): Observable<[Event]> {
-    return this.apiService.get(`/event`)
+    return this.apiService.get<[Event]>(`/event`)
   }
 
   getEventById(id: number): Observable<Event> {
-    return this.apiService.get(`/event` + `/${id}`)
+    return this.apiService.get<Event>(`/event` + `/${id}`)
   }
 
-  postEvent(event: Event): Observable<Event> {
-    return this.apiService.post(`/event`, event)
+  postEvent(event: FormData): Observable<Event> {
+    return this.apiService.post<Event>(`/event`, event)
   }
 
-  updateEvent(event: Event, id: number) {
+  updateEvent(event: FormData, id: number) {
     return this.apiService.patch(`/event` + `/${id}`, event);
   }
 

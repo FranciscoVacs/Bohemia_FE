@@ -13,6 +13,7 @@ import { EventService } from '../core/services/event.service.js';
 import { LocationService } from '../core/services/location.service.js';
 import { DjService } from '../core/services/dj.service.js';
 import { DateService } from '../core/services/date.service.js';
+import { Event } from '../core/entities';
 
 @Component({
   selector: 'app-manage-event',
@@ -145,9 +146,9 @@ export class ManageEventComponent {
     }
     else {
       this.eventService.postEvent(formdata).subscribe
-      (postedEvent=> 
+      ((postedEvent: Event)=> 
         {
-        this.postTicketTypes('cargado', postedEvent.id)
+        this.postTicketTypes('cargado', postedEvent.id?? 0)
 
       }) 
     } 
