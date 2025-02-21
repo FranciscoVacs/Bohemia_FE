@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { EventPreviewComponent } from '../event-preview/event-preview.component.js';
 import {CommonModule} from '@angular/common';
+import { Event } from '../../core/entities';
 
 
 @Component({
@@ -13,5 +14,5 @@ import {CommonModule} from '@angular/common';
 export class ListOfEventsComponent {
   constructor(){}
 
-  @Input() eventList: any = [];
+  @Input() eventList: Event[] = [];
 }

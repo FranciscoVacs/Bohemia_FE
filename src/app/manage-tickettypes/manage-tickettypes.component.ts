@@ -7,6 +7,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { NgIf, NgSwitch, NgSwitchCase, NgFor, CommonModule } from '@angular/common';
+import { Ticket, TicketType } from '../core/entities';
 
 
 
@@ -20,18 +21,18 @@ import { NgIf, NgSwitch, NgSwitchCase, NgFor, CommonModule } from '@angular/comm
 export class ManageTickettypesComponent {
   
   readonly panelOpenState = signal(false);
-  @Input() tickettypes: any[] = [];
-  newTicketTypes: any[] = []
+  @Input() tickettypes: TicketType[] = [];
+  newTicketTypes: TicketType[] = []
   isFormActivated: boolean = false;
   @Input() isEditable: boolean = true;
-  @Output() ticketListEvent = new EventEmitter<any>();
+  @Output() ticketListEvent = new EventEmitter<TicketType[]>();
 
   tickettypeForm = new FormGroup ({
-    ticketType_name: new FormControl('', Validators.required),  
-    begin_datetime: new FormControl('', Validators.required),
-    finish_datetime: new FormControl('', Validators.required),
-    price: new FormControl('', [Validators.required, Validators.min(0)]),
-    max_quantity: new FormControl('', [Validators.required, Validators.min(0)]),
+    ticketType_name: new FormControl('', {nonNullable:true, validators: Validators.required}),  
+    begin_datetime: new FormControl('', {nonNullable:true, validators: Validators.required}),
+    finish_datetime: new FormControl('', {nonNullable:true, validators: Validators.required}),
+    price: new FormControl('', {nonNullable:true, validators: [Validators.required, Validators.min(0)]}),
+    max_quantity: new FormControl(0, {nonNullable:true, validators: [Validators.required, Validators.min(0)]}),
   })
 
 
@@ -45,16 +46,19 @@ export class ManageTickettypesComponent {
     if (this.tickettypeForm.value.price) {
       price = +this.tickettypeForm.value.price
     }
-    let tickettype = {
-      "ticketType_name": this.tickettypeForm.value.ticketType_name,
-      "begin_datetime": this.tickettypeForm.value.begin_datetime,
-      "finish_datetime": this.tickettypeForm.value.finish_datetime,
+    let formValues = this.tickettypeForm.getRawValue()
+    let ticketType = {
+      "ticketType_name": formValues.ticketType_name,
+      "begin_datetime": formValues.begin_datetime,
+      "finish_datetime": formValues.finish_datetime,
       "price": price,
-      "max_quantity": this.tickettypeForm.value.max_quantity
+      "max_quantity": formValues.max_quantity,
+      "available_tickets": 0,
+      "purchase": []
     }
-    this.newTicketTypes.push(tickettype)
+    this.newTicketTypes.push(ticketType)
     if (this.tickettypes){
-    this.tickettypes.push(tickettype)}
+    this.tickettypes.push(ticketType)}
     this.sendTicketList()
   }
 

@@ -10,7 +10,7 @@ export class LocationService {
 
   constructor(private apiService: ApiService) { }
 
-  getLocations(): Observable<[Location]> {
+  getLocations(): Observable<Location[]> {
     return this.apiService.get<[Location]>(`/location`)
   }
 

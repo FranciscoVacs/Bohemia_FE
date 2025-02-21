@@ -6,6 +6,7 @@ import { MatDivider } from '@angular/material/divider';
 import { LoginComponent } from '../login/login.component.js';
 import { NgIf, NgFor } from '@angular/common';
 import { Router } from '@angular/router';
+import { Purchase } from '../core/entities';
 
 @Component({
   selector: 'app-user-purchases',
@@ -20,21 +21,21 @@ export class UserPurchasesComponent {
   readonly dialog = inject(MatDialog)
   
   loginPrompt: boolean = false
-  purchases : { cover_photo: string, event_name: string, begin_datetime: string, ticket_numbers: string, ticketType_name: string, purchaseId: number}[] = []
+  purchases : { cover_photo: string, event_name: string, begin_datetime: string, ticket_numbers: number, ticketType_name: string, purchaseId: number}[] = []
 
   ngOnInit(){
     if(this.jwtService.getToken() !== null){
       this.loginPrompt = false
       this.userService.getUserPurchases(this.jwtService.currentUserSig().id)
       .subscribe(res => {
-        res.purchase.forEach((purchase: any) => {
+        res.purchase.forEach((purchase: Purchase) => {
           this.purchases.push({
-            event_name: purchase.ticket_type.event.event_name,
-            cover_photo : purchase.ticket_type.event.cover_photo, 
-            begin_datetime : purchase.ticket_type.event.begin_datetime,
+            event_name: purchase.ticket_type.event!.event_name,
+            cover_photo : purchase.ticket_type.event!.cover_photo, 
+            begin_datetime : purchase.ticket_type.event!.begin_datetime,
             ticket_numbers : purchase.ticket_numbers,
             ticketType_name : purchase.ticket_type.ticketType_name,
-            purchaseId: purchase.id
+            purchaseId: purchase.id!
           })
         })
       })

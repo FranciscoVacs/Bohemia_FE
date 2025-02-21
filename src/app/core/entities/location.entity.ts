@@ -1,5 +1,6 @@
 import { City } from './'
 import { BaseEntity } from './';
+import { Event } from './';
 
 export interface Location extends BaseEntity {
   location_name: string;

@@ -6,7 +6,7 @@ import { ListOfEventsComponent } from '../event-comps/list-of-events/list-of-eve
 import { EventService } from '../core/services/event.service.js';
 import { LocationService } from '../core/services/location.service.js';
 import { NgFor } from '@angular/common';
-
+import { Event, Location } from '../core/entities';
 
 @Component({
   selector: 'app-home',
@@ -19,8 +19,8 @@ export class HomeComponent {
   constructor(private eventService: EventService, private locationService: LocationService){}
   
   eventsLoaded: boolean = false;
-  eventList: any = [];
-  locationList: any = [];
+  eventList: Event[] = [];
+  locationList: Location[] = [];
 
   images = [
     'assets/@dolciraw-034.jpg',    'assets/@dolciraw-037.jpg',    'assets/@dolciraw-216.jpg',    'assets/@dolciraw-228.jpg',

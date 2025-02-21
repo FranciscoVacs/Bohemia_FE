@@ -11,7 +11,7 @@ export interface Event extends BaseEntity {
   min_age: number;
   cover_photo: string;
   tickets_on_sale: number;
-  location: Location;
-  dj: Dj;
+  location?: Location;
+  dj?: Dj;
   ticketType: TicketType[];
 }

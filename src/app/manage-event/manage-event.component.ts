@@ -13,7 +13,7 @@ import { EventService } from '../core/services/event.service.js';
 import { LocationService } from '../core/services/location.service.js';
 import { DjService } from '../core/services/dj.service.js';
 import { DateService } from '../core/services/date.service.js';
-import { Event } from '../core/entities';
+import { Event, Dj, TicketType, Location, Ticket } from '../core/entities';
 
 @Component({
   selector: 'app-manage-event',
@@ -43,21 +43,21 @@ export class ManageEventComponent {
   eventID: number = 0;
   hours: string[] = ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23']
   minutes: string[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']
-  event: any;
-  newEvent:any;
-  ticketList: any;
-  locationList: any;
-  djList: any;
+  event!: Event;
+  newEvent!:Event;
+  ticketList: TicketType[] = [];
+  locationList!: Location[];
+  djList!: Dj[];
   selectedFile: any;
   
   eventForm = new FormGroup ({
-    event_name: new FormControl('', Validators.required),  
+    event_name: new FormControl<string>('', {nonNullable:true,validators:Validators.required}),  
     begin_datetime: new FormControl<Date|null>(null, Validators.required),
     finish_datetime: new FormControl<Date|null>(null, Validators.required),
-    event_description: new FormControl(''),
-    min_age: new FormControl(''),
-    location: new FormControl('', Validators.required),
-    dj: new FormControl('', Validators.required),
+    event_description: new FormControl<string>('', {nonNullable:true,validators:Validators.required}),
+    min_age: new FormControl<number>(0),
+    location: new FormControl(),
+    dj: new FormControl<Dj|null>(null, {validators:Validators.required}),
     ticketType: new FormControl('', Validators.required),
   })
 
@@ -72,9 +72,12 @@ export class ManageEventComponent {
       this.eventService.getEventById(this.eventID)
       .subscribe( (event) => {
         this.event = event
-        this.eventForm
-          .patchValue({event_name: this.event.event_name, event_description: this.event.event_description, 
-          min_age: this.event.min_age, location: this.event.location.location_name, ticketType: 'Value'})
+        this.eventForm.patchValue({
+          event_name: this.event.event_name, 
+          event_description: this.event.event_description, 
+          min_age: this.event.min_age, 
+          location: null, 
+          ticketType: 'Value'})
       })}
     this.locationService.getLocations()
     .subscribe(locations => {
@@ -104,7 +107,7 @@ export class ManageEventComponent {
     this.selectedFile = event.target.files[0] 
   }
 
-  updateTicketList(ticketList: any){
+  updateTicketList(ticketList: TicketType[]){
     this.ticketList = ticketList
     if (this.ticketList){
       this.eventForm.patchValue({ticketType: 'Value'})
@@ -113,20 +116,20 @@ export class ManageEventComponent {
 
   onSubmitEvent() {
     let minage: number = 1
-
-    if (this.eventForm.value.min_age) {
-      minage = +this.eventForm.value.min_age
+    let formValues = this.eventForm.getRawValue()
+    if (formValues.min_age) {
+      minage = +formValues.min_age
     }
-    
+
     this.event = 
     {
-     "event_name": this.eventForm.value.event_name,
-     "begin_datetime": this.dateService.formatDateTime(this.eventForm.value.begin_datetime as Date, this.selectedStartHour, this.selectedStartMinute),
-     "finish_datetime":this.dateService.formatDateTime(this.eventForm.value.finish_datetime as Date, this.selectedFinishHour, this.selectedFinishMinute),
-     "event_description": this.eventForm.value.event_description,
+     "event_name": formValues.event_name,
+     "begin_datetime": this.dateService.formatDateTime(formValues.begin_datetime as Date, this.selectedStartHour, this.selectedStartMinute),
+     "finish_datetime":this.dateService.formatDateTime(formValues.finish_datetime as Date, this.selectedFinishHour, this.selectedFinishMinute),
+     "event_description": formValues.event_description,
      "min_age": minage,
-     "location": this.eventForm.value.location,
-     "dj": this.eventForm.value.dj,
+     "location": formValues.location,
+     "dj": formValues.dj,
     }
     let formdata = new FormData();
     formdata.append('event_name', this.event.event_name)
@@ -156,10 +159,8 @@ export class ManageEventComponent {
 
   postTicketTypes(loadOrUpdate:string, id: number){
       
-      this.ticketList.forEach((ticket: any, index: number) => {
-      ticket.begin_datetime = this.dateService.formatDateTime(ticket.begin_datetime, '00', '00')
-      ticket.finish_datetime = this.dateService.formatDateTime(ticket.finish_datetime, '00', '00')
-      ticket.event = id;
+      this.ticketList.forEach((ticket: Ticket, index: number) => {
+      //* ticket.event = id; *//
       this.ticketTypeService.postTicketType(ticket, id).subscribe
       (ticketType => 
         { 

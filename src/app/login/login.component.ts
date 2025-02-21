@@ -43,23 +43,24 @@ export class LoginComponent {
   email: string = ''
   password: string = ''
   loginBool: boolean = true
-  feedback: any
+  feedback: string = ''
 
-  registerForm = new FormGroup ({
-    user_name: new FormControl(''),  
-    user_surname: new FormControl(''),
-    birth_date: new FormControl<Date|null>(null),
-    email: new FormControl(''),
-    password: new FormControl('')
+  registerForm = new FormGroup({
+    user_name: new FormControl<string>('', {nonNullable:true}),  
+    user_surname: new FormControl<string>('', {nonNullable:true}),
+    birth_date: new FormControl<Date>(new Date("0000-00-00T00:00:00"), {nonNullable:true}),
+    email: new FormControl<string>('', {nonNullable:true}),
+    password: new FormControl<string>('', {nonNullable:true})
   })
 
   register(){
-    let formattedDate: string = this.dateService.formatDateTime(this.registerForm.value.birth_date as Date,'00','00')
+    let formValues = this.registerForm.getRawValue()
+    let formattedDate: string = this.dateService.formatDateTime(formValues.birth_date as Date,'00','00')
     let newUser = {
-      "email" : this.registerForm.value.email,
-      "user_name" : this.registerForm.value.user_name,
-      "user_surname" : this.registerForm.value.user_surname,
-      "password" : this.registerForm.value.password,
+      "email" : formValues.email,
+      "user_name" : formValues.user_name,
+      "user_surname" : formValues.user_surname,
+      "password" : formValues.password,
       "birth_date" : formattedDate
     }
     this.userService.registerUser(newUser).pipe(
@@ -71,7 +72,7 @@ export class LoginComponent {
           this.feedback = res.error.error.message}
         else {
           let token: string = res.headers.get('token')
-          let decodedToken: any = jwtDecode(token)
+          let decodedToken = jwtDecode(token)
           this.jwtService.setCurrentUser(decodedToken)
           this.jwtService.setToken(token)
           this.feedback = res.body.message
@@ -92,7 +93,7 @@ export class LoginComponent {
         }
         else {
           let token: string = res.headers.get('token')
-          let decodedToken: any = jwtDecode(token)
+          let decodedToken = jwtDecode(token)
           this.jwtService.setCurrentUser(decodedToken)
           this.jwtService.setToken(token)
           this.feedback = res.body.message

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ListOfEventsComponent } from '../list-of-events/list-of-events.component.js';
 import {CommonModule} from '@angular/common';
 import { CityService } from '../../core/services/city.service.js';
-import { City, Event, Location } from '../../core/entities';
+import { City, Location } from '../../core/entities';
 
 @Component({
   selector: 'app-events-by-city',
@@ -17,7 +17,6 @@ export class EventsByCityComponent {
 
   cityID: number = 0;
   city!: City;
-  eventList: Event[] = [];
   locationList: Location[] = [];
 
   ngOnInit(){
