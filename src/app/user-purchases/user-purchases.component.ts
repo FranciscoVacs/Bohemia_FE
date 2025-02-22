@@ -6,7 +6,7 @@ import { MatDivider } from '@angular/material/divider';
 import { LoginComponent } from '../login/login.component.js';
 import { NgIf, NgFor } from '@angular/common';
 import { Router } from '@angular/router';
-import { Purchase } from '../core/entities';
+import { Purchase, User } from '../core/entities';
 
 @Component({
   selector: 'app-user-purchases',
@@ -27,8 +27,8 @@ export class UserPurchasesComponent {
     if(this.jwtService.getToken() !== null){
       this.loginPrompt = false
       this.userService.getUserPurchases(this.jwtService.currentUserSig().id)
-      .subscribe(res => {
-        res.purchase.forEach((purchase: Purchase) => {
+      .subscribe((res: User) => {
+        res.purchase!.forEach((purchase: Purchase) => {
           this.purchases.push({
             event_name: purchase.ticket_type.event!.event_name,
             cover_photo : purchase.ticket_type.event!.cover_photo, 

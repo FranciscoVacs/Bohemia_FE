@@ -24,7 +24,7 @@ export class JWTService {
   
   setCurrentUser(token: any){
     this.userService.getUserById(token.id).subscribe(
-    user => {this.currentUserSig.set(user); console.log('Actual user: ',user)})
+    user => {this.currentUserSig.set(user)})
   }
 
   unloadUser(){

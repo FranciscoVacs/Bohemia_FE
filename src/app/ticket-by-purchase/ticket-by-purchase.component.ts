@@ -28,8 +28,9 @@ export class TicketByPurchaseComponent {
     }
     this.route.params.subscribe(params => {
     this.purchaseId = params['purchaseID'];
+    console.log(this.purchaseId)
     this.purchaseService.getPurchaseById(this.purchaseId)
-    .subscribe(res => {this.purchase = res; this.tickets = res!.ticket})
+    .subscribe((res:Purchase) => {console.log(res, ' ', typeof res); this.purchase = res; this.tickets = res.ticket})
     })
   }
 

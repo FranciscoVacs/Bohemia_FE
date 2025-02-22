@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service.js';
 import { Observable } from 'rxjs';
 import { Purchase } from '../entities';
+import { HttpClient } from '@angular/common/http';
 
 export class PurchaseData {  
 
@@ -21,10 +22,11 @@ export class PurchaseData {
 })
 export class PurchaseService {
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private httpClient: HttpClient) { }
 
   getPurchaseById(id: number): Observable<Purchase> {
-    return this.apiService.get<Purchase>(`/purchase` + `/${id}`)
+    return this.httpClient.get<Purchase>(`http://localhost:3000/api` + `/purchase` + `/${id}`)
+    //*return this.apiService.get<Purchase>(`/purchase` + `/${id}`) *//
   }
 
   postPurchase(purchaseData: PurchaseData): Observable<Purchase> {

@@ -14,7 +14,7 @@ export class UserService {
     return this.apiService.get<User>(`/user` + `/${id}`)
   }
 
-  getUserPurchases(id: number): Observable<any>{
+  getUserPurchases(id: number): Observable<User>{
     return this.apiService.get('/user/tickets' + `/${id}`)
   }
 
