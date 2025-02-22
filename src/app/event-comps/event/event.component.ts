@@ -16,7 +16,7 @@ import { JWTService } from '../../core/services/jwt.service.js';
 import { PurchaseService } from '../../core/services/purchase.service.js';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../../login/login.component.js';
-import { Event, TicketType } from '../../core/entities';
+import { Event, TicketType, Purchase } from '../../core/entities';
 import { PurchaseData } from '../../core/services/purchase.service.js';
 
 @Component({
@@ -86,9 +86,10 @@ export class EventComponent {
   }
 
   postThePurchase(){
+    console.log('weird..')
     this.purchaseService.postPurchase(new PurchaseData(this.selectedTicketType.id, this.ticketAmount, this.jwtService.currentUserSig().id)
-    ).subscribe((res:any) => {
-        alert('Compra realizada. Cantidad de tickets: ' + res.data.ticket_numbers); 
+    ).subscribe((res:Purchase) => {
+        alert('Compra realizada. Cantidad de tickets: ' + res.ticket_numbers); 
         this.router.navigate([`purchases`]);
       })
   }

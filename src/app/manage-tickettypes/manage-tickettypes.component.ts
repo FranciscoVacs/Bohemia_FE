@@ -8,6 +8,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { NgIf, NgSwitch, NgSwitchCase, NgFor, CommonModule } from '@angular/common';
 import { Ticket, TicketType } from '../core/entities';
+import { DateService } from '../core/services/date.service.js';
 
 
 
@@ -19,7 +20,10 @@ import { Ticket, TicketType } from '../core/entities';
   styleUrl: './manage-tickettypes.component.scss'
 })
 export class ManageTickettypesComponent {
-  
+  constructor(
+    private dateService: DateService
+  ){}
+
   readonly panelOpenState = signal(false);
   @Input() tickettypes: TicketType[] = [];
   newTicketTypes: TicketType[] = []
@@ -29,8 +33,8 @@ export class ManageTickettypesComponent {
 
   tickettypeForm = new FormGroup ({
     ticketType_name: new FormControl('', {nonNullable:true, validators: Validators.required}),  
-    begin_datetime: new FormControl('', {nonNullable:true, validators: Validators.required}),
-    finish_datetime: new FormControl('', {nonNullable:true, validators: Validators.required}),
+    begin_datetime: new FormControl<Date>(new Date("0000-00-00T00:00:00"), {nonNullable:true, validators: Validators.required}),
+    finish_datetime: new FormControl<Date>(new Date("0000-00-00T00:00:00"), {nonNullable:true, validators: Validators.required}),
     price: new FormControl('', {nonNullable:true, validators: [Validators.required, Validators.min(0)]}),
     max_quantity: new FormControl(0, {nonNullable:true, validators: [Validators.required, Validators.min(0)]}),
   })
@@ -49,8 +53,8 @@ export class ManageTickettypesComponent {
     let formValues = this.tickettypeForm.getRawValue()
     let ticketType = {
       "ticketType_name": formValues.ticketType_name,
-      "begin_datetime": formValues.begin_datetime,
-      "finish_datetime": formValues.finish_datetime,
+      "begin_datetime": this.dateService.formatDateTime(formValues.begin_datetime, '00', '00'),
+      "finish_datetime": this.dateService.formatDateTime(formValues.finish_datetime, '00', '00'),
       "price": price,
       "max_quantity": formValues.max_quantity,
       "available_tickets": 0,
