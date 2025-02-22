@@ -27,7 +27,7 @@
 
 <h3>Ubicación</h3>
 <mat-list>
-  <mat-list-item>{{event.location.location_name}}</mat-list-item>
+  <mat-list-item>{{event.location?.location_name}}</mat-list-item>
 </mat-list>
 
 <div id="stepper">
@@ -74,7 +74,7 @@
   <mat-step>
     <ng-template matStepLabel>Resumen de compra</ng-template>
     <div *ngIf="selectedTicketType && ticketAmount">
-      <p>Ubicacion: {{event.location.location_name}}</p>
+      <p>Ubicacion: {{event.location?.location_name}}</p>
       <p>Fecha y hora: {{event.begin_datetime}}</p>
       <p>Tipo de entrada: {{selectedTicketType.ticketType_name}}</p>
       <p>Cantidad de entradas: {{ticketAmount}}</p>

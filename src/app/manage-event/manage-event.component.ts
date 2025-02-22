@@ -45,19 +45,19 @@ export class ManageEventComponent {
   minutes: string[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']
   event!: Event;
   newEvent!:Event;
-  ticketList: TicketType[] = [];
+  ticketTypeList: TicketType[] = [];
   locationList!: Location[];
   djList!: Dj[];
   selectedFile: any;
   
   eventForm = new FormGroup ({
     event_name: new FormControl<string>('', {nonNullable:true,validators:Validators.required}),  
-    begin_datetime: new FormControl<Date|null>(null, Validators.required),
-    finish_datetime: new FormControl<Date|null>(null, Validators.required),
+    begin_datetime: new FormControl<Date>(new Date("0000-00-00T00:00:00"), {nonNullable:true,validators:Validators.required}),
+    finish_datetime: new FormControl<Date>(new Date("0000-00-00T00:00:00"), {nonNullable:true,validators:Validators.required}),
     event_description: new FormControl<string>('', {nonNullable:true,validators:Validators.required}),
-    min_age: new FormControl<number>(0),
+    min_age: new FormControl<number>(1),
     location: new FormControl(),
-    dj: new FormControl<Dj|null>(null, {validators:Validators.required}),
+    dj: new FormControl<Dj|undefined>(undefined, {nonNullable:true, validators:Validators.required}),
     ticketType: new FormControl('', Validators.required),
   })
 
@@ -108,8 +108,8 @@ export class ManageEventComponent {
   }
 
   updateTicketList(ticketList: TicketType[]){
-    this.ticketList = ticketList
-    if (this.ticketList){
+    this.ticketTypeList = ticketList
+    if (this.ticketTypeList){
       this.eventForm.patchValue({ticketType: 'Value'})
     }
   }
@@ -124,22 +124,32 @@ export class ManageEventComponent {
     this.event = 
     {
      "event_name": formValues.event_name,
-     "begin_datetime": this.dateService.formatDateTime(formValues.begin_datetime as Date, this.selectedStartHour, this.selectedStartMinute),
-     "finish_datetime":this.dateService.formatDateTime(formValues.finish_datetime as Date, this.selectedFinishHour, this.selectedFinishMinute),
+     "begin_datetime": this.dateService.formatDateTime(formValues.begin_datetime, this.selectedStartHour, this.selectedStartMinute),
+     "finish_datetime":this.dateService.formatDateTime(formValues.finish_datetime, this.selectedFinishHour, this.selectedFinishMinute),
      "event_description": formValues.event_description,
      "min_age": minage,
      "location": formValues.location,
      "dj": formValues.dj,
+     "cover_photo": '',
+     "tickets_on_sale": 0,
+     "ticketType": []
     }
+    console.log(this.event.begin_datetime)
+    console.log(typeof this.event.begin_datetime)
+    
     let formdata = new FormData();
     formdata.append('event_name', this.event.event_name)
     formdata.append('begin_datetime',this.event.begin_datetime)
     formdata.append('finish_datetime',this.event.finish_datetime)
     formdata.append('event_description',this.event.event_description)
-    formdata.append('min_age',this.event.min_age)
+    formdata.append('min_age', String(this.event.min_age))
     formdata.append('cover_photo', this.selectedFile, this.selectedFile.name);
-    formdata.append('location',this.event.location)
-    formdata.append('dj',this.event.dj)
+    formdata.append('location', String(this.event.location))
+    formdata.append('dj', String(this.event.dj))
+
+    formdata.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
 
     if (this.updating){
       this.eventService.updateEvent(formdata, this.eventID).subscribe
@@ -152,19 +162,18 @@ export class ManageEventComponent {
       ((postedEvent: Event)=> 
         {
         this.postTicketTypes('cargado', postedEvent.id?? 0)
-
       }) 
     } 
   }
 
   postTicketTypes(loadOrUpdate:string, id: number){
       
-      this.ticketList.forEach((ticket: Ticket, index: number) => {
-      //* ticket.event = id; *//
-      this.ticketTypeService.postTicketType(ticket, id).subscribe
+      this.ticketTypeList.forEach((ticketType: TicketType, index: number) => {
+      ticketType.event = id; 
+      this.ticketTypeService.postTicketType(ticketType, id).subscribe
       (ticketType => 
         { 
-          if (index+1===this.ticketList.length){if(loadOrUpdate){alert(`Evento ${loadOrUpdate} con éxito`)}}
+          if (index+1===this.ticketTypeList.length){if(loadOrUpdate){alert(`Evento ${loadOrUpdate} con éxito`)}}
         })
       });
   }

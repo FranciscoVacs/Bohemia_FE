@@ -3,17 +3,17 @@
 <mat-card *ngFor="let ticket of tickets; index as i" class="ticket-card" appearance="outlined">
   <mat-card-header>
 
-    <mat-card-title>{{purchase.ticket_type.event.event_name}}</mat-card-title>
-    <mat-card-subtitle>{{purchase.ticket_type.event.begin_datetime}}</mat-card-subtitle>
+    <mat-card-title>{{purchase.ticket_type.event?.event_name}}</mat-card-title>
+    <mat-card-subtitle>{{purchase.ticket_type.event?.begin_datetime}}</mat-card-subtitle>
     <mat-card-subtitle>Ticket {{i+1}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <p>
-      {{purchase.ticket_type.event.event_description}}
+      {{purchase.ticket_type.event?.event_description}}
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button (click)="downloadTicketPDF(ticket.id)" mat-button>DESCARGAR PDF</button>
+    <button (click)="downloadTicketPDF(ticket.id!)" mat-button>DESCARGAR PDF</button>
   </mat-card-actions>
 </mat-card>
 </div>

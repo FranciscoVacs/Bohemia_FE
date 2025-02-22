@@ -9,6 +9,6 @@ export interface TicketType extends BaseEntity {
   price: number;
   max_quantity: number;
   available_tickets: number;
-  event?: Event;
+  event?: any;
   purchase: Purchase[];
 }

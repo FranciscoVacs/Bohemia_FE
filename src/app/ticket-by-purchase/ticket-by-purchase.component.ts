@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NgFor } from '@angular/common';
 import { PurchaseService } from '../core/services/purchase.service.js';
-import { Ticket } from '../core/entities';
+import { Ticket, Purchase } from '../core/entities';
 
 @Component({
   selector: 'app-ticket-by-purchase',
@@ -19,7 +19,7 @@ export class TicketByPurchaseComponent {
 
   constructor(private purchaseService: PurchaseService, private http: HttpClient, private route: ActivatedRoute ,private router: Router, private jwtService: JWTService){}
   tickets: Ticket[] = []
-  purchase: any
+  purchase!: Purchase
   purchaseId: number = 0
 
   ngOnInit(){
