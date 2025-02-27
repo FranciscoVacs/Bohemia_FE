@@ -15,7 +15,7 @@ export class ApiService {
     return this.httpClient.get<{data: T}>(this.baseRoute + path).pipe(map(response => response.data))
   }
 
-  post<T>(path: string, body: any): Observable<T>{
+  post<T>(path: string, body: T): Observable<T>{
     return this.httpClient.post<{data: T}>(this.baseRoute + path, body).pipe(map(response => response.data))
   }
 

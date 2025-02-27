@@ -3,6 +3,7 @@ import { ApiService } from './api.service.js';
 import { Observable } from 'rxjs';
 import { Purchase } from '../entities';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 export class PurchaseData {  
 
@@ -30,6 +31,6 @@ export class PurchaseService {
   }
 
   postPurchase(purchaseData: PurchaseData): Observable<Purchase> {
-    return this.apiService.post<Purchase>('/purchase', purchaseData)
+    return this.httpClient.post<{data: Purchase}>(`http://localhost:3000/api` + `/purchase`, purchaseData).pipe(map(response => response.data))
   }
 }
