@@ -19,7 +19,7 @@ export class ApiService {
     return this.httpClient.post<{data: T}>(this.baseRoute + path, body).pipe(map(response => response.data))
   }
 
-  postWithHeaders(path: string, body: any){
+  postWithHeaders(path: string, body: {email: string, password: string}){
     return this.httpClient.post(this.baseRoute + path, body, {observe: 'response'})
   }
 

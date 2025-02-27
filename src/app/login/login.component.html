@@ -2,7 +2,7 @@
 <div *ngIf="loginBool">
 <div class="container">
   <h1 mat-dialog-title>Ingresar a tu cuenta</h1>
-  <button (click)="closeDialog()" mat-icon-button>
+  <button (click)="this.dialogRef.close('')" mat-icon-button>
     <mat-icon class="material-symbols-outlined">close</mat-icon>
   </button>
 </div>
@@ -29,7 +29,7 @@
 <div *ngIf="!loginBool">
   <div class="container">
     <h1 mat-dialog-title>Crear cuenta</h1>
-    <button (click)="closeDialog()" mat-icon-button>
+    <button (click)="this.dialogRef.close('')" mat-icon-button>
       <mat-icon class="material-symbols-outlined">close</mat-icon>
     </button>
   </div>

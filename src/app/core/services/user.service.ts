@@ -22,7 +22,7 @@ export class UserService {
     return this.apiService.postWithHeaders('/user/register', user)
   }
 
-  logUser(logdata: any){
+  logUser(logdata: {email: string, password: string}){
     return this.apiService.postWithHeaders('/user/login', logdata)
   }
 }

@@ -8,10 +8,11 @@ import { MatIcon } from '@angular/material/icon';
 import { NgIf } from '@angular/common';
 import { UserService } from '../core/services/user.service.js';
 import { DateService } from '../core/services/date.service.js';
-import { catchError, of } from 'rxjs';
+import { catchError, EMPTY, of } from 'rxjs';
 import { MatDatepickerModule, MatDatepickerToggle } from '@angular/material/datepicker';
 import {jwtDecode} from 'jwt-decode';
 import { JWTService } from '../core/services/jwt.service.js';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,7 @@ export class LoginComponent {
     private jwtService: JWTService,
     private userService: UserService, 
     private dateService: DateService, 
-    private dialogRef: MatDialogRef<LoginComponent>){}
+    public dialogRef: MatDialogRef<LoginComponent>){}
 
   email: string = ''
   password: string = ''
@@ -65,44 +66,39 @@ export class LoginComponent {
     }
     this.userService.registerUser(newUser).pipe(
       catchError(err => 
-        {return of({error: err})}
+        {
+          let error = err.error
+          if (error[0]){this.feedback = error[0].message}
+          else {this.feedback = error.message}
+          return EMPTY}
         ))
       .subscribe((res:any) => {
-        if (res.error){
-          this.feedback = res.error.error.message}
-        else {
           let token: string = res.headers.get('token')
           let decodedToken = jwtDecode(token)
           this.jwtService.setCurrentUser(decodedToken)
           this.jwtService.setToken(token)
-          this.feedback = res.body.message
-          this.closeDialog()
-        }
+          this.feedback = res.body.message + '!'
+          setTimeout(()=>this.dialogRef.close(''), 1000)          
     })
   }
 
   login(){
     this.userService.logUser({"email": this.email, "password": this.password}).pipe(
       catchError(err => 
-        {return of({error: err.error})}
+        {
+          let error = err.error
+          if (error[0]){this.feedback = error[0].message}
+          else {this.feedback = error.message}
+          return EMPTY}
         ))
-      .subscribe((res: any) => {
-        if (res.error){
-          if (res.error[0]){this.feedback = res.error[0].message}
-          else {this.feedback = res.error.message}
-        }
-        else {
-          let token: string = res.headers.get('token')
+      .subscribe((res: {headers:HttpHeaders,body:Object|null}) => {
+        console.log(res)
+          let token: string = res.headers.get('token') ?? ''
           let decodedToken = jwtDecode(token)
           this.jwtService.setCurrentUser(decodedToken)
           this.jwtService.setToken(token)
-          this.feedback = res.body.message
-          this.closeDialog()
-        }
+          this.feedback = res.body!.message + '!'
+          setTimeout(()=>this.dialogRef.close(''), 1000)          
       })
-  }
-  
-  closeDialog() {
-    this.dialogRef.close('');
   }
 }
