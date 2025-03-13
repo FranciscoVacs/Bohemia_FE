@@ -25,7 +25,6 @@ export class EventPreviewComponent {
   }
 
   onDelete(event: MouseEvent){
-    console.log(typeof event)
     event.stopPropagation()
     this.eventService.deleteEvent(this.eventInput.id ?? 0)
     .subscribe({
@@ -35,7 +34,6 @@ export class EventPreviewComponent {
   }
 
   onUpdate(event: MouseEvent){
-    console.log(typeof event)
     event.stopPropagation()
     setTimeout(()=> this.router.navigate([`manageevent`, {updating: true, eventID: this.eventInput.id}]));
   }

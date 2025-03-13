@@ -2,13 +2,15 @@
   <!--
   <div class="slideshow">
     <img loading="lazy" *ngFor="let image of images" [src]="image" alt="Background photo">  
-  </div> -->
+  </div> 
 
-  <swiper-container class="slideshow" loop="true" autoplay="true">
+  <swiper-container class="slideshow" loop="true" autoplay="true" ngSkipHydration>
     <swiper-slide *ngFor="let image of images">
       <img [src]="image" alt="Background photo">
     </swiper-slide>
   </swiper-container>
+-->
+  <app-swiper *ngIf="isBrowser" class="slideshow" ngSkipHydration></app-swiper>
 
   <app-autocomplete id="searchBar" [locationList]="locationList"></app-autocomplete>
 </div>
