@@ -1,42 +1,6 @@
-
-.search-container {
-  display: flex;
-  flex-direction: column; 
-  align-items: center; 
-  justify-content: center; 
-  position: absolute;
-  top: 50%; 
-  left: 50%; 
-  transform: translate(-50%, -50%); 
-  width: 100%;
-  text-align: center;
-  z-index: 1000; 
-}
-
-
-.search-title {
-  font-size: 2rem;
-  color: rgb(0, 0, 0);
-  margin-bottom: 1rem; 
-}
-
-
 app-autocomplete {
   margin-top: 1rem; 
   z-index: 1000; 
-}
-
-#main {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-image: url('https://wallpapercave.com/wp/wp2660096.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    
 }
 
 footer {
@@ -60,37 +24,20 @@ footer section {
   align-items: center;
 }
 
-
 .full-screen-container {
   width: 100vw;
-
   height: 100vh;
-
   overflow: hidden;
-  
   position: relative;
-}
-
-.slideshow {
-  --position: 1;
-  display: flex;
-  width: calc(100vw );
- 
-  height: 100%;
-  animation: slide 150s infinite;
-
 }
 
 .slideshow img {
   width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    flex-shrink: 0;
+  height: calc(100vh - 4rem);
+  object-fit: cover;
+  flex-shrink: 0;
   filter: brightness(35%)
-
- 
 }
-
 
 #searchBar {
   display: flex;
@@ -99,194 +46,7 @@ footer section {
   height: 100vh;
   width: 100vw;
   position: absolute;
-
   top: 0;
   left: 0;
   z-index: 1000;
-
-}
-
-@keyframes slide {
-  2% {
-    transform: translateX(0%);
-  }
-  3% {
-    transform: translateX(-100%);  
-  }
-  5% {
-    transform: translateX(-100%);
-  }
-  6% {
-    transform: translateX(-200%);
-  }
-  8% {
-    transform: translateX(-200%);
-  }
-  9% {
-    transform: translateX(-300%);
-  }
-  11% {
-    transform: translateX(-300%);
-  }  
-  12% {
-    transform: translateX(-400%);
-  }
-  14% {
-    transform: translateX(-400%);
-  }
-  15% {
-    transform: translateX(-500%);
-  }
-  17% {
-    transform: translateX(-500%);
-  }
-  18% {
-    transform: translateX(-600%);
-  }
-  20% {
-    transform: translateX(-600%);
-  }
-  21% {
-    transform: translateX(-700%);
-  }
-  23% {
-    transform: translateX(-700%);
-  }
-  24% {
-    transform: translateX(-800%);
-  }
-  26% {
-    transform: translateX(-800%);
-  }
-  27% {
-    transform: translateX(-900%);
-  }
-  29% {
-    transform: translateX(-900%);
-  }
-  30% {
-    transform: translateX(-1000%);
-  }
-  32% {
-    transform: translateX(-1000%);
-  }
-  33% {
-    transform: translateX(-1100%);
-  }
-  35% {
-    transform: translateX(-1100%);
-  }
-  36% {
-    transform: translateX(-1200%);
-  }
-  38% {
-    transform: translateX(-1200%);
-  }
-  39% {
-    transform: translateX(-1300%);
-  }
-  41% {
-    transform: translateX(-1300%);
-  }  
-  42% {
-    transform: translateX(-1400%);
-  }
-  44% {
-    transform: translateX(-1400%);
-  }
-  45% {
-    transform: translateX(-1500%);
-  }
-  47% {
-    transform: translateX(-1500%);
-  }
-  48% {
-    transform: translateX(-1600%);
-  }
-  50% {
-    transform: translateX(-1600%);
-  }
-  51% {
-    transform: translateX(-1700%);
-  }
-  53% {
-    transform: translateX(-1700%);
-  }
-  54% {
-    transform: translateX(-1800%);
-  }
-  56% {
-    transform: translateX(-1800%);
-  }
-  57% {
-    transform: translateX(-1900%);
-  }
-  59% {
-    transform: translateX(-1900%);
-  }
-  60% {
-    transform: translateX(-2000%);
-  }
-  62% {
-    transform: translateX(-2000%);
-  }
-  63% {
-    transform: translateX(-2100%);
-  }
-  65% {
-    transform: translateX(-2100%);
-  }
-  66% {
-    transform: translateX(-2200%);
-  }
-  68% {
-    transform: translateX(-2200%);
-  }
-  69% {
-    transform: translateX(-2300%);
-  }
-  71% {
-    transform: translateX(-2300%);
-  }
-  72% {
-    transform: translateX(-2400%);
-  }
-  74% {
-    transform: translateX(-2400%);
-  }
-  75% {
-    transform: translateX(-2500%);
-  }
-  77% {
-    transform: translateX(-2500%);
-  }  
-  78% {
-    transform: translateX(-2600%);
-  }
-  80% {
-    transform: translateX(-2600%);
-  }
-  81% {
-    transform: translateX(-2700%);
-  }
-  83% {
-    transform: translateX(-2700%);
-  }
-  84% {
-    transform: translateX(-2800%);
-  }
-  86% {
-    transform: translateX(-2800%);
-  }
-  87% {
-    transform: translateX(-2900%);
-  }  
-  100% {
-    transform: translateX(-2900%);
-  }
-
-
-
-  
- 
 }

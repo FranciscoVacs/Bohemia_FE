@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { JsonPipe, CommonModule } from '@angular/common';
 import { EventPreviewComponent } from '../event-comps/event-preview/event-preview.component';
 import { AutocompleteComponent } from '../autocomplete/autocomplete.component';
@@ -7,13 +7,16 @@ import { EventService } from '../core/services/event.service.js';
 import { LocationService } from '../core/services/location.service.js';
 import { NgFor } from '@angular/common';
 import { Event, Location } from '../core/entities';
+import { register } from 'swiper/element/bundle';
+register();
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, EventPreviewComponent, AutocompleteComponent, ListOfEventsComponent, JsonPipe, NgFor],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomeComponent {
   constructor(private eventService: EventService, private locationService: LocationService){}

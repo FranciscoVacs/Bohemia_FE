@@ -1,11 +1,21 @@
 <div class="full-screen-container">
+  <!--
   <div class="slideshow">
-  <img loading="lazy" *ngFor="let image of images" [src]="image" alt="Background photo">  </div>
-  <app-autocomplete id="searchBar" [locationList]="locationList">
-  </app-autocomplete>
+    <img loading="lazy" *ngFor="let image of images" [src]="image" alt="Background photo">  
+  </div> -->
+
+  <swiper-container class="slideshow" loop="true" autoplay="true">
+    <swiper-slide *ngFor="let image of images">
+      <img [src]="image" alt="Background photo">
+    </swiper-slide>
+  </swiper-container>
+
+  <app-autocomplete id="searchBar" [locationList]="locationList"></app-autocomplete>
 </div>
 <br>
+
 <app-list-of-events [eventList]="eventList"></app-list-of-events>
+
 <footer>
   <section>
     <img id="footlogo" src="assets/bohemia-logo-white.png" alt="logo">
