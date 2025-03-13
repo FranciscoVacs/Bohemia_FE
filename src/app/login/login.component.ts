@@ -91,13 +91,12 @@ export class LoginComponent {
           else {this.feedback = error.message}
           return EMPTY}
         ))
-      .subscribe((res: {headers:HttpHeaders,body:Object|null}) => {
-        console.log(res)
-          let token: string = res.headers.get('token') ?? ''
+      .subscribe((res:any) => {
+          let token: string = res.headers.get('token')
           let decodedToken = jwtDecode(token)
           this.jwtService.setCurrentUser(decodedToken)
           this.jwtService.setToken(token)
-          this.feedback = res.body!.message + '!'
+          this.feedback = res.body.message + '!'
           setTimeout(()=>this.dialogRef.close(''), 1000)          
       })
   }

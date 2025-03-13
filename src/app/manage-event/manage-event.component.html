@@ -89,11 +89,13 @@
     </mat-form-field>
     <br>
 
-
-
   <h3>Subir foto del evento</h3>
-  <input type="file" (change)="onFileSelected($event)">
-  
+  <input type="file" class="image-input" (change)="onFileSelected($event)" #imageInput>
+  <button type="button" mat-mini-fab (click)="imageInput.click()">
+    <mat-icon class="material-symbols-outlined">attach_file</mat-icon>
+  </button> 
+  {{selectedFileName || "No file selected"}}
+
   <div id="tTypeManager">
   <h3>Tipos de ticket</h3>
   <app-manage-tickettypes [tickettypes]="event? event.ticketType : []" (ticketListEvent)="updateTicketList($event)"></app-manage-tickettypes>

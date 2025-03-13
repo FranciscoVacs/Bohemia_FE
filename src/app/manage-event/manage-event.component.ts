@@ -48,7 +48,8 @@ export class ManageEventComponent {
   ticketTypeList: TicketType[] = [];
   locationList!: Location[];
   djList!: Dj[];
-  selectedFile: any;
+  selectedFile: File | null = null;
+  selectedFileName: string = '';
   
   eventForm = new FormGroup ({
     event_name: new FormControl<string>('', {nonNullable:true,validators:Validators.required}),  
@@ -102,9 +103,12 @@ export class ManageEventComponent {
     }
 }
 
-  onFileSelected(event: any){
-    if (event.target.files[0]) 
-    this.selectedFile = event.target.files[0] 
+  onFileSelected(event: globalThis.Event){
+    console.log(event, typeof event)
+    let target = event.target as HTMLInputElement
+    if (target.files) {
+    this.selectedFile = target.files[0]
+    this.selectedFileName = target.files[0].name}
   }
 
   updateTicketList(ticketList: TicketType[]){
@@ -134,8 +138,6 @@ export class ManageEventComponent {
      "tickets_on_sale": 0,
      "ticketType": []
     }
-    console.log(this.event.begin_datetime)
-    console.log(typeof this.event.begin_datetime)
     
     let formdata = new FormData();
     formdata.append('event_name', this.event.event_name)
@@ -143,13 +145,14 @@ export class ManageEventComponent {
     formdata.append('finish_datetime',this.event.finish_datetime)
     formdata.append('event_description',this.event.event_description)
     formdata.append('min_age', String(this.event.min_age))
-    formdata.append('cover_photo', this.selectedFile, this.selectedFile.name);
+    formdata.append('cover_photo', this.selectedFile!, this.selectedFile!.name);
     formdata.append('location', String(this.event.location))
     formdata.append('dj', String(this.event.dj))
 
+    /*
     formdata.forEach((value, key) => {
       console.log(`${key}: ${value}`);
-    });
+    }); */
 
     if (this.updating){
       this.eventService.updateEvent(formdata, this.eventID).subscribe
