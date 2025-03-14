@@ -1,46 +1,4 @@
 
-#searchBar {
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
-  height: 100vh; 
-  width: 100vw; 
-}
-
-
-.form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-  display: flex;
-  justify-content: center; 
-  margin: 0 auto; 
-}
-
-
-.full-width {
-  flex: 1; 
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px;
-  outline: none;
-}
-
-
-#searchButton {
-  padding: 10px;
-  background-color: #007bff;
-  border: 1px solid #007bff;
-  border-radius: 0 5px 5px 0;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-#searchButton:hover {
-  background-color: #0056b3;
-}
-
-#fField {
-  background-color: white;
+:host ::ng-deep .mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-shape: 28px;
 }

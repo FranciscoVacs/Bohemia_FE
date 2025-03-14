@@ -4,15 +4,19 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1rem;
+  padding: 0 1rem 0 0;
 }
 
-
 #logo {
-  height: 2.5rem;
+  height: 2.4rem;
+  padding: 0 1.3rem 0 1.3rem;
+  transition: transform .7s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
 
+#logo:hover {
+  transform: scale(1.3);
+}
 
 .tab-bar {
   display: flex;
@@ -21,27 +25,23 @@ nav {
   width: 100%;
 }
 
-
 #mat-tab-group {
   flex-grow: 1;
   margin-right: 2rem;
+  padding-left: 0;
 }
-
 
 ::ng-deep .mat-tab-link {
   color: white !important;
 }
 
-
 ::ng-deep .mat-tab-link:hover {
   color: #ffcc00 !important;
 }
 
-
 ::ng-deep .mat-tab-link.mat-tab-label-active {
   color: #ffcc00 !important;
 }
-
 
 .accountbutton {
   display: flex;

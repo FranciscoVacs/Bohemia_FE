@@ -1,6 +1,6 @@
 <form class="form">
-  <div id="searchBar">
-  <mat-form-field id="fField" appearance="outline" class="full-width">
+  <div>
+  <mat-form-field appearance="outline">
     <input (keyup.enter)="onSearchPrompted()" type="text" placeholder="Buscar..."  matInput [formControl]="myControl"
       [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
@@ -9,8 +9,6 @@
       }
     </mat-autocomplete>
   </mat-form-field>
-  <button mat-fab (click)="onSearchPrompted()">
     <mat-icon class="material-symbols-outlined">search</mat-icon>
-  </button>
   </div>
 </form>

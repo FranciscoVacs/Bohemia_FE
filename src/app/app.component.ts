@@ -13,17 +13,21 @@ import { JWTService } from './core/services/jwt.service.js';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { UserService } from './core/services/user.service.js';
 import { UserComponent } from './user/user.component.js';
+import { AutocompleteComponent } from './autocomplete/autocomplete.component.js';
+import { LocationService } from './core/services/location.service.js';
+import { Location } from './core/entities';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgIf, ReactiveFormsModule, RouterOutlet, CommonModule, EventPreviewComponent, JsonPipe, HomeComponent, RouterLink, MatTabsModule, MatButtonModule, MatDialogModule],
+  imports: [NgIf, ReactiveFormsModule, AutocompleteComponent, RouterOutlet, CommonModule, EventPreviewComponent, JsonPipe, HomeComponent, RouterLink, MatTabsModule, MatButtonModule, MatDialogModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  constructor(public jwtService: JWTService) {}
+  constructor(public jwtService: JWTService, public locationService: LocationService) {}
 
+  locationList: Location[] = [];
   readonly dialog = inject(MatDialog)
 
   arr = [
@@ -36,6 +40,12 @@ export class AppComponent {
 
   ngOnInit(){
     let token: string | null = this.jwtService.getToken()
+
+    this.locationService.getLocations()
+    .subscribe(locations => {
+    this.locationList = locations
+    })
+    
     if(token){
       let decodedToken: JwtPayload = jwtDecode(token)
       let isTokenExpired: boolean = (decodedToken.exp?? 0) * 1000 < Date.now()

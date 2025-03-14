@@ -2,7 +2,9 @@
   <div>
     <a [routerLink]="''"><img id="logo" src="assets/bohemia-logo-white.png" alt="logo"></a>
   </div> 
-<div class="tab-bar"> 
+  <app-autocomplete [locationList]="locationList"></app-autocomplete>
+
+  <div class="tab-bar"> 
   <nav id="mat-tab-group" mat-tab-nav-bar [tabPanel]="tabPanel" animationDuration="150ms">
     @for (obj of arr; track obj) {
     <a class="link" [routerLink]="obj.route" mat-tab-link (click)="activeLink = obj.link" [active]="activeLink == obj.link"> {{obj.link}} </a>

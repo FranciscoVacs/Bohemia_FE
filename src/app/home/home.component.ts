@@ -25,7 +25,6 @@ export class HomeComponent {
   
   eventsLoaded: boolean = false;
   eventList: Event[] = [];
-  locationList: Location[] = [];
   position = 1;
   intervalId!: number;
 
@@ -37,10 +36,6 @@ export class HomeComponent {
       this.eventService.getEvents()
       .subscribe(events => {
       this.eventList = events
-      })
-      this.locationService.getLocations()
-      .subscribe(locations => {
-      this.locationList = locations
       })
     }
 }
