@@ -1,7 +1,7 @@
 <form class="form">
   <div id="searchBar">
   <mat-form-field appearance="outline">
-    <input (keyup.enter)="onSearchPrompted()" type="text" placeholder="Buscar..."  matInput [formControl]="myControl"
+    <input id="inp" (keyup.enter)="onSearchPrompted()" type="text" placeholder="Buscar..."  matInput [formControl]="myControl"
       [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
       @for (option of filteredOptions | async; track option) {

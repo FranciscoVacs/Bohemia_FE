@@ -1,6 +1,6 @@
 nav {
   height: 4rem;
-  background-color: rgb(233, 41, 150);
+  background-color: rgb(10, 4, 44);
   display: flex;
   align-items: center;
   justify-content: end;
@@ -27,11 +27,19 @@ app-autocomplete {
 }
 
 #account {
-  background-color: rgb(233, 41, 150);
+//  background-color: rgb(  233, 41, 150);
+  background-color: rgb(8, 3, 36);
   color: white;
   padding: 1rem 2rem;
   font-size: 1.2rem;
   border: 2px solid white;
+  transition: background-color .3s ease;
+  cursor: pointer;
+}
+
+#account:hover {
+  background-color: white;
+  color: rgb(8, 3, 36);
 }
 
 .navbar {
@@ -43,7 +51,7 @@ app-autocomplete {
   padding: 10px 20px;
   font-size: 18px;
   font-weight: normal; 
-  color: #202020;
+  color: #dbdbdb;
   background: none;
   border: none;
   cursor: pointer;
@@ -57,7 +65,7 @@ app-autocomplete {
   bottom: 0;
   width: 0;
   height: 2px;
-  background-color: #333;
+  background-color: #dbdbdb;
   transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
 }
   

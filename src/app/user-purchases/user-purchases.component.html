@@ -1,7 +1,7 @@
 <div id="logContainer" *ngIf="loginPrompt"><h2> Para ver tus entradas, deberías <a (click)="openLogin()" id="log"> logearte </a></h2></div>
 
 <div *ngIf="!loginPrompt">
-  <h1 id="purchaseHeader"> Tus compras</h1>  
+  <h1 id="purchaseHeader"> Mis compras</h1>  
   <div (click)="onPurchaseClicked(purchase.purchaseId)" *ngFor="let purchase of purchases">
     <div class="purchaseContainer">
       <img class="eventimg" [src]="purchase.cover_photo">

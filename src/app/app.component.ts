@@ -30,7 +30,7 @@ export class AppComponent {
 
   arr = [
     {name: "Eventos", route: ""},
-    {name: "Mis entradas", route: "/purchases"},
+    {name: "Mis Compras", route: "/purchases"},
     {name: "Crear evento", route: "/manageevent"}
   ]
   title = 'QRera-FE';

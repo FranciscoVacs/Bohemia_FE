@@ -12,8 +12,6 @@
     <button *ngIf="jwtService.currentUserSig() === null" id="account" mat-raised-button (click)="openLogin()"> Login</button>
     <button *ngIf="jwtService.currentUserSig()" id="account" mat-raised-button (click)="openUser()"> {{jwtService.currentUserSig()?.user_name}} {{jwtService.currentUserSig()?.user_surname}}</button>
   </div>
-
 </nav>
   
 <router-outlet></router-outlet>
-  
