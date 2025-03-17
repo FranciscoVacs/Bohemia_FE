@@ -27,7 +27,6 @@ app-autocomplete {
 }
 
 #account {
-//  background-color: rgb(  233, 41, 150);
   background-color: rgb(8, 3, 36);
   color: white;
   padding: 1rem 2rem;
@@ -65,11 +64,27 @@ app-autocomplete {
   bottom: 0;
   width: 0;
   height: 2px;
-  background-color: #dbdbdb;
+  background-color: rgb(255, 187, 0);
   transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
 }
   
 .nav-button:hover::after {
   width: 100%;
   left: 0;
+}
+
+#star1 {
+  transform: rotate(-15deg) scale(6);
+  position: absolute;
+  top: 1500px;
+  left: 0px;
+  filter: brightness(30%);
+}
+
+#star2 {
+  transform: rotate(5deg) scale(6);
+  position: absolute;
+  top: 2500px;
+  right: 125px;
+  filter: brightness(30%);
 }

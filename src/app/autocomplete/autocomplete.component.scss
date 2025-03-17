@@ -9,7 +9,7 @@
   padding: .5rem 0 !important;
 }
 
-::ng-deep .mat-mdc-text-field-wrapper .mdc-text-field__input {
+:host ::ng-deep .mat-mdc-text-field-wrapper .mdc-text-field__input {
   color: #dbdbdb !important;
   font-size: 19px !important;
 }
