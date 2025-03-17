@@ -4,18 +4,16 @@
   </div> 
   <app-autocomplete [locationList]="locationList"></app-autocomplete>
 
-  <div class="tab-bar"> 
-  <nav id="mat-tab-group" mat-tab-nav-bar [tabPanel]="tabPanel" animationDuration="150ms">
-    @for (obj of arr; track obj) {
-    <a class="link" [routerLink]="obj.route" mat-tab-link (click)="activeLink = obj.link" [active]="activeLink == obj.link"> {{obj.link}} </a>
-    }
+  <nav class="navbar">
+    <button *ngFor="let button of arr" class="nav-button" [routerLink]="button.route">{{button.name}}</button>
   </nav>
+
   <div  class="accountbutton">
     <button *ngIf="jwtService.currentUserSig() === null" id="account" mat-raised-button (click)="openLogin()"> Login</button>
     <button *ngIf="jwtService.currentUserSig()" id="account" mat-raised-button (click)="openUser()"> {{jwtService.currentUserSig()?.user_name}} {{jwtService.currentUserSig()?.user_surname}}</button>
   </div>
-</div>
-  </nav>
-  <mat-tab-nav-panel #tabPanel>
-    <router-outlet></router-outlet>
-  </mat-tab-nav-panel>
+
+</nav>
+  
+<router-outlet></router-outlet>
+  

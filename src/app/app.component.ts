@@ -3,7 +3,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { JsonPipe, CommonModule } from '@angular/common';
 import { EventPreviewComponent } from './event-comps/event-preview/event-preview.component';
 import { HomeComponent } from './home/home.component.js';
-import {MatTabsModule} from '@angular/material/tabs'; 
 import {MatButtonModule} from '@angular/material/button'; 
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {LoginComponent} from './login/login.component.js';
@@ -11,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { JWTService } from './core/services/jwt.service.js';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
-import { UserService } from './core/services/user.service.js';
 import { UserComponent } from './user/user.component.js';
 import { AutocompleteComponent } from './autocomplete/autocomplete.component.js';
 import { LocationService } from './core/services/location.service.js';
@@ -20,7 +18,7 @@ import { Location } from './core/entities';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgIf, ReactiveFormsModule, AutocompleteComponent, RouterOutlet, CommonModule, EventPreviewComponent, JsonPipe, HomeComponent, RouterLink, MatTabsModule, MatButtonModule, MatDialogModule],
+  imports: [NgIf, ReactiveFormsModule, AutocompleteComponent, RouterOutlet, CommonModule, EventPreviewComponent, JsonPipe, HomeComponent, RouterLink, MatButtonModule, MatDialogModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -31,11 +29,10 @@ export class AppComponent {
   readonly dialog = inject(MatDialog)
 
   arr = [
-    {link: "Eventos", route: ""},
-    {link: "Mis entradas", route: "/purchases"},
-    {link: "Crear evento", route: "/manageevent"}
+    {name: "Eventos", route: ""},
+    {name: "Mis entradas", route: "/purchases"},
+    {name: "Crear evento", route: "/manageevent"}
   ]
-  activeLink = this.arr[0].link;
   title = 'QRera-FE';
 
   ngOnInit(){
