@@ -2,16 +2,16 @@
 <html lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Edición de Perfil - Bohemia</title>
+<title>Bohemia - Galería</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter:wght@300;400;600;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter:wght@300;400;600;800&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
 <style type="text/tailwindcss">
         @layer base {
             body {
-                @apply bg-[#050505] text-white font-sans antialiased;
+                @apply bg-[#020202] text-white font-sans antialiased;
             }
         }
         @layer components {
@@ -25,31 +25,10 @@
             }
             .bg-gradient-primary {
                 background: linear-gradient(135deg, #00E0FF 0%, #CCFF00 100%);
-            }
-            .animate-marquee {
-                animation: marquee 25s linear infinite;
-            }
-            @keyframes marquee {
-                0% { transform: translateX(0%); }
-                100% { transform: translateX(-100%); }
-            }.toggle-switch {
-                @apply relative inline-flex items-center cursor-pointer;
-            }
-            .toggle-switch input {
-                @apply sr-only;
-            }
-            .toggle-switch .slider {
-                @apply w-11 h-6 bg-gray-700 rounded-full transition-colors duration-200 ease-in-out;
-            }
-            .toggle-switch .slider:before {
-                @apply content-[''] absolute h-5 w-5 left-[2px] bottom-[2px] bg-white rounded-full transition-transform duration-200 ease-in-out;
-            }
-            .toggle-switch input:checked + .slider {
-                background: linear-gradient(135deg, #00E0FF 0%, #CCFF00 100%);
-            }
-            .toggle-switch input:checked + .slider:before {
-                @apply translate-x-full;
-            }
+            }.no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }.no-scrollbar {
+                -ms-overflow-style: none;scrollbar-width: none;}
         }
     </style>
 <script>
@@ -57,13 +36,14 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: "#CCFF00",
-                        secondary: "#00E0FF",
+                        primary: "#CCFF00", // Lime
+                        secondary: "#00E0FF", // Cyan
                         accent: "#CCFF00",
-                        "surface-light": "#121212",
+                        "surface-light": "#0A0A0A",
                     },
                     fontFamily: {
                         display: ["Anton", "sans-serif"],
+                        serif: ["Playfair Display", "serif"],
                         sans: ["Inter", "sans-serif"],
                     },
                 },
@@ -71,270 +51,211 @@
         };
     </script>
 </head>
-<body class="transition-colors duration-300 flex flex-col min-h-screen">
-<nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-opacity-90 backdrop-blur-md bg-black/80 border-b border-white/10">
+<body class="transition-colors duration-300 min-h-screen flex flex-col">
+<nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-black/90 backdrop-blur-md border-b border-secondary/20">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex items-center justify-between h-20">
 <div class="flex items-center">
-<a class="font-display text-3xl tracking-wider text-gradient" href="#">BOHEMIA</a>
+<span class="font-display text-3xl tracking-wider text-white">BOHEMIA</span>
 </div>
 <div class="hidden md:block">
 <div class="ml-10 flex items-baseline space-x-8">
-<a class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-wide text-white" href="#">Evento</a>
-<a class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-wide text-white" href="#">Galería</a>
+<a class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-wide text-gray-400" href="#">Evento</a>
+<a class="text-primary px-3 py-2 rounded-md text-sm font-medium uppercase tracking-wide" href="#">Galería</a>
 </div>
 </div>
 <div class="flex items-center gap-4">
-<button class="bg-gradient-primary text-black hover:opacity-90 px-6 py-2 rounded-full font-bold uppercase text-xs tracking-widest transition-transform transform hover:scale-105 shadow-[0_0_15px_rgba(204,255,0,0.4)]">
+<button class="border border-primary text-primary hover:bg-primary hover:text-black px-6 py-2 rounded-full font-bold uppercase text-xs tracking-widest transition-all">
                         COMPRAR ENTRADAS
                     </button>
-<div class="relative group">
-<button class="text-white hover:text-primary transition-colors flex items-center justify-center py-2 focus:outline-none">
+<button class="text-white hover:text-primary transition-colors flex items-center justify-center">
 <span class="material-symbols-outlined text-4xl">account_circle</span>
 </button>
-<div class="absolute right-0 top-full pt-4 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
-<div class="bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_25px_rgba(0,224,255,0.2)] backdrop-blur-xl relative">
-<div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-secondary via-primary to-secondary"></div>
-<div class="py-2">
-<a class="group/item flex items-center gap-3 px-5 py-3 text-sm font-medium text-white bg-white/5 transition-all" href="#">
-<span class="material-symbols-outlined text-[20px] text-secondary">person</span>
-                                        Mi perfil
-                                    </a>
-<a class="group/item flex items-center gap-3 px-5 py-3 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all" href="#">
-<span class="material-symbols-outlined text-[20px] group-hover/item:text-primary transition-colors">confirmation_number</span>
-                                        Mis entradas
-                                    </a>
-<div class="h-px bg-white/5 my-1 mx-4"></div>
-<a class="group/item flex items-center gap-3 px-5 py-3 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all" href="#">
-<span class="material-symbols-outlined text-[20px] transition-colors">logout</span>
-                                        Cerrar sesión
-                                    </a>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
 </nav>
-<main class="flex-grow pt-32 pb-20 relative overflow-hidden">
-<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/5 blur-[120px] rounded-full pointer-events-none"></div>
-<div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none"></div>
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-<div class="flex flex-col md:flex-row items-center gap-8 mb-12">
-<div class="relative group">
-<div class="w-32 h-32 rounded-full bg-gradient-to-br from-secondary to-primary p-[2px] shadow-[0_0_20px_rgba(0,224,255,0.3)]">
-<div class="w-full h-full rounded-full overflow-hidden bg-surface-light flex items-center justify-center relative">
-<span class="material-symbols-outlined text-6xl text-gray-600">person</span>
+<main class="flex-grow pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto w-full">
+<header class="mb-12 md:mb-20 mt-10">
+<h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-white italic mb-4">
+            Álbumes <span class="text-primary not-italic">Destacados</span>
+</h1>
+<p class="text-gray-400 max-w-xl text-lg font-light border-l-2 border-secondary pl-6">
+            Una colección visual de nuestras noches más memorables. Revive la magia, el caos y la belleza de Bohemia.
+        </p>
+</header>
+<section class="mb-24 relative">
+<div class="flex overflow-x-auto gap-6 pb-8 no-scrollbar snap-x snap-mandatory">
+<div class="min-w-[85vw] md:min-w-[60vw] lg:min-w-[45vw] snap-center group cursor-pointer relative">
+<div class="aspect-[16/9] overflow-hidden rounded-lg border border-secondary/30 relative">
+<img alt="Crowd euphoria" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzjCRy-t_jIrtBnJhXd8q66ZXDrwZZ7zE1Hadh-W_y7s_G7fIXuMhJmcdwIoRMlF7Vy8bCB8cCoMjqVQhIp0Clngq_jdZzp5tL4EE-btjY4RRRLtHKqTg-hL4w3TA2TpeUevSywkzkNngtnP9TuGqHrLVDC--EqT03r91YdfQR8gX4geFNdtRlFVf2WqlkbEcxCegqbQ9EMEe667KjOpPW8CdgWyOAGI2QmDXIJPtFzozZJhNJ8zpcau4_M0DJIbYFvMzfQ2RD_VRq"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-8 md:p-10">
+<div class="flex items-center gap-4 mb-2">
+<span class="px-3 py-1 border border-primary text-primary text-xs uppercase tracking-widest font-bold">Enero 2024</span>
+<span class="text-secondary text-xs uppercase tracking-widest font-bold">Rosario</span>
+</div>
+<h2 class="font-serif text-4xl md:text-5xl text-white italic group-hover:text-primary transition-colors">Apertura de Temporada</h2>
 </div>
 </div>
-<button class="absolute bottom-0 right-0 bg-white text-black rounded-full p-2 hover:bg-primary transition-colors shadow-lg hover:scale-110 transform duration-200">
-<span class="material-symbols-outlined text-sm">photo_camera</span>
+</div>
+<div class="min-w-[85vw] md:min-w-[60vw] lg:min-w-[45vw] snap-center group cursor-pointer relative">
+<div class="aspect-[16/9] overflow-hidden rounded-lg border border-secondary/30 relative">
+<img alt="Special Guest DJ" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJ1Y9CpQrrmUDOvUbxdICiHIg19xETLEczajeWzlL2HoaKV3enP9WO_HR1UaWcJgPoVBLqaS59HAl3np-JCjqROGoDNzewVx6kMTrfY8ZQx1MjuYy8YoNPuXMSJ2nLqRp64COgX6UDEDY4x3Yb0cJ2EUg_DRj9UPGz5jeKVt1vRfYQ_GW9GQk21jg8O40QPJkul4w0PARsBcIjM6pCFYoDI1PnoeIHTtiAHKdGIVjFD3yG6qs1_O5VJ8J1MjJRws5Va01QC5WHPMrK"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-8 md:p-10">
+<div class="flex items-center gap-4 mb-2">
+<span class="px-3 py-1 border border-primary text-primary text-xs uppercase tracking-widest font-bold">Diciembre 2023</span>
+<span class="text-secondary text-xs uppercase tracking-widest font-bold">Córdoba</span>
+</div>
+<h2 class="font-serif text-4xl md:text-5xl text-white italic group-hover:text-primary transition-colors">Edición Especial Año Nuevo</h2>
+</div>
+</div>
+</div>
+<div class="min-w-[85vw] md:min-w-[60vw] lg:min-w-[45vw] snap-center group cursor-pointer relative">
+<div class="aspect-[16/9] overflow-hidden rounded-lg border border-secondary/30 relative">
+<img alt="Visual Arts" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkGDnPiyCKHLfEbExSw2g4UyZTyXk2huA41P7v69KKKzMPy5X5ioaVAfq5Xmec-a5PWUh96ww0zjD0cHM5AwpxwXk-sI6QdwD3a8ENsNrXqhkchUjKZs6YO4OaMnj3tM6XVvByuYO6f9rEn55zsf8AJZFQTKnYBj-o2F3nrzjLrLFDvwlu2RCWttWNzk_TaGOQ3RF01kcpSiFWeuDTZM-JQMS3cYYijfEGiteTWZIRuCb4jTzQZR40m7zjzClVE1K_lhi5AFpyJwce"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-8 md:p-10">
+<div class="flex items-center gap-4 mb-2">
+<span class="px-3 py-1 border border-primary text-primary text-xs uppercase tracking-widest font-bold">Noviembre 2023</span>
+<span class="text-secondary text-xs uppercase tracking-widest font-bold">Buenos Aires</span>
+</div>
+<h2 class="font-serif text-4xl md:text-5xl text-white italic group-hover:text-primary transition-colors">Visual Experience</h2>
+</div>
+</div>
+</div>
+</div>
+<div class="flex gap-2 absolute bottom-0 left-0">
+<div class="h-[1px] w-20 bg-primary"></div>
+<div class="h-[1px] w-10 bg-gray-800"></div>
+<div class="h-[1px] w-10 bg-gray-800"></div>
+</div>
+</section>
+<section>
+<div class="flex items-end justify-between mb-12 border-b border-white/10 pb-4">
+<h3 class="font-serif text-3xl md:text-4xl text-white">Archivo <span class="text-gray-600 text-lg md:text-xl font-sans ml-2">2023</span></h3>
+<div class="flex gap-4">
+<button class="text-gray-500 hover:text-primary transition-colors uppercase text-xs font-bold tracking-widest">Todos</button>
+<button class="text-primary uppercase text-xs font-bold tracking-widest">Fiestas</button>
+<button class="text-gray-500 hover:text-primary transition-colors uppercase text-xs font-bold tracking-widest">Backstage</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+<article class="group">
+<div class="aspect-[4/5] overflow-hidden mb-4 border border-secondary/20 relative">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 mix-blend-overlay"></div>
+<img alt="Party November" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpCfXSG7XonnpaaMs0oK_Oj-F6t8BCEOE_M8SfCKxC-9g2Pl-_IdQV8HYQcGXkNbq0d4TpXxhtaJ9Xr73iFd2coMgCwHhwcLq8G79Qs8W0AbobUbw32u6svPi5212TtfAU5IisMwNjhKZ3Po7WMyZ7-SrYuyXsVbAjK9e3aqfUadlnG4aVSaFZ_Q5pOnQNFTtQ_ch0hCNPBQqTtm8zaulKyaLlFZvGW8PoejlmdMFGk43tH_y86qdpDvA-8Y7xqf4inHVqII5CII6Z"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<span class="block text-primary text-xs font-bold uppercase tracking-widest mb-1">24 Nov</span>
+<h4 class="font-serif text-2xl text-white group-hover:text-secondary transition-colors">Noche de Neon</h4>
+<p class="text-gray-500 text-sm mt-1">Club Mandarine</p>
+</div>
+<button class="w-8 h-8 border border-white/20 rounded-full flex items-center justify-center group-hover:border-primary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_outward</span>
 </button>
 </div>
-<div class="text-center md:text-left">
-<h1 class="font-display text-5xl md:text-6xl text-white tracking-wide uppercase mb-2">Juan Pérez</h1>
-<div class="flex flex-wrap justify-center md:justify-start gap-3">
-<span class="bg-white/5 border border-white/10 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-primary">Miembro Club</span>
-<span class="bg-white/5 border border-white/10 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-gray-400">Rosario, AR</span>
+</article>
+<article class="group">
+<div class="aspect-[4/5] overflow-hidden mb-4 border border-secondary/20 relative">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 mix-blend-overlay"></div>
+<img alt="DJ Set October" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhlGi8n-PsdHiCTTHqrseblmHqfNkUJ5YrfJxTga_VFGGSqaeB-D7TaRHgpYmM8HuMH6QdWIn7j895sAU3A3hHvSbyOdsZVnnOwgShHVMN51kVV2zcahaaEG_MTcvH7bVE_FWgiiTwvAAypQkiKEcArU5nDguYObis-NYjIrSFEcjmuqBsHSDuBbo4Ltxe8rKHNpeWcsblLgHcTSZcfS2pIENX04PId4YwEeUCwIDrqbk76It2ZewpP9v-btkGt5erQxYIZcK2bn3d"/>
 </div>
-</div>
-</div>
-<div class="bg-surface-light rounded-3xl p-8 border border-white/5 shadow-2xl relative overflow-hidden">
-<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 blur-[50px] rounded-full"></div>
-<div class="absolute bottom-0 left-0 w-32 h-32 bg-primary/5 blur-[50px] rounded-full"></div>
-<div class="mb-8 border-b border-white/10">
-<div class="flex flex-wrap -mb-px text-sm font-medium text-center" role="tablist">
-<button aria-controls="detalles-personales" aria-selected="true" class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg group mr-6 transition-colors duration-200 text-secondary border-secondary hover:text-white hover:border-white/50 active" id="detalles-personales-tab" role="tab" type="button">
-<span class="material-symbols-outlined text-xl mr-2">badge</span>
-                            Detalles Personales
-                        </button>
-<button aria-controls="gestion-contrasena" aria-selected="false" class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg group hover:text-gray-400 hover:border-gray-500 transition-colors duration-200 text-gray-500" id="gestion-contrasena-tab" role="tab" type="button">
-<span class="material-symbols-outlined text-xl mr-2">lock_reset</span>
-                            Gestión de Contraseña
-                        </button>
-<button aria-controls="configuracion-adicional" aria-selected="false" class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg group hover:text-gray-400 hover:border-gray-500 transition-colors duration-200 text-gray-500" id="configuracion-adicional-tab" role="tab" type="button">
-<span class="material-symbols-outlined text-xl mr-2">settings</span>
-                            Configuración Adicional
-                        </button>
-</div>
-</div>
-<div class="space-y-8" id="tab-content">
-<div aria-labelledby="detalles-personales-tab" id="detalles-personales" role="tabpanel">
-<h3 class="font-display text-xl text-white uppercase tracking-wide mb-6">Información Básica</h3>
-<form class="space-y-6">
-<div class="relative">
-<input class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-secondary focus:ring-0 placeholder-transparent transition-colors" id="fullname" placeholder="Nombre Completo" type="text" value="Juan Pérez"/>
-<label class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-secondary font-medium tracking-wide" for="fullname">Nombre Completo</label>
-</div>
-<div class="relative">
-<input class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-secondary focus:ring-0 placeholder-transparent transition-colors" id="email" placeholder="Email" type="email" value="juan.perez@bohemia.com"/>
-<label class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-secondary font-medium tracking-wide" for="email">Email</label>
-</div>
-<div class="relative">
-<input class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-secondary focus:ring-0 placeholder-transparent transition-colors" id="phone" placeholder="Teléfono" type="tel" value="+54 9 341 123 4567"/>
-<label class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-secondary font-medium tracking-wide" for="phone">Teléfono</label>
-</div>
-<div class="pt-4">
-<button class="bg-gradient-primary text-black w-full hover:opacity-90 px-8 py-3.5 rounded-xl font-bold uppercase text-xs tracking-[0.2em] transition-all transform hover:scale-[1.02] shadow-[0_0_20px_rgba(204,255,0,0.2)]" type="button">
-                            Guardar Cambios
-                        </button>
-</div>
-</form>
-</div>
-<div aria-labelledby="gestion-contrasena-tab" class="hidden" id="gestion-contrasena" role="tabpanel">
-<h3 class="font-display text-xl text-white uppercase tracking-wide mb-6">Actualizar Contraseña</h3>
-<form class="space-y-6">
-<div class="relative">
-<input class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-primary focus:ring-0 placeholder-transparent transition-colors" id="current_pwd" placeholder="Contraseña Actual" type="password"/>
-<label class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary font-medium tracking-wide" for="current_pwd">Contraseña Actual</label>
-</div>
-<div class="relative">
-<input class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-primary focus:ring-0 placeholder-transparent transition-colors" id="new_pwd" placeholder="Nueva Contraseña" type="password"/>
-<label class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary font-medium tracking-wide" for="new_pwd">Nueva Contraseña</label>
-</div>
-<div class="relative">
-<input class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-primary focus:ring-0 placeholder-transparent transition-colors" id="confirm_pwd" placeholder="Confirmar Nueva Contraseña" type="password"/>
-<label class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary font-medium tracking-wide" for="confirm_pwd">Confirmar Nueva Contraseña</label>
-</div>
-<div class="pt-4 flex items-center justify-between">
-<a class="text-gray-500 hover:text-white text-xs uppercase tracking-wide transition-colors" href="#">¿Olvidaste tu contraseña?</a>
-<button class="border border-white/20 hover:border-primary hover:text-primary text-white px-8 py-3.5 rounded-xl font-bold uppercase text-xs tracking-[0.2em] transition-all" type="button">
-                            Actualizar
-                        </button>
-</div>
-</form>
-</div>
-<div aria-labelledby="configuracion-adicional-tab" class="hidden" id="configuracion-adicional" role="tabpanel">
-<h3 class="font-display text-xl text-white uppercase tracking-wide mb-6">Estado de la Cuenta</h3>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-gray-300">
+<div class="flex justify-between items-start">
 <div>
-<p class="font-bold text-white mb-1">Tipo de Cuenta:</p>
-<p>Miembro Club <span class="text-primary">(Premium)</span></p>
+<span class="block text-primary text-xs font-bold uppercase tracking-widest mb-1">31 Oct</span>
+<h4 class="font-serif text-2xl text-white group-hover:text-secondary transition-colors">Halloween Special</h4>
+<p class="text-gray-500 text-sm mt-1">La Fabrica</p>
 </div>
+<button class="w-8 h-8 border border-white/20 rounded-full flex items-center justify-center group-hover:border-primary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_outward</span>
+</button>
+</div>
+</article>
+<article class="group">
+<div class="aspect-[4/5] overflow-hidden mb-4 border border-secondary/20 relative">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 mix-blend-overlay"></div>
+<img alt="Laser Show" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA09cOy6X9Yr1wWGaielP7SfJ1VkqlvjpjeAaIS_RU38ss4INqizH1v7aOTWWcd9pkt96KDqa6yvAx22N8enuTuYnsngsnAMslI_XnEC-qID8mu7XQy6H9e5HGi_7iDWUBTIiwDCumEdx--1Ekh3nu893DJLOoCP-Kss3hWzaS8yN5RT5PscxnRgwO1lgVSF-Lhu93ATBPU6XEd6qgg1ZBcMwg7mAiAaHDU3thRfYg6XBPf7niJJ5v7j5xxxbIeL8WAwB_AEPs5T0N"/>
+</div>
+<div class="flex justify-between items-start">
 <div>
-<p class="font-bold text-white mb-1">Miembro desde:</p>
-<p>15 de Marzo, 2022</p>
+<span class="block text-primary text-xs font-bold uppercase tracking-widest mb-1">15 Sep</span>
+<h4 class="font-serif text-2xl text-white group-hover:text-secondary transition-colors">Primavera Sound</h4>
+<p class="text-gray-500 text-sm mt-1">Costanera</p>
 </div>
+<button class="w-8 h-8 border border-white/20 rounded-full flex items-center justify-center group-hover:border-primary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_outward</span>
+</button>
+</div>
+</article>
+<article class="group">
+<div class="aspect-[4/5] overflow-hidden mb-4 border border-secondary/20 relative">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 mix-blend-overlay"></div>
+<img alt="Party August" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzjCRy-t_jIrtBnJhXd8q66ZXDrwZZ7zE1Hadh-W_y7s_G7fIXuMhJmcdwIoRMlF7Vy8bCB8cCoMjqVQhIp0Clngq_jdZzp5tL4EE-btjY4RRRLtHKqTg-hL4w3TA2TpeUevSywkzkNngtnP9TuGqHrLVDC--EqT03r91YdfQR8gX4geFNdtRlFVf2WqlkbEcxCegqbQ9EMEe667KjOpPW8CdgWyOAGI2QmDXIJPtFzozZJhNJ8zpcau4_M0DJIbYFvMzfQ2RD_VRq"/>
+</div>
+<div class="flex justify-between items-start">
 <div>
-<p class="font-bold text-white mb-1">Último acceso:</p>
-<p>23 de Octubre, 2024</p>
+<span class="block text-primary text-xs font-bold uppercase tracking-widest mb-1">20 Ago</span>
+<h4 class="font-serif text-2xl text-white group-hover:text-secondary transition-colors">Bohemia Classics</h4>
+<p class="text-gray-500 text-sm mt-1">Teatro Vorterix</p>
 </div>
+<button class="w-8 h-8 border border-white/20 rounded-full flex items-center justify-center group-hover:border-primary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_outward</span>
+</button>
+</div>
+</article>
+<article class="group">
+<div class="aspect-[4/5] overflow-hidden mb-4 border border-secondary/20 relative">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 mix-blend-overlay"></div>
+<img alt="Party July" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJ1Y9CpQrrmUDOvUbxdICiHIg19xETLEczajeWzlL2HoaKV3enP9WO_HR1UaWcJgPoVBLqaS59HAl3np-JCjqROGoDNzewVx6kMTrfY8ZQx1MjuYy8YoNPuXMSJ2nLqRp64COgX6UDEDY4x3Yb0cJ2EUg_DRj9UPGz5jeKVt1vRfYQ_GW9GQk21jg8O40QPJkul4w0PARsBcIjM6pCFYoDI1PnoeIHTtiAHKdGIVjFD3yG6qs1_O5VJ8J1MjJRws5Va01QC5WHPMrK"/>
+</div>
+<div class="flex justify-between items-start">
 <div>
-<p class="font-bold text-white mb-1">Eventos Asistidos:</p>
-<p>12</p>
+<span class="block text-primary text-xs font-bold uppercase tracking-widest mb-1">08 Jul</span>
+<h4 class="font-serif text-2xl text-white group-hover:text-secondary transition-colors">Winter Session</h4>
+<p class="text-gray-500 text-sm mt-1">Metropolitano</p>
 </div>
+<button class="w-8 h-8 border border-white/20 rounded-full flex items-center justify-center group-hover:border-primary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_outward</span>
+</button>
 </div>
-<h3 class="font-display text-xl text-white uppercase tracking-wide mb-6 mt-10">Preferencias de Contacto</h3>
-<div class="space-y-4">
-<div class="flex items-center justify-between">
-<label class="text-white text-base leading-tight">
-<span class="block font-medium">Recibir notificaciones por correo electrónico</span>
-<span class="block text-gray-400 text-sm mt-1">Mantente al día con nuestros próximos eventos y ofertas exclusivas.</span>
-</label>
-<label class="toggle-switch">
-<input checked="" type="checkbox"/>
-<span class="slider"></span>
-</label>
+</article>
+<article class="group">
+<div class="aspect-[4/5] overflow-hidden mb-4 border border-secondary/20 relative">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 mix-blend-overlay"></div>
+<img alt="Party June" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkGDnPiyCKHLfEbExSw2g4UyZTyXk2huA41P7v69KKKzMPy5X5ioaVAfq5Xmec-a5PWUh96ww0zjD0cHM5AwpxwXk-sI6QdwD3a8ENsNrXqhkchUjKZs6YO4OaMnj3tM6XVvByuYO6f9rEn55zsf8AJZFQTKnYBj-o2F3nrzjLrLFDvwlu2RCWttWNzk_TaGOQ3RF01kcpSiFWeuDTZM-JQMS3cYYijfEGiteTWZIRuCb4jTzQZR40m7zjzClVE1K_lhi5AFpyJwce"/>
 </div>
-<div class="flex items-center justify-between">
-<label class="text-white text-base leading-tight">
-<span class="block font-medium">Recibir SMS promocionales</span>
-<span class="block text-gray-400 text-sm mt-1">Alertas rápidas sobre entradas de última hora o cambios importantes.</span>
-</label>
-<label class="toggle-switch">
-<input type="checkbox"/>
-<span class="slider"></span>
-</label>
+<div class="flex justify-between items-start">
+<div>
+<span class="block text-primary text-xs font-bold uppercase tracking-widest mb-1">15 Jun</span>
+<h4 class="font-serif text-2xl text-white group-hover:text-secondary transition-colors">Underground</h4>
+<p class="text-gray-500 text-sm mt-1">Subsuelo Club</p>
 </div>
-<div class="flex items-center justify-between">
-<label class="text-white text-base leading-tight">
-<span class="block font-medium">Compartir datos con socios</span>
-<span class="block text-gray-400 text-sm mt-1">Permite que socios de Bohemia te envíen ofertas relevantes.</span>
-</label>
-<label class="toggle-switch">
-<input type="checkbox"/>
-<span class="slider"></span>
-</label>
+<button class="w-8 h-8 border border-white/20 rounded-full flex items-center justify-center group-hover:border-primary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_outward</span>
+</button>
 </div>
+</article>
 </div>
-<div class="pt-8">
-<button class="bg-gradient-primary text-black w-full hover:opacity-90 px-8 py-3.5 rounded-xl font-bold uppercase text-xs tracking-[0.2em] transition-all transform hover:scale-[1.02] shadow-[0_0_20px_rgba(204,255,0,0.2)]" type="button">
-                            Guardar Preferencias
-                        </button>
+<div class="mt-20 flex justify-center">
+<button class="border border-white/20 hover:border-primary text-white hover:text-primary px-8 py-3 rounded-full font-bold uppercase text-xs tracking-widest transition-all">
+                Cargar más álbumes
+            </button>
 </div>
-</div>
-</div>
-</div>
-</div>
+</section>
 </main>
-<footer class="relative bg-black text-white overflow-hidden py-24 min-h-[500px] flex items-end border-t border-white/5">
-<div class="absolute inset-0 w-full h-full z-0 opacity-30">
-<img alt="Footer bg" class="w-full h-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfRZzYYOF1YYPyV7PGj3Ib_EkR1MuoUENNv2yBYZwHQtwDyUoIKzCGRRxyJMfX4EibTbxiKbcyNVE_4jtkNBhmKQGnMul1QzWH1X1aesumHajDlQHUuvGlikLxmtXwu3ASmBIEOjXAQR3XFsBb_TGqS1AnwK6w8cTVqfmB9fz2_HwZp72RAI5JEKZuCBCIZJztQggKj93SL-28zJPnu6rsMK487hYZltVLorItTIVTugEaTDDTdLXTk78ANPTC7MeD72hQFrLQ2-aQ"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-</div>
-<div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20 text-xs font-bold uppercase tracking-widest text-gray-500">
-<div class="space-y-4">
-<a class="block text-white hover:text-primary transition-colors" href="#">Eventos</a>
-<a class="block hover:text-white transition-colors" href="#">Galería</a>
-<a class="block hover:text-white transition-colors" href="#">Empresa</a>
-</div>
-<div class="space-y-4">
-<a class="block hover:text-white transition-colors" href="#">Noticias</a>
-<a class="block hover:text-white transition-colors" href="#">Contacto</a>
-<a class="block hover:text-white transition-colors" href="#">Ser Embajador</a>
-</div>
-<div class="col-span-2 md:col-span-2 flex justify-end items-start gap-6">
+<footer class="relative bg-black text-white overflow-hidden py-12 border-t border-white/5">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<span class="font-display text-2xl tracking-wider text-gray-500">BOHEMIA</span>
+<div class="flex gap-6 text-xs text-gray-500 uppercase tracking-widest">
 <a class="hover:text-primary transition-colors" href="#">Instagram</a>
-<a class="hover:text-secondary transition-colors" href="#">Tiktok</a>
-<a class="hover:text-primary transition-colors" href="#">Spotify</a>
-<a class="hover:text-secondary transition-colors" href="#">Youtube</a>
+<a class="hover:text-secondary transition-colors" href="#">Spotify</a>
+<a class="hover:text-white transition-colors" href="#">Youtube</a>
 </div>
-</div>
-<h1 class="font-display text-[22vw] leading-none text-center text-transparent text-stroke opacity-30 select-none pointer-events-none hover:opacity-50 transition-opacity">
-                BOHEMIA
-            </h1>
-<div class="flex justify-between items-center text-[10px] text-gray-600 uppercase mt-4 border-t border-gray-900 pt-4">
-<p>© Bohemia 2024</p>
-<div class="flex gap-4">
-<a class="hover:text-gray-400" href="#">Política de Privacidad</a>
-<a class="hover:text-gray-400" href="#">Cookies</a>
-<a class="hover:text-gray-400" href="#">Aviso Legal</a>
-</div>
-</div>
+<p class="text-[10px] text-gray-700 uppercase">© Bohemia 2024</p>
 </div>
 </footer>
-<script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabs = document.querySelectorAll('[role="tab"]');
-            const tabContents = document.querySelectorAll('[role="tabpanel"]');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const targetId = tab.getAttribute('aria-controls');
-                    // Deactivate all tabs and hide all tab panels
-                    tabs.forEach(t => {
-                        t.setAttribute('aria-selected', 'false');
-                        t.classList.remove('text-secondary', 'border-secondary', 'active');
-                        t.classList.add('text-gray-500', 'border-transparent');
-                        t.classList.remove('hover:text-white', 'hover:border-white/50'); // Remove active hover states
-                        t.classList.add('hover:text-gray-400', 'hover:border-gray-500'); // Add inactive hover states
-                    });
-                    tabContents.forEach(tc => tc.classList.add('hidden'));
-                    // Activate the clicked tab and show its content
-                    tab.setAttribute('aria-selected', 'true');
-                    tab.classList.add('text-secondary', 'border-secondary', 'active');
-                    tab.classList.remove('text-gray-500', 'border-transparent');
-                    tab.classList.add('hover:text-white', 'hover:border-white/50'); // Add active hover states back
-                    tab.classList.remove('hover:text-gray-400', 'hover:border-gray-500'); // Remove inactive hover states
-                    document.getElementById(targetId).classList.remove('hidden');
-                });
-            });
-            // Set initial active tab (Detalles Personales)
-            const initialTab = document.getElementById('detalles-personales-tab');
-            if (initialTab) {
-                initialTab.click();
-            }
-        });
-    </script>
+
 </body></html>
