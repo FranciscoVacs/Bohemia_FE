@@ -3,7 +3,7 @@
 ## 🌟 Información General
 
 **Base URL:** `http://localhost:3000/api`
-**Versión:** 2.1
+**Versión:** 2.2
 **Autenticación:** JWT Bearer Token
 **Última actualización:** Enero 2026
 
@@ -68,14 +68,12 @@ Todas las respuestas de la API siguen esta estructura:
 }
 ```
 
-### 🚀 Cambios Principales v2.1
-- **🖼️ Nuevos endpoints `/api/event-images` (reemplaza `/api/gallery`)**
-- **📸 Gestión completa de imágenes de eventos con Cloudinary**
-- **🗑️ Endpoints para eliminar imágenes individuales o por evento**
-- **Endpoints `/me` para usuarios autenticados**
-- **Seguridad mejorada en todas las rutas**
-- **Estructura simplificada de compras/tickets**
-- **PDFs seguros con verificación de propiedad**
+### 🚀 Cambios Principales v2.2
+- **📸 Renombrado `/api/event-images` → `/api/event-photos`**
+- **🎨 Nuevo estado de galería (`galleryStatus: PUBLISHED | ARCHIVED`)**
+- **🔓 Endpoints públicos para galerías: `/galleries` y `/gallery/:eventId`**
+- **📐 Validación de dimensiones para cover photo: 1000x800 px exactos**
+- **📦 Upload de hasta 50 fotos por subida**
 
 ---
 
@@ -319,7 +317,7 @@ Todas las respuestas de la API siguen esta estructura:
 | `minAge` | number | Edad mínima requerida |
 | `location` | number | ID de la ubicación |
 | `dj` | number | ID del DJ |
-| `cover_photo` | file | Imagen de portada (jpg/jpeg/png) |
+| `coverPhoto` | file | Imagen de portada (jpg/jpeg/png) - **Debe ser exactamente 1000x800 px** |
 
 **Response:**
 ```json
@@ -351,6 +349,32 @@ Todas las respuestas de la API siguen esta estructura:
 **DELETE** `/event/:id`
 - **Permisos:** 🔒 Autenticado + 👑 Admin
 - **Parámetros:** `id` (número)
+
+### Actualizar Estado de Galería
+**PATCH** `/event/:id/gallery-status`
+- **Permisos:** 🔒 Autenticado + 👑 Admin
+- **Parámetros:** `id` (número)
+- **Propósito:** Cambiar el estado de la galería entre PUBLISHED y ARCHIVED
+
+**Request Body:**
+```json
+{
+  "galleryStatus": "PUBLISHED" // o "ARCHIVED"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Gallery status updated",
+  "data": {
+    "id": 1,
+    "galleryStatus": "PUBLISHED"
+  }
+}
+```
+
+> **Nota:** Por defecto, los eventos nuevos tienen `galleryStatus: ARCHIVED`. Solo las galerías con estado `PUBLISHED` son visibles para usuarios públicos.
 
 ---
 
@@ -461,17 +485,17 @@ Todas las respuestas de la API siguen esta estructura:
 **Response:**
 ```json
 {
-  "message": "Purchase created",
+  "message": "Purchase created successfully",
   "data": {
-    "id": 1,
-    "purchaseDate": "2026-01-15T10:30:00.000Z",
-    "ticketQuantity": 2,
-    "totalPrice": 5000,
-    "ticketType": 1,
-    "user": 1
+    "purchaseId": 1,
+    "ticketNumbers": 2,
+    "totalPrice": 5500,
+    "paymentStatus": "approved"
   }
 }
 ```
+
+> **Nota:** La compra genera los tickets inmediatamente con estado `approved`.
 
 ### Descargar PDF de Ticket
 **GET** `/purchase/:purchaseId/ticket/:ticketId`
@@ -763,12 +787,35 @@ Todas las respuestas de la API siguen esta estructura:
 
 ---
 
-## 🖼️ Event Images (Imágenes de Eventos)
-**Base URL:** `/api/event-images`
+## 📸 Event Photos (Fotos de Eventos)
+**Base URL:** `/api/event-photos`
 
-### Obtener Imágenes por Evento
-**GET** `/event-images/:eventId`
-- **Permisos:** 🔒 Autenticado
+### Listar Eventos con Galerías Publicadas
+**GET** `/event-photos/galleries`
+- **Permisos:** 🔓 Público
+- **Propósito:** Obtener lista de eventos que tienen galerías publicadas
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "eventName": "Fiesta Bohemia",
+      "beginDatetime": "2026-02-14T20:00:00.000Z",
+      "finishDatetime": "2026-02-15T04:00:00.000Z",
+      "coverPhoto": "http://localhost:3000/public/uploads/foto.jpg",
+      "location": { "locationName": "Club Bohemia", "address": "..." },
+      "dj": { "djApodo": "DJ Beats" }
+    }
+  ]
+}
+```
+
+### Obtener Fotos de un Evento (Autenticado)
+**GET** `/event-photos/gallery/:eventId`
+- **Permisos:** 🔓 Autenticado (solo galerías PUBLISHED)
 - **Parámetros:** `eventId` (number)
 
 **Response:**
@@ -779,65 +826,52 @@ Todas las respuestas de la API siguen esta estructura:
     {
       "id": 1,
       "cloudinaryUrl": "https://res.cloudinary.com/...",
-      "publicId": "events/evento-name/images-123456789",
+      "publicId": "events/evento-name/photos-123456789",
       "originalName": "foto1.jpg",
-      "createdAt": "2025-09-23T12:00:00.000Z",
-      "updatedAt": "2025-09-23T12:00:00.000Z",
       "event": 1
     }
   ]
 }
 ```
 
-### Obtener Imagen Específica
-**GET** `/event-images/:id`
-- **Permisos:** 🔒 Autenticado
-
-### Subir Imágenes a Evento
-**POST** `/event-images/upload/:eventId`
+### Subir Fotos a Evento
+**POST** `/event-photos/upload/:eventId`
 - **Permisos:** 👑 Admin
 - **Content-Type:** `multipart/form-data`
-- **Body:** `images` (files[]) - Hasta 10 imágenes (máx. 15MB cada una)
+- **Body:** `photos` (files[]) - Hasta 50 fotos (máx. 15MB cada una)
+- **Tipos permitidos:** jpg, jpeg, png, webp
 - **Almacenamiento:** Cloudinary en carpeta `events/{eventName}/`
 
 **Response:**
 ```json
 {
   "success": true,
-  "message": "5 images uploaded successfully",
+  "message": "5 fotos subidas exitosamente",
   "data": [...]
 }
 ```
 
-### Listar Todas las Imágenes
-**GET** `/event-images/`
+### Listar Todas las Fotos
+**GET** `/event-photos/`
 - **Permisos:** 👑 Admin
 
-### Actualizar Imagen
-**PUT** `/event-images/:id`
+### Actualizar Foto
+**PUT** `/event-photos/:id`
 - **Permisos:** 👑 Admin
 
-**Request Body:**
-```json
-{
-  "originalName": "nuevo-nombre.jpg"
-}
-```
-
-### Eliminar Imagen Específica
-**DELETE** `/event-images/:id`
+### Eliminar Foto Específica
+**DELETE** `/event-photos/:id`
 - **Permisos:** 👑 Admin
-- **Acción:** Elimina de Cloudinary y base de datos
 
-### Eliminar Todas las Imágenes de un Evento
-**DELETE** `/event-images/event/:eventId`
+### Eliminar Todas las Fotos de un Evento
+**DELETE** `/event-photos/event/:eventId`
 - **Permisos:** 👑 Admin
 
 **Response:**
 ```json
 {
   "success": true,
-  "message": "15 images deleted successfully"
+  "message": "15 fotos eliminadas exitosamente"
 }
 ```
 
@@ -1144,5 +1178,5 @@ Content-Type: multipart/form-data
 
 ---
 
-**🎯 Documentación actualizada - API v2.1**
+**🎯 Documentación actualizada - API v2.2**
 **📅 Última actualización: Enero 2026**

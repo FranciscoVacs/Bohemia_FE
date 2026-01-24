@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bohemia - Panel Admin: Listado Simplificado</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter:wght@300;400;600;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-[#050505] text-white font-sans antialiased;
+            }
+        }
+        @layer components {
+            .text-stroke {
+                -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            }
+            .text-gradient {
+                background: linear-gradient(135deg, #00E0FF 0%, #CCFF00 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #00E0FF 0%, #CCFF00 100%);
+            }
+            .btn-icon {
+                @apply p-2 rounded-full hover:bg-white/10 transition-colors flex items-center justify-center;
+            }
+        }
+    </style>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#CCFF00",
+                        secondary: "#00E0FF",
+                        accent: "#CCFF00",
+                        "surface-light": "#121212",
+                        "surface-lighter": "#1E1E1E",
+                    },
+                    fontFamily: {
+                        display: ["Anton", "sans-serif"],
+                        sans: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="min-h-screen flex flex-col bg-[#050505] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]">
+<nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-black/90 backdrop-blur-md border-b border-white/10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-20">
+<div class="flex items-center">
+<span class="font-display text-3xl tracking-wider text-gradient cursor-pointer">BOHEMIA</span>
+<span class="ml-4 px-2 py-0.5 rounded border border-white/20 text-[10px] uppercase tracking-widest text-gray-400 font-bold hidden md:inline-block">Admin Panel</span>
+</div>
+<div class="hidden md:block">
+<div class="ml-10 flex items-baseline space-x-8">
+<a class="text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-wide" href="#">Eventos</a>
+<a class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-wide text-white" href="#">Galerías</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<button class="text-white hover:text-primary transition-colors flex items-center justify-center py-2 focus:outline-none relative">
+<span class="material-symbols-outlined text-4xl">account_circle</span>
+<span class="absolute -top-1 -right-1 bg-primary text-black text-[9px] font-bold px-1.5 py-0.5 rounded-full border border-black uppercase tracking-tighter">ADMIN</span>
+</button>
+<div class="absolute right-0 top-full pt-4 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+<div class="bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_25px_rgba(0,224,255,0.2)] backdrop-blur-xl relative">
+<div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-secondary via-primary to-secondary"></div>
+<div class="py-2">
+<a class="group/item flex items-center gap-3 px-5 py-3 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover/item:text-secondary transition-colors">admin_panel_settings</span>
+                                            Perfil
+                                        </a>
+<div class="h-px bg-white/5 my-1 mx-4"></div>
+<a class="group/item flex items-center gap-3 px-5 py-3 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px] transition-colors">logout</span>
+                                            Cerrar sesión
+                                        </a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<main class="flex-grow pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+<div class="mb-10 animate-fade-in-up">
+<h1 class="font-display text-4xl md:text-5xl uppercase tracking-tighter text-white mb-2">
+                Gestión de <span class="text-gradient">Eventos</span>
+</h1>
+<p class="text-gray-400 font-light tracking-wide text-sm md:text-base">Administra, crea y organiza las próximas fechas de Bohemia.</p>
+</div>
+<section class="mb-12">
+<div class="relative bg-surface-light border border-white/10 rounded-3xl p-8 md:p-12 flex flex-col items-center justify-center text-center overflow-hidden group hover:border-primary/30 transition-all duration-500 shadow-2xl">
+<div class="absolute inset-0 bg-gradient-to-br from-secondary/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-primary/10 blur-[80px] rounded-full pointer-events-none"></div>
+<div class="relative z-10 w-full max-w-2xl">
+<h2 class="text-2xl md:text-3xl font-bold text-white mb-8 uppercase tracking-tight">¿Listo para la próxima fiesta?</h2>
+<button class="w-full bg-gradient-primary text-black font-display text-2xl md:text-3xl uppercase py-5 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(204,255,0,0.3)] hover:shadow-[0_0_50px_rgba(204,255,0,0.5)] flex items-center justify-center gap-4 group/btn">
+<span class="material-symbols-outlined text-4xl group-hover/btn:rotate-90 transition-transform duration-300">add_circle</span>
+                    Crear Nuevo Evento
+                </button>
+</div>
+</div>
+</section>
+<section class="bg-[#0a0a0a] border border-white/10 rounded-3xl overflow-hidden shadow-2xl relative">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary via-primary to-secondary opacity-50"></div>
+<div class="p-6 md:p-8 border-b border-white/10 bg-surface-light/50 backdrop-blur-sm">
+<div class="flex flex-col gap-6">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<h3 class="font-display text-2xl text-white uppercase tracking-wide flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">list_alt</span>
+                        Listado de Eventos
+                    </h3>
+<span class="text-xs font-mono text-gray-500 bg-white/5 px-2 py-1 rounded border border-white/5">Total: 12</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 w-full">
+<div class="md:col-span-5 relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-500 group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="block w-full bg-black/40 border border-white/10 text-white rounded-xl py-3 pl-10 pr-4 placeholder-gray-500 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all text-sm" placeholder="Buscar por nombre del evento..." type="text"/>
+</div>
+<div class="md:col-span-3 relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-500 group-focus-within:text-secondary transition-colors">location_city</span>
+</div>
+<select class="block w-full bg-black/40 border border-white/10 text-gray-300 rounded-xl py-3 pl-10 pr-8 focus:outline-none focus:border-secondary/50 focus:ring-1 focus:ring-secondary/50 transition-all text-sm appearance-none cursor-pointer hover:bg-black/60">
+<option value="">Todas las Ciudades</option>
+<option value="rosario">Rosario</option>
+<option value="cordoba">Córdoba</option>
+<option value="buenos_aires">Buenos Aires</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-600 text-sm">expand_more</span>
+</div>
+</div>
+<div class="md:col-span-3 relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-500 group-focus-within:text-secondary transition-colors">pin_drop</span>
+</div>
+<select class="block w-full bg-black/40 border border-white/10 text-gray-300 rounded-xl py-3 pl-10 pr-8 focus:outline-none focus:border-secondary/50 focus:ring-1 focus:ring-secondary/50 transition-all text-sm appearance-none cursor-pointer hover:bg-black/60">
+<option value="">Todas las Ubicaciones</option>
+<option value="club_metro">Club Metropolitano</option>
+<option value="hipodromo">Hipódromo</option>
+<option value="estadio">Estadio Cubierto</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-600 text-sm">expand_more</span>
+</div>
+</div>
+<div class="md:col-span-1">
+<button class="w-full h-full bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl flex items-center justify-center transition-colors text-gray-400 hover:text-white" title="Aplicar Filtros">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-white/10 bg-black/20">
+<th class="px-6 py-5 text-xs font-bold text-gray-500 uppercase tracking-widest w-[30%]">Nombre del Evento</th>
+<th class="px-6 py-5 text-xs font-bold text-gray-500 uppercase tracking-widest w-[20%]">
+<div class="flex items-center gap-1 cursor-pointer hover:text-white">
+                                    Fecha
+                                    <span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
+</div>
+</th>
+<th class="px-6 py-5 text-xs font-bold text-gray-500 uppercase tracking-widest w-[25%]">Ubicación</th>
+<th class="px-6 py-5 text-xs font-bold text-gray-500 uppercase tracking-widest w-[15%]">Estado</th>
+<th class="px-6 py-5 text-xs font-bold text-gray-500 uppercase tracking-widest text-right w-[10%]">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="group hover:bg-white/[0.02] transition-colors duration-200">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-gray-800 overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors">
+<img alt="Thumbnail" class="w-full h-full object-cover opacity-70 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd7_o1LkNl0Cytflj-vPYVQ2SvXGwLDzLWwNpj3rEbaD7caLRfpkk4wO3NOdP0aDPpa7_WJae6KuR1xPAy3bSyrsYHy1ZTvfy6u9FQOAMMUzT7B196dG3h1hazmfq_swJGdE1jADzKPJJilehoctsUoU58y-Td2kjPwB94lbW9y8Zuh0GfmR9uKly9iNAJeZbWMH3XrRbjWU2o96PMuY8VlIadIkadp1TD0anyiYukJOtsVY4aNzT2E3pwR8NQstfAqOaJ33IukWY6"/>
+</div>
+<div>
+<div class="font-bold text-white text-base group-hover:text-primary transition-colors">Bohemia Rosario</div>
+<div class="text-xs text-gray-500">Edición Especial Verano</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-white font-medium">16 Ene, 2024</span>
+<span class="text-xs text-gray-500">22:00 HS</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-gray-400">
+<span class="material-symbols-outlined text-[16px] text-secondary">location_on</span>
+<span>Club Metropolitano, Rosario</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                                    Publicado
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end items-center gap-2">
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all" title="Ventas">
+<span class="material-symbols-outlined text-[18px]">bar_chart</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary flex items-center justify-center transition-all" title="Gestionar Galería">
+<span class="material-symbols-outlined text-[18px]">photo_library</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-500 flex items-center justify-center transition-all" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-white/[0.02] transition-colors duration-200">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-gray-800 overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors">
+<img alt="Thumbnail" class="w-full h-full object-cover opacity-70 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHdf2tfrPxze7Fbe5wGkX8FsXU6z85roiPfbw_gpqM1xES_E26nx-_wrE0ELuQN7tE7aEaidqRTtuFA9ZjK_PBJGdSJlw1bM_S8w0fTNxTSObYguCuQ88erVnVfZpLM-n9R0SFPRz5rU0Ys1_gavjipZTr2Be5AdSFf35qNYRg2vDU4A_kNUqCczOs05ffOCLxN16xkH3If_7HGhcR8oIy_PvERMdBjWrx4lRc41vKK2YFPV8-J1mbnc39G6_qcWZZMS6YKacissRG"/>
+</div>
+<div>
+<div class="font-bold text-white text-base group-hover:text-primary transition-colors">Bohemia Córdoba</div>
+<div class="text-xs text-gray-500">Apertura de Temporada</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-white font-medium">23 Feb, 2024</span>
+<span class="text-xs text-gray-500">23:00 HS</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-gray-400">
+<span class="material-symbols-outlined text-[16px] text-secondary">location_on</span>
+<span>La Plaza de la Música, Cba</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
+                                    Borrador
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end items-center gap-2">
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all" title="Ventas">
+<span class="material-symbols-outlined text-[18px]">bar_chart</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary flex items-center justify-center transition-all" title="Gestionar Galería">
+<span class="material-symbols-outlined text-[18px]">photo_library</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-500 flex items-center justify-center transition-all" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-white/[0.02] transition-colors duration-200">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-gray-800 overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors">
+<img alt="Thumbnail" class="w-full h-full object-cover opacity-70 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOReh4Uj8PSyoUuNF0ZrQQu7JW4wEVGsVVJvAtzCvT2qkGLNlBtpEmxXPeTZp9fHgcwoQkkyDCDvr51hDLVV8-vbFSoRpCIyRGBl98Rssoikn296RN6LPaCjpwgHhPTkeeTwFFzcoPjISfY8ebBgQAPcmviqtZvAV31Si6fwjNfq7IPgRqI-UVrF6BLRuNjxJLr4GFpO49Tk-9AGYJ6v-o8aW3c0O05SP8QieVB0pfLTDFEG85LtI2jwgUtXDsoBNsB-DyA0j8hLJy"/>
+</div>
+<div>
+<div class="font-bold text-white text-base group-hover:text-primary transition-colors">After Party Exclusiva</div>
+<div class="text-xs text-gray-500">Solo Invitados</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-white font-medium">01 Mar, 2024</span>
+<span class="text-xs text-gray-500">02:00 HS</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-gray-400">
+<span class="material-symbols-outlined text-[16px] text-secondary">location_on</span>
+<span>Secret Location</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20">
+                                    Sold Out
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end items-center gap-2">
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all" title="Ventas">
+<span class="material-symbols-outlined text-[18px]">bar_chart</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary flex items-center justify-center transition-all" title="Gestionar Galería">
+<span class="material-symbols-outlined text-[18px]">photo_library</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-500 flex items-center justify-center transition-all" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-white/[0.02] transition-colors duration-200">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-gray-800 overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors">
+<img alt="Thumbnail" class="w-full h-full object-cover opacity-70 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVcfmsAAygjDM7aW5WODuYbTaXgUPyhwWMAfMwxbB5US8o0xGQjwO21ar4A1Dg8WJIJYrL5fbiu62QdQWeiAegKrBEUuhE5-46G3bJ39puLnUqgl3cZ1dkRhwjoWRrE4Yyqbyhwhot7ig5lXu7b71hpmSa3GhorMaHXWpn2opsIL1i7wEwRqmqyo84v0v8mtPeclyRiY1i471DpLAXoxrcrTCGDTrb1qao1pExvWfOF4ENe-Ma-FoRBNHlzuZvNzmt_ifLFYT9410w"/>
+</div>
+<div>
+<div class="font-bold text-white text-base group-hover:text-primary transition-colors">Bohemia Buenos Aires</div>
+<div class="text-xs text-gray-500">Estadio Obras</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-white font-medium">15 Mar, 2024</span>
+<span class="text-xs text-gray-500">21:00 HS</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-gray-400">
+<span class="material-symbols-outlined text-[16px] text-secondary">location_on</span>
+<span>Av. del Libertador 7395</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                                    Publicado
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end items-center gap-2">
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all" title="Ventas">
+<span class="material-symbols-outlined text-[18px]">bar_chart</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary flex items-center justify-center transition-all" title="Gestionar Galería">
+<span class="material-symbols-outlined text-[18px]">photo_library</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-500 flex items-center justify-center transition-all" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-5 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 bg-white/[0.02]">
+<div class="text-xs text-gray-500">
+                    Mostrando <span class="text-white font-bold">1-4</span> de <span class="text-white font-bold">12</span> eventos
+                </div>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-500 bg-white/5 rounded-lg hover:bg-white/10 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled="">
+                        Anterior
+                    </button>
+<div class="flex gap-1">
+<button class="w-8 h-8 text-xs font-bold flex items-center justify-center rounded-lg bg-primary text-black">1</button>
+<button class="w-8 h-8 text-xs font-bold flex items-center justify-center rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors">2</button>
+<button class="w-8 h-8 text-xs font-bold flex items-center justify-center rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors">3</button>
+</div>
+<button class="px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                        Siguiente
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-white/5 bg-black py-6">
+<div class="max-w-7xl mx-auto px-4 text-center">
+<p class="text-[10px] text-gray-600 uppercase tracking-widest">
+            © Bohemia 2024 • Panel de Administración • <a class="hover:text-primary transition-colors" href="#">Soporte</a>
+</p>
+</div>
+</footer>
+
+</body></html>

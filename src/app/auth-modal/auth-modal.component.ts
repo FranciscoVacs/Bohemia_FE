@@ -9,8 +9,7 @@ import { LoginData, RegisterData } from '../models/auth';
   selector: 'app-auth-modal',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './auth-modal.component.html',
-  styleUrl: './auth-modal.component.css'
+  templateUrl: './auth-modal.component.html'
 })
 export class AuthModalComponent {
   private fb = inject(FormBuilder);
@@ -22,6 +21,27 @@ export class AuthModalComponent {
   errorMessage = '';
   isLoading = false;
   showPassword = false;
+  private mouseDownOnBackdrop = false;
+
+  // Solo cierra si mousedown Y mouseup ocurren en el backdrop
+  onBackdropMouseDown(event: MouseEvent): void {
+    // Verifica si el click empezó en el backdrop (no en el modal)
+    this.mouseDownOnBackdrop = event.target === event.currentTarget;
+  }
+
+  onBackdropMouseUp(event: MouseEvent): void {
+    // Solo cierra si el mousedown también fue en el backdrop
+    if (this.mouseDownOnBackdrop && event.target === event.currentTarget) {
+      this.closeModal();
+    }
+    this.mouseDownOnBackdrop = false;
+  }
+
+  onModalMouseUp(event: MouseEvent): void {
+    // Resetear el estado para evitar que quede "armado" para el siguiente click
+    this.mouseDownOnBackdrop = false;
+    event.stopPropagation();
+  }
 
   constructor() {
     this.loginForm = this.fb.group({
@@ -119,3 +139,4 @@ export class AuthModalComponent {
     this.showPassword = !this.showPassword;
   }
 }
+

@@ -1,0 +1,29 @@
+<div class="min-h-screen bg-linear-to-b from-[#0a0a0a] to-[#111111]">
+    <app-admin-navbar></app-admin-navbar>
+
+    <main class="px-4 md:px-8 py-8 max-w-[1400px] mx-auto">
+        <!-- Sección Hero: Crear Nuevo Evento -->
+        <section class="text-center py-8 md:py-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2 uppercase tracking-wider">
+                Gestión de <span class="text-[#b7ff00] italic">Eventos</span>
+            </h1>
+            <p class="text-white/60 text-sm md:text-base mb-8">
+                Administra, crea y organiza las próximas fechas de Bohemia.
+            </p>
+
+            <div class="bg-white/3 border border-dashed border-[#b7ff00]/30 rounded-2xl p-8 md:p-12 max-w-xl mx-auto">
+                <h2 class="text-white text-xl md:text-2xl font-semibold mb-6">
+                    ¿Listo para la próxima fiesta?
+                </h2>
+                <a routerLink="/admin/eventos/crear"
+                    class="inline-flex items-center gap-3 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black border-none px-8 py-4 text-base md:text-lg font-bold uppercase tracking-wider rounded-full cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(183,255,0,0.3)] no-underline">
+                    <span class="text-2xl font-light">+</span>
+                    Crear Nuevo Evento
+                </a>
+            </div>
+        </section>
+
+        <!-- Sección Lista de Eventos -->
+        <app-event-list class="block mt-8"></app-event-list>
+    </main>
+</div>

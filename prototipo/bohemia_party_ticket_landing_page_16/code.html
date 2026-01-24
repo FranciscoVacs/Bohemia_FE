@@ -58,7 +58,7 @@
     </script>
 </head>
 <body class="min-h-screen flex flex-col bg-[#050505] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]">
-<nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-black/90 backdrop-blur-md border-b border-white/10">
+<nav class="fixed top-0 w-full z-40 transition-all duration-300 bg-black/90 backdrop-blur-md border-b border-white/10">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex items-center justify-between h-20">
 <div class="flex items-center">
@@ -98,7 +98,7 @@
 </div>
 </div>
 </nav>
-<main class="flex-grow pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+<main class="flex-grow pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full filter blur-[2px] opacity-40 select-none pointer-events-none transition-all duration-500">
 <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 animate-fade-in-up">
 <div>
 <a class="inline-flex items-center gap-2 text-gray-500 hover:text-white transition-colors text-sm uppercase tracking-wider font-bold mb-4" href="#">
@@ -245,12 +245,49 @@
 </div>
 </div>
 </main>
-<footer class="border-t border-white/5 bg-black py-6 mt-auto mb-20 md:mb-0">
+<footer class="border-t border-white/5 bg-black py-6 mt-auto mb-20 md:mb-0 filter blur-[2px] opacity-40">
 <div class="max-w-7xl mx-auto px-4 text-center">
 <p class="text-[10px] text-gray-600 uppercase tracking-widest">
                 © Bohemia 2024 • Panel de Administración • <a class="hover:text-primary transition-colors" href="#">Soporte</a>
 </p>
 </div>
 </footer>
+<div class="fixed inset-0 z-[100] flex items-center justify-center px-4 animate-fade-in">
+<div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300"></div>
+<div class="relative bg-[#121212] border border-white/10 rounded-2xl w-full max-w-lg overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.9)] transform transition-all scale-100 animate-slide-up">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary to-primary shadow-[0_0_20px_rgba(204,255,0,0.5)]"></div>
+<div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-primary/10 to-transparent opacity-30 pointer-events-none"></div>
+<div class="p-8 md:p-10 text-center relative z-10">
+<div class="w-20 h-20 mx-auto mb-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-lg relative group">
+<div class="absolute inset-0 rounded-full bg-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<span class="material-symbols-outlined text-4xl text-transparent bg-clip-text bg-gradient-to-br from-secondary to-primary">rocket_launch</span>
+</div>
+<h2 class="text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-wide mb-4 leading-tight">
+                ¿Estás seguro de publicar?
+            </h2>
+<p class="text-gray-400 text-sm md:text-base leading-relaxed mb-8 max-w-sm mx-auto">
+                Una vez publicada, la galería será visible para todos los usuarios del Social Club.
+            </p>
+<div class="flex items-center justify-center mb-8">
+<label class="inline-flex items-center gap-3 cursor-pointer group select-none">
+<div class="relative flex items-center justify-center">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="w-5 h-5 border border-white/30 rounded bg-white/5 peer-checked:bg-primary peer-checked:border-primary transition-all duration-200"></div>
+<span class="material-symbols-outlined text-black text-[14px] font-bold absolute opacity-0 peer-checked:opacity-100 transition-opacity duration-200 pointer-events-none">check</span>
+</div>
+<span class="text-sm text-gray-400 group-hover:text-white transition-colors">Notificar a los asistentes por email</span>
+</label>
+</div>
+<div class="flex flex-col-reverse sm:flex-row gap-3">
+<button class="flex-1 py-3.5 px-6 rounded-xl border border-white/10 text-white font-bold uppercase tracking-wider text-xs hover:bg-white/5 hover:border-white/30 transition-all duration-200">
+                    Cancelar
+                </button>
+<button class="flex-1 py-3.5 px-6 rounded-xl bg-gradient-primary text-black font-bold uppercase tracking-wider text-xs shadow-[0_0_20px_rgba(204,255,0,0.2)] hover:shadow-[0_0_30px_rgba(0,224,255,0.4)] transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
+                    Sí, Publicar Ahora
+                </button>
+</div>
+</div>
+</div>
+</div>
 
 </body></html>
