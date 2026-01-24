@@ -38,6 +38,9 @@ export class EventListComponent implements OnInit {
     currentPage = signal(1);
     itemsPerPage = 4;
 
+    // UI State
+    showExtraFilters = signal(false);
+
     // Ciudades únicas (computado desde los eventos cargados)
     cities = computed(() => {
         const citySet = new Set<string>();
@@ -51,13 +54,13 @@ export class EventListComponent implements OnInit {
 
     // Ubicaciones únicas (computado desde los eventos cargados)
     uniqueLocations = computed(() => {
-        const locationMap = new Map<string, string>();
+        const locationSet = new Set<string>();
         this.events().forEach(event => {
             if (event.location?.locationName) {
-                locationMap.set(event.location.locationName, event.location.locationName);
+                locationSet.add(event.location.locationName);
             }
         });
-        return Array.from(locationMap.values()).sort();
+        return Array.from(locationSet).sort();
     });
 
     // Eventos filtrados y ordenados
@@ -166,6 +169,11 @@ export class EventListComponent implements OnInit {
                 this.loading.set(false);
             }
         });
+    }
+
+    // Toggle filtros adicionales
+    toggleFilters() {
+        this.showExtraFilters.update(v => !v);
     }
 
     // Ordenar por columna

@@ -1,218 +1,313 @@
-<section id="listado-eventos" class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
-    <!-- Header -->
-    <div
-        class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-white/10">
-        <h2 class="flex items-center gap-3 text-white text-lg md:text-xl font-bold uppercase tracking-wide">
-            <span class="material-symbols-outlined">list</span>
-            Listado de Eventos
-        </h2>
-        <span class="bg-[#b7ff00]/10 text-[#b7ff00] px-4 py-1.5 rounded-full text-sm font-semibold">
-            Total: {{ filteredEvents().length }}
-        </span>
-    </div>
+<section id="listado-eventos" class="bg-[#0a0a0a] border border-white/10 rounded-3xl overflow-hidden shadow-2xl relative">
+    <!-- Top gradient line -->
+    <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-secondary via-primary to-secondary opacity-50"></div>
 
-    <!-- Filtros -->
-    <div class="flex flex-col lg:flex-row gap-4 mb-6">
-        <!-- Búsqueda -->
-        <div class="flex-1 relative">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-white/40">🔍</span>
-            <input type="text" placeholder="Buscar por nombre del evento..." [ngModel]="searchQuery()"
-                (ngModelChange)="searchQuery.set($event); currentPage.set(1)"
-                class="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-11 pr-4 text-white text-sm placeholder-white/40 focus:outline-none focus:border-[#b7ff00] focus:bg-[#b7ff00]/5 transition-all">
+    <!-- Header con filtros -->
+    <div class="p-6 md:p-8 border-b border-white/10 bg-[#121212]/50 backdrop-blur-sm">
+        <div class="flex flex-col gap-6">
+            <!-- Título y Total -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <h3 class="font-display text-2xl text-white uppercase tracking-wide flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">list_alt</span>
+                    Listado de Eventos
+                </h3>
+                <span class="text-xs font-mono text-gray-500 bg-white/5 px-2 py-1 rounded border border-white/5">
+                    Total: {{ filteredEvents().length }}
+                </span>
+            </div>
+
+            <!-- Filtros -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 w-full">
+                <!-- Búsqueda -->
+                <div class="md:col-span-5 relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-gray-500 group-focus-within:text-primary transition-colors">search</span>
+                    </div>
+                    <input type="text" 
+                        placeholder="Buscar por nombre del evento..." 
+                        [ngModel]="searchQuery()"
+                        (ngModelChange)="searchQuery.set($event); currentPage.set(1)"
+                        class="block w-full bg-black/40 border border-white/10 text-white rounded-xl py-3 pl-10 pr-4 placeholder-gray-500 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all text-sm" />
+                </div>
+
+                <!-- Ciudad -->
+                <div class="md:col-span-3 relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-gray-500 group-focus-within:text-secondary transition-colors">location_city</span>
+                    </div>
+                    <select [ngModel]="selectedCity()" 
+                        (ngModelChange)="selectedCity.set($event); currentPage.set(1)"
+                        class="block w-full bg-black/40 border border-white/10 text-gray-300 rounded-xl py-3 pl-10 pr-8 focus:outline-none focus:border-secondary/50 focus:ring-1 focus:ring-secondary/50 transition-all text-sm appearance-none cursor-pointer hover:bg-black/60">
+                        <option value="" class="bg-[#1a1a1a]">Todas las Ciudades</option>
+                        @for (city of cities(); track city) {
+                        <option [value]="city" class="bg-[#1a1a1a]">{{ city }}</option>
+                        }
+                    </select>
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-gray-600 text-sm">expand_more</span>
+                    </div>
+                </div>
+
+                <!-- Ubicación -->
+                <div class="md:col-span-3 relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-gray-500 group-focus-within:text-secondary transition-colors">pin_drop</span>
+                    </div>
+                    <select [ngModel]="selectedLocation()" 
+                        (ngModelChange)="selectedLocation.set($event); currentPage.set(1)"
+                        class="block w-full bg-black/40 border border-white/10 text-gray-300 rounded-xl py-3 pl-10 pr-8 focus:outline-none focus:border-secondary/50 focus:ring-1 focus:ring-secondary/50 transition-all text-sm appearance-none cursor-pointer hover:bg-black/60">
+                        <option value="" class="bg-[#1a1a1a]">Todas las Ubicaciones</option>
+                        @for (loc of uniqueLocations(); track loc) {
+                        <option [value]="loc" class="bg-[#1a1a1a]">{{ loc }}</option>
+                        }
+                    </select>
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-gray-600 text-sm">expand_more</span>
+                    </div>
+                </div>
+
+                <!-- Botón Filtros (abre más opciones) -->
+                <div class="md:col-span-1">
+                    <button (click)="toggleFilters()"
+                        class="w-full h-full bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl flex items-center justify-center transition-colors text-gray-400 hover:text-white cursor-pointer min-h-[48px]"
+                        title="Más Filtros">
+                        <span class="material-symbols-outlined">filter_list</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtros adicionales (mes y año) -->
+            @if (showExtraFilters()) {
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-white/5">
+                <select [ngModel]="selectedMonth()" (ngModelChange)="selectedMonth.set($event); currentPage.set(1)"
+                    class="bg-black/40 border border-white/10 text-gray-300 rounded-xl py-3 px-4 focus:outline-none focus:border-secondary/50 transition-all text-sm appearance-none cursor-pointer hover:bg-black/60">
+                    <option value="" class="bg-[#1a1a1a]">Todos los Meses</option>
+                    <option value="1" class="bg-[#1a1a1a]">Enero</option>
+                    <option value="2" class="bg-[#1a1a1a]">Febrero</option>
+                    <option value="3" class="bg-[#1a1a1a]">Marzo</option>
+                    <option value="4" class="bg-[#1a1a1a]">Abril</option>
+                    <option value="5" class="bg-[#1a1a1a]">Mayo</option>
+                    <option value="6" class="bg-[#1a1a1a]">Junio</option>
+                    <option value="7" class="bg-[#1a1a1a]">Julio</option>
+                    <option value="8" class="bg-[#1a1a1a]">Agosto</option>
+                    <option value="9" class="bg-[#1a1a1a]">Septiembre</option>
+                    <option value="10" class="bg-[#1a1a1a]">Octubre</option>
+                    <option value="11" class="bg-[#1a1a1a]">Noviembre</option>
+                    <option value="12" class="bg-[#1a1a1a]">Diciembre</option>
+                </select>
+
+                <select [ngModel]="selectedYear()" (ngModelChange)="selectedYear.set($event); currentPage.set(1)"
+                    class="bg-black/40 border border-white/10 text-gray-300 rounded-xl py-3 px-4 focus:outline-none focus:border-secondary/50 transition-all text-sm appearance-none cursor-pointer hover:bg-black/60">
+                    <option value="" class="bg-[#1a1a1a]">Todos los Años</option>
+                    @for (year of availableYears(); track year) {
+                    <option [value]="year" class="bg-[#1a1a1a]">{{ year }}</option>
+                    }
+                </select>
+            </div>
+            }
         </div>
-
-        <!-- Dropdowns -->
-        <div class="flex flex-wrap gap-3 items-center">
-            <select [ngModel]="selectedCity()" (ngModelChange)="selectedCity.set($event); currentPage.set(1)"
-                class="bg-white/5 border border-white/10 rounded-lg py-3 pl-4 pr-9 text-white text-sm cursor-pointer min-w-[130px] focus:outline-none focus:border-[#b7ff00] text-center appearance-none bg-no-repeat bg-size-[20px] bg-position-[right_8px_center]"
-                style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%2224%22 viewBox=%220 -960 960 960%22 width=%2224%22 fill=%22white%22%3E%3Cpath d=%22M480-360 280-560h400L480-360Z%22/%3E%3C/svg%3E');">
-                <option value="" class="bg-[#1a1a1a] text-left">Ciudad</option>
-                @for (city of cities(); track city) {
-                <option [value]="city" class="bg-[#1a1a1a] text-left">{{ city }}</option>
-                }
-            </select>
-
-            <select [ngModel]="selectedLocation()" (ngModelChange)="selectedLocation.set($event); currentPage.set(1)"
-                class="bg-white/5 border border-white/10 rounded-lg py-3 pl-4 pr-9 text-white text-sm cursor-pointer min-w-[130px] focus:outline-none focus:border-[#b7ff00] text-center appearance-none bg-no-repeat bg-size-[20px] bg-position-[right_8px_center]"
-                style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%2224%22 viewBox=%220 -960 960 960%22 width=%2224%22 fill=%22white%22%3E%3Cpath d=%22M480-360 280-560h400L480-360Z%22/%3E%3C/svg%3E');">
-                <option value="" class="bg-[#1a1a1a] text-left">Ubicación</option>
-                @for (loc of uniqueLocations(); track loc) {
-                <option [value]="loc" class="bg-[#1a1a1a] text-left">{{ loc }}</option>
-                }
-            </select>
-
-            <select [ngModel]="selectedMonth()" (ngModelChange)="selectedMonth.set($event); currentPage.set(1)"
-                class="bg-white/5 border border-white/10 rounded-lg py-3 pl-4 pr-9 text-white text-sm cursor-pointer min-w-[120px] focus:outline-none focus:border-[#b7ff00] text-center appearance-none bg-no-repeat bg-size-[20px] bg-position-[right_8px_center]"
-                style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%2224%22 viewBox=%220 -960 960 960%22 width=%2224%22 fill=%22white%22%3E%3Cpath d=%22M480-360 280-560h400L480-360Z%22/%3E%3C/svg%3E');">
-                <option value="" class="bg-[#1a1a1a] text-left">Mes</option>
-                <option value="1" class="bg-[#1a1a1a] text-left">Enero</option>
-                <option value="2" class="bg-[#1a1a1a] text-left">Febrero</option>
-                <option value="3" class="bg-[#1a1a1a] text-left">Marzo</option>
-                <option value="4" class="bg-[#1a1a1a] text-left">Abril</option>
-                <option value="5" class="bg-[#1a1a1a] text-left">Mayo</option>
-                <option value="6" class="bg-[#1a1a1a] text-left">Junio</option>
-                <option value="7" class="bg-[#1a1a1a] text-left">Julio</option>
-                <option value="8" class="bg-[#1a1a1a] text-left">Agosto</option>
-                <option value="9" class="bg-[#1a1a1a] text-left">Septiembre</option>
-                <option value="10" class="bg-[#1a1a1a] text-left">Octubre</option>
-                <option value="11" class="bg-[#1a1a1a] text-left">Noviembre</option>
-                <option value="12" class="bg-[#1a1a1a] text-left">Diciembre</option>
-            </select>
-
-            <select [ngModel]="selectedYear()" (ngModelChange)="selectedYear.set($event); currentPage.set(1)"
-                class="bg-white/5 border border-white/10 rounded-lg py-3 pl-4 pr-9 text-white text-sm cursor-pointer min-w-[100px] focus:outline-none focus:border-[#b7ff00] text-center appearance-none bg-no-repeat bg-size-[20px] bg-position-[right_8px_center]"
-                style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%2224%22 viewBox=%220 -960 960 960%22 width=%2224%22 fill=%22white%22%3E%3Cpath d=%22M480-360 280-560h400L480-360Z%22/%3E%3C/svg%3E');">
-                <option value="" class="bg-[#1a1a1a] text-left">Año</option>
-                @for (year of availableYears(); track year) {
-                <option [value]="year" class="bg-[#1a1a1a] text-left">{{ year }}</option>
-                }
-            </select>
-        </div>
     </div>
 
-    <!-- Tabla o Estado -->
-    @if (loading()) {
-    <div class="min-h-[200px] flex items-center justify-center">
-        <p class="text-white/50">Cargando eventos...</p>
-    </div>
-    } @else if (error()) {
-    <div class="min-h-[200px] flex items-center justify-center">
-        <p class="text-red-400">{{ error() }}</p>
-    </div>
-    } @else if (paginatedEvents().length === 0) {
-    <div class="min-h-[200px] flex items-center justify-center">
-        <p class="text-white/50">No hay eventos que coincidan con los filtros</p>
-    </div>
-    } @else {
-    <!-- Tabla de Eventos -->
+    <!-- Contenido -->
     <div class="overflow-x-auto">
-        <table class="w-full table-fixed">
+        @if (loading()) {
+        <div class="min-h-[300px] flex items-center justify-center">
+            <p class="text-white/50">Cargando eventos...</p>
+        </div>
+        } @else if (error()) {
+        <div class="min-h-[300px] flex items-center justify-center">
+            <p class="text-red-400">{{ error() }}</p>
+        </div>
+        } @else if (paginatedEvents().length === 0) {
+        <div class="min-h-[300px] flex items-center justify-center">
+            <p class="text-white/50">No hay eventos que coincidan con los filtros</p>
+        </div>
+        } @else {
+
+        <!-- Vista Mobile: Cards -->
+        <div class="md:hidden flex flex-col divide-y divide-white/5">
+            @for (event of paginatedEvents(); track event.id) {
+            <div class="p-6 bg-[#121212] relative">
+                <!-- Badge de estado -->
+                <div class="absolute top-6 right-6 z-10">
+                    @if (event.isPublished) {
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
+                        Publicado
+                    </span>
+                    } @else {
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
+                        Borrador
+                    </span>
+                    }
+                </div>
+
+                <!-- Header: Imagen + Nombre -->
+                <div class="flex items-start gap-4 mb-5 pr-20">
+                    <div class="w-16 h-16 rounded-xl bg-gray-800 overflow-hidden border border-white/10 shadow-lg shrink-0">
+                        <img [src]="event.coverPhoto" [alt]="event.eventName" class="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                        <h3 class="font-display text-xl text-white tracking-wide leading-tight mb-1">{{ event.eventName }}</h3>
+                        <div class="flex items-center gap-1 text-gray-400">
+                            <span class="material-symbols-outlined text-[14px] text-secondary">location_city</span>
+                            <span class="text-xs font-bold uppercase tracking-wide">{{ event.location.city.cityName }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info: Fecha y Ubicación -->
+                <div class="grid grid-cols-2 gap-4 mb-6 p-4 rounded-2xl bg-black/40 border border-white/5">
+                    <div class="flex flex-col gap-1">
+                        <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Fecha</span>
+                        <div class="text-sm text-white font-medium flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-gray-400">calendar_month</span>
+                            {{ formatDate(event.beginDatetime) }}
+                        </div>
+                        <div class="text-xs text-gray-500 pl-6">{{ formatTime(event.beginDatetime) }}</div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Ubicación</span>
+                        <div class="text-sm text-white font-medium flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-gray-400">pin_drop</span>
+                            <span class="truncate">{{ event.location.locationName }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acciones -->
+                <div class="grid grid-cols-4 gap-2">
+                    <button (click)="viewStats(event)"
+                        class="h-10 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all border border-white/5 cursor-pointer"
+                        title="Estadísticas">
+                        <span class="material-symbols-outlined text-[20px]">bar_chart</span>
+                    </button>
+                    <button (click)="viewGallery(event)"
+                        class="h-10 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all border border-white/5 cursor-pointer relative"
+                        [class.text-primary]="event.isGalleryPublished"
+                        title="Galería">
+                        <span class="material-symbols-outlined text-[20px]">photo_library</span>
+                        @if (event.isGalleryPublished) {
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
+                        }
+                    </button>
+                    <button (click)="editEvent(event)"
+                        class="h-10 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-secondary flex items-center justify-center transition-all border border-white/5 cursor-pointer"
+                        title="Editar">
+                        <span class="material-symbols-outlined text-[20px]">edit</span>
+                    </button>
+                    <button (click)="deleteEvent(event)"
+                        class="h-10 rounded-lg bg-white/5 hover:bg-red-500/10 text-gray-400 hover:text-red-500 flex items-center justify-center transition-all border border-white/5 cursor-pointer"
+                        title="Eliminar">
+                        <span class="material-symbols-outlined text-[20px]">delete</span>
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- Vista Desktop: Tabla -->
+        <table class="w-full text-left border-collapse hidden md:table">
             <thead>
-                <tr class="border-b border-white/10 text-white/60 text-sm uppercase tracking-wide">
-                    <!-- Evento - Ordenable (35%) -->
-                    <th class="text-left py-4 px-2 w-[35%]">
-                        <button (click)="sortByColumn('name')"
-                            class="flex items-center gap-2 font-medium hover:text-[#b7ff00] transition-colors cursor-pointer"
-                            [class.text-[#b7ff00]]="isColumnActive('name')">
-                            Evento
-                            <span class="text-xs" [class.opacity-40]="!isColumnActive('name')">{{ getSortIcon('name')
-                                }}</span>
-                        </button>
+                <tr class="border-b border-white/10 bg-black/20">
+                    <th class="px-6 py-5 text-xs font-bold text-gray-500 uppercase tracking-widest w-[30%]">
+                        Nombre del Evento
                     </th>
-
-                    <!-- Fecha - Ordenable (15%) -->
-                    <th class="text-left py-4 px-2 w-[15%]">
+                    <th class="px-6 py-5 text-xs font-bold text-gray-500 uppercase tracking-widest w-[20%]">
                         <button (click)="sortByColumn('date')"
-                            class="flex items-center gap-2 font-medium hover:text-[#b7ff00] transition-colors cursor-pointer"
-                            [class.text-[#b7ff00]]="isColumnActive('date')">
+                            class="flex items-center gap-1 cursor-pointer hover:text-white transition-colors"
+                            [class.text-primary]="isColumnActive('date')">
                             Fecha
-                            <span class="text-xs" [class.opacity-40]="!isColumnActive('date')">{{ getSortIcon('date')
-                                }}</span>
+                            <span class="material-symbols-outlined text-[14px]">
+                                {{ sortDirection() === 'asc' && isColumnActive('date') ? 'arrow_drop_up' : 'arrow_drop_down' }}
+                            </span>
                         </button>
                     </th>
-
-                    <!-- Ubicación - No ordenable (18%) -->
-                    <th class="text-left py-4 px-2 font-medium hidden md:table-cell w-[18%]">Ubicación</th>
-
-                    <!-- Estado - No ordenable (17%) -->
-                    <th class="text-left py-4 px-2 font-medium hidden lg:table-cell w-[17%]">Estado</th>
-
-                    <!-- Acciones (15%) -->
-                    <th class="text-right py-4 px-2 font-medium w-[15%]">Acciones</th>
+                    <th class="px-6 py-5 text-xs font-bold text-gray-500 uppercase tracking-widest w-[25%]">
+                        Ubicación
+                    </th>
+                    <th class="px-6 py-5 text-xs font-bold text-gray-500 uppercase tracking-widest w-[15%]">
+                        Estado
+                    </th>
+                    <th class="px-6 py-5 text-xs font-bold text-gray-500 uppercase tracking-widest text-right w-[10%]">
+                        Acciones
+                    </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="divide-y divide-white/5">
                 @for (event of paginatedEvents(); track event.id) {
-                <tr [class]="isEventActive(event) 
-                    ? 'border-b border-[#b7ff00]/30 bg-[#b7ff00]/5 hover:bg-[#b7ff00]/10 transition-colors'
-                    : isEventPast(event)
-                        ? 'border-b border-white/5 bg-white/1 hover:bg-white/5 transition-colors opacity-60'
-                        : 'border-b border-white/5 hover:bg-white/5 transition-colors'">
-                    <!-- Evento (imagen + nombre + status) -->
-                    <td class="py-4 px-2">
-                        <div class="flex items-center gap-3">
-                            <div class="relative">
-                                <img [src]="event.coverPhoto" [alt]="event.eventName"
-                                    class="w-12 h-12 rounded-lg object-cover bg-white/10 shrink-0">
-                                <!-- Status indicator dot -->
-                                @if (isEventActive(event)) {
-                                <span
-                                    class="absolute -top-1 -right-1 w-3 h-3 bg-[#b7ff00] rounded-full border-2 border-[#0a0a0a] animate-pulse"></span>
-                                }
+                <tr class="group hover:bg-white/[0.02] transition-colors duration-200">
+                    <!-- Nombre del Evento -->
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-lg bg-gray-800 overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors shrink-0">
+                                <img [src]="event.coverPhoto" [alt]="event.eventName" 
+                                    class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" />
                             </div>
-                            <div class="min-w-0">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <p class="text-white font-semibold text-sm truncate">{{ event.eventName }}</p>
-                                    <!-- Event Status Badge -->
-                                    @if (!event.isPublished) {
-                                    <span
-                                        class="bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">BORRADOR</span>
-                                    }
-                                    @if (isEventActive(event)) {
-                                    <span
-                                        class="bg-[#b7ff00] text-black px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">EN
-                                        VIVO</span>
-                                    } @else if (isEventPast(event)) {
-                                    <span
-                                        class="bg-white/10 text-white/40 px-1.5 py-0.5 rounded text-[10px] font-medium shrink-0">PASADO</span>
-                                    }
+                            <div>
+                                <div class="font-bold text-white text-base group-hover:text-primary transition-colors">
+                                    {{ event.eventName }}
                                 </div>
-                                <p class="text-white/50 text-xs truncate">{{ event.dj.djApodo }}</p>
+                                <div class="text-xs text-gray-500">{{ event.dj.djApodo }}</div>
                             </div>
                         </div>
                     </td>
 
                     <!-- Fecha -->
-                    <td class="py-4 px-2">
-                        <p class="text-white text-sm">{{ formatDate(event.beginDatetime) }}</p>
-                        <p class="text-white/50 text-xs">{{ formatTime(event.beginDatetime) }}</p>
+                    <td class="px-6 py-4">
+                        <div class="flex flex-col">
+                            <span class="text-white font-medium">{{ formatDate(event.beginDatetime) }}</span>
+                            <span class="text-xs text-gray-500">{{ formatTime(event.beginDatetime) }}</span>
+                        </div>
                     </td>
 
                     <!-- Ubicación -->
-                    <td class="py-4 px-2 hidden md:table-cell">
-                        <p class="text-white text-sm truncate">{{ event.location.locationName }}</p>
-                        <p class="text-white/50 text-xs truncate">{{ event.location.city.cityName }}</p>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-2 text-gray-400">
+                            <span class="material-symbols-outlined text-[16px] text-secondary">location_on</span>
+                            <span>{{ event.location.locationName }}, {{ event.location.city.cityName }}</span>
+                        </div>
                     </td>
 
                     <!-- Estado -->
-                    <td class="py-4 px-2 hidden lg:table-cell">
+                    <td class="px-6 py-4">
                         @if (event.isPublished) {
-                        <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-medium">
-                            ✅ PUBLICADO
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                            Publicado
                         </span>
                         } @else {
-                        <span class="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded text-xs font-medium">
-                            📝 BORRADOR
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
+                            Borrador
                         </span>
                         }
                     </td>
 
                     <!-- Acciones -->
-                    <td class="py-4 px-2">
-                        <div class="flex justify-end gap-1">
-                            <button (click)="viewGallery(event)"
-                                class="relative p-2 hover:bg-white/10 rounded-lg transition-colors cursor-pointer group"
-                                [ngClass]="{'text-[#b7ff00]': event.isGalleryPublished, 'text-white/60': !event.isGalleryPublished}"
-                                [title]="event.isGalleryPublished ? '📢 Galería publicada' : '📦 Galería archivada'">
-                                🖼️
-                                <!-- Visual Indicator for Published Status -->
-                                <span *ngIf="event.isGalleryPublished"
-                                    class="absolute top-1 right-1 w-2.5 h-2.5 bg-[#b7ff00] rounded-full border border-black/50 shadow-sm"></span>
-                            </button>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex justify-end items-center gap-2">
                             <button (click)="viewStats(event)"
-                                class="p-2 hover:bg-white/10 rounded-lg transition-colors text-white/60 hover:text-[#b7ff00] cursor-pointer"
-                                title="Ver estadísticas">
-                                📊
+                                class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all cursor-pointer text-gray-400"
+                                title="Estadísticas">
+                                <span class="material-symbols-outlined text-[18px]">bar_chart</span>
+                            </button>
+                            <button (click)="viewGallery(event)"
+                                class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary flex items-center justify-center transition-all cursor-pointer relative"
+                                [class.text-primary]="event.isGalleryPublished"
+                                [class.text-gray-400]="!event.isGalleryPublished"
+                                title="Galería">
+                                <span class="material-symbols-outlined text-[18px]">photo_library</span>
+                                @if (event.isGalleryPublished) {
+                                <span class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full border border-[#0a0a0a]"></span>
+                                }
                             </button>
                             <button (click)="editEvent(event)"
-                                class="p-2 hover:bg-white/10 rounded-lg transition-colors text-white/60 hover:text-[#b7ff00] cursor-pointer"
+                                class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all cursor-pointer text-gray-400"
                                 title="Editar">
-                                ✏️
+                                <span class="material-symbols-outlined text-[18px]">edit</span>
                             </button>
                             <button (click)="deleteEvent(event)"
-                                class="p-2 hover:bg-red-500/20 rounded-lg transition-colors text-white/60 hover:text-red-400 cursor-pointer"
+                                class="w-8 h-8 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-500 flex items-center justify-center transition-all cursor-pointer text-gray-400"
                                 title="Eliminar">
-                                🗑️
+                                <span class="material-symbols-outlined text-[18px]">delete</span>
                             </button>
                         </div>
                     </td>
@@ -220,31 +315,31 @@
                 }
             </tbody>
         </table>
+        }
     </div>
-    }
 
     <!-- Paginación -->
-    <div class="flex flex-col md:flex-row justify-between items-center gap-4 mt-6 pt-6 border-t border-white/10">
-        <span class="text-white/50 text-sm">
-            Mostrando {{ paginatedEvents().length }} de {{ filteredEvents().length }} eventos
-        </span>
+    <div class="p-5 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 bg-white/[0.02]">
+        <div class="text-xs text-gray-500">
+            Mostrando <span class="text-white font-bold">{{ paginatedEvents().length }}</span> de <span class="text-white font-bold">{{ filteredEvents().length }}</span> eventos
+        </div>
         <div class="flex items-center gap-2">
             <button (click)="prevPage()" [disabled]="currentPage() === 1"
-                class="bg-white/5 border border-white/10 text-white py-2 px-4 rounded-lg text-sm hover:bg-[#b7ff00]/10 hover:border-[#b7ff00] hover:text-[#b7ff00] transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:border-white/10 disabled:hover:text-white">
+                class="px-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-500 bg-white/5 rounded-lg hover:bg-white/10 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
                 Anterior
             </button>
-
-            @for (page of [].constructor(totalPages()); track $index) {
-            <button (click)="currentPage.set($index + 1)"
-                [class]="currentPage() === $index + 1 
-            ? 'bg-[#b7ff00] text-black font-bold py-2 px-4 rounded-lg text-sm cursor-pointer' 
-            : 'bg-white/5 border border-white/10 text-white py-2 px-4 rounded-lg text-sm hover:bg-[#b7ff00]/10 hover:border-[#b7ff00] hover:text-[#b7ff00] transition-all cursor-pointer'">
-                {{ $index + 1 }}
-            </button>
-            }
-
+            <div class="flex gap-1">
+                @for (page of [].constructor(totalPages()); track $index) {
+                <button (click)="currentPage.set($index + 1)"
+                    [class]="currentPage() === $index + 1 
+                        ? 'w-8 h-8 text-xs font-bold flex items-center justify-center rounded-lg bg-primary text-black cursor-pointer' 
+                        : 'w-8 h-8 text-xs font-bold flex items-center justify-center rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors cursor-pointer'">
+                    {{ $index + 1 }}
+                </button>
+                }
+            </div>
             <button (click)="nextPage()" [disabled]="currentPage() === totalPages() || totalPages() === 0"
-                class="bg-white/5 border border-white/10 text-white py-2 px-4 rounded-lg text-sm hover:bg-[#b7ff00]/10 hover:border-[#b7ff00] hover:text-[#b7ff00] transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:border-white/10 disabled:hover:text-white">
+                class="px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-white/5 rounded-lg hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
                 Siguiente
             </button>
         </div>
