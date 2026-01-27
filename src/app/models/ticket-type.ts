@@ -15,12 +15,15 @@ export interface TicketType {
 export interface AdminTicketType {
   id: number;
   ticketTypeName: string;
-  beginDatetime: string;
-  finishDatetime: string;
+  beginDatetime?: string;
+  finishDatetime?: string;
   price: number;
   maxQuantity: number;
   availableTickets: number;
   event: number;
+  saleMode: 'manual' | 'scheduled';
+  isManuallyActivated: boolean;
+  isSaleActive: boolean;
 }
 
 export interface AdminCreateTicketType {

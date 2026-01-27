@@ -4,6 +4,7 @@ import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { AdminEvent } from '../../models/event';
 import { ApiResponse } from '../../models/api-response';
+import { EventStats } from '../../models/event-stats';
 
 @Injectable({
     providedIn: 'root'
@@ -21,10 +22,10 @@ export class AdminEventService {
     }
 
     /**
-     * Obtiene un evento por ID
+     * Obtiene un evento por ID (usa endpoint admin para obtener eventos no publicados también)
      */
     getEventById(id: number): Observable<AdminEvent> {
-        return this.http.get<ApiResponse<AdminEvent>>(`${this.apiUrl}/event/${id}`)
+        return this.http.get<ApiResponse<AdminEvent>>(`${this.apiUrl}/event/admin/${id}`)
             .pipe(map(response => response.data));
     }
 
@@ -56,10 +57,18 @@ export class AdminEventService {
         return this.http.patch<ApiResponse<{ id: number; isGalleryPublished: boolean }>>(`${this.apiUrl}/event/${id}/gallery-status`, { isGalleryPublished: isPublished });
     }
 
-    /**
+/**
      * Publica un evento (cambia isPublished a true)
      */
     publishEvent(id: number): Observable<ApiResponse<AdminEvent>> {
         return this.http.patch<ApiResponse<AdminEvent>>(`${this.apiUrl}/event/${id}/publish`, {});
+    }
+
+    /**
+     * Obtiene estadísticas completas de un evento
+     */
+    getEventStats(eventId: number, limit: number = 10): Observable<EventStats> {
+        return this.http.get<ApiResponse<EventStats>>(`${this.apiUrl}/event/${eventId}/stats?limit=${limit}`)
+            .pipe(map(response => response.data));
     }
 }

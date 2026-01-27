@@ -32,5 +32,11 @@ export const adminRoutes: Routes = [
         loadComponent: () => import('./components/gallery-manager/gallery-manager.component')
             .then(m => m.GalleryManagerComponent),
     },
+    {
+        path: 'eventos/:id/estadisticas',
+        canActivate: [adminGuard],
+        loadComponent: () => import('./components/event-stats/event-stats.component')
+            .then(m => m.EventStatsComponent),
+    },
 ];
 

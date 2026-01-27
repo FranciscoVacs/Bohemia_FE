@@ -279,8 +279,7 @@ export class EventListComponent implements OnInit {
     }
 
     viewStats(event: AdminEvent) {
-        console.log('View stats:', event.id);
-        // TODO: Navegar a la página de estadísticas
+        this.router.navigate(['/admin/eventos', event.id, 'estadisticas']);
     }
 
     viewGallery(event: AdminEvent) {

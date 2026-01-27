@@ -1,38 +1,42 @@
 <div class="min-h-screen bg-linear-to-b from-[#0a0a0a] to-[#111111]">
-    <!-- Header -->
+    <!-- Header - Fixed navbar -->
     <nav
-        class="flex justify-between items-center px-4 md:px-8 py-4 bg-black/80 backdrop-blur-md border-b border-[#b7ff00]/20 sticky top-0 z-50">
-        <div class="flex-1">
+        class="fixed top-0 left-0 right-0 flex flex-col md:flex-row justify-between items-center px-4 md:px-8 py-3 md:py-4 bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50 gap-3 md:gap-0">
+        <div class="flex-1 flex justify-start w-full md:w-auto">
             <button (click)="goBackToEventData()"
-                class="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors cursor-pointer bg-transparent border-none">
+                class="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors cursor-pointer bg-transparent border border-white/20 hover:border-white/40 px-4 py-2 rounded-lg">
                 <span>←</span>
-                <span>VOLVER A DATOS DEL EVENTO</span>
+                <span class="hidden sm:inline">VOLVER</span>
             </button>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 order-first md:order-none">
             <span
                 class="bg-[#b7ff00]/20 text-[#b7ff00] px-4 py-1.5 rounded-full font-bold text-xs tracking-wider border border-[#b7ff00]/30">
-                PASO 2 DE 2 · CONFIGURACIÓN FINAL
+                PASO 2 DE 2
             </span>
         </div>
-        <div class="flex-1 flex justify-end gap-3">
+        <div class="flex-1 flex justify-end gap-2 md:gap-3 w-full md:w-auto">
             <button (click)="saveDraftAndExit()"
-                class="text-[#b7ff00] hover:text-white text-sm px-4 py-2 rounded-lg transition-colors cursor-pointer bg-transparent border border-[#b7ff00]/30 hover:bg-[#b7ff00]/10">
-                💾 GUARDAR BORRADOR
+                class="text-[#b7ff00] hover:text-white text-sm px-3 md:px-4 py-2 rounded-lg transition-colors cursor-pointer bg-transparent border border-[#b7ff00]/30 hover:bg-[#b7ff00]/10 flex items-center gap-2">
+                <span>💾</span>
+                <span class="hidden sm:inline">GUARDAR</span>
             </button>
             <button (click)="cancelAndDelete()" [disabled]="deleting()"
-                class="text-red-400 hover:text-red-300 text-sm px-4 py-2 rounded-lg transition-colors cursor-pointer bg-transparent border border-red-500/30 hover:bg-red-500/10">
-                {{ deleting() ? 'Eliminando...' : '🗑️ CANCELAR Y ELIMINAR' }}
+                class="text-red-400 hover:text-red-300 text-sm px-3 md:px-4 py-2 rounded-lg transition-colors cursor-pointer bg-transparent border border-red-500/30 hover:bg-red-500/10 flex items-center gap-2">
+                <span>✕</span>
+                <span class="hidden sm:inline">CANCELAR</span>
             </button>
         </div>
     </nav>
 
-    <main class="px-4 md:px-8 py-8 max-w-5xl mx-auto">
+    <!-- Spacer for fixed navbar -->
+    <div class="h-28 md:h-16"></div>
+
+    <main class="px-4 md:px-8 py-6 md:py-8 max-w-5xl mx-auto">
         <!-- Title -->
-        <div class="mb-8">
-            <p class="text-[#b7ff00] text-xs font-bold uppercase tracking-widest mb-2">PASO 2 DE 2 · CONFIGURACIÓN FINAL
-            </p>
-            <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2 uppercase tracking-wider">
+        <div class="mb-6 md:mb-8">
+            <p class="text-[#b7ff00] text-xs font-bold uppercase tracking-widest mb-2">PASO 2 DE 2 · CONFIGURACIÓN FINAL</p>
+            <h1 class="text-2xl md:text-4xl font-extrabold text-white mb-2 uppercase tracking-wider">
                 CONFIGURACIÓN DE
                 <span class="text-[#b7ff00] italic">TICKETS</span>
             </h1>
@@ -42,12 +46,12 @@
         </div>
 
         <!-- Warning Box -->
-        <div class="mb-8 bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 flex items-start gap-3">
+        <div class="mb-6 md:mb-8 bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 flex items-start gap-3">
             <span class="text-yellow-400 text-xl">⚠️</span>
             <div>
                 <p class="text-yellow-400 font-medium text-sm">ADVERTENCIA</p>
                 <p class="text-yellow-400/80 text-sm">
-                    Si cancelas ahora, se borrará el evento y toda la información cargada en el paso anterior.
+                    Si cancelas ahora, se borrará el evento y toda la información cargada.
                 </p>
             </div>
         </div>
@@ -76,21 +80,61 @@
         } @else {
 
         <!-- Ticket Types Section -->
-        <section class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="flex items-center gap-3 text-white text-lg font-bold uppercase tracking-wide">
+        <section class="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-8 mb-6 md:mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <h2 class="flex items-center gap-3 text-white text-base md:text-lg font-bold uppercase tracking-wide">
                     <span class="text-xl">🎫</span>
                     TIPOS DE TICKETS
                 </h2>
                 <button (click)="toggleNewTicketForm()"
-                    class="text-xs bg-[#b7ff00]/10 text-[#b7ff00] border border-[#b7ff00]/20 px-4 py-2 rounded-lg hover:bg-[#b7ff00]/20 transition-colors uppercase font-bold tracking-wider flex items-center gap-2 cursor-pointer">
+                    class="text-xs bg-[#b7ff00]/10 text-[#b7ff00] border border-[#b7ff00]/20 px-4 py-2 rounded-lg hover:bg-[#b7ff00]/20 transition-colors uppercase font-bold tracking-wider flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
                     <span>+</span> NUEVO TICKET
                 </button>
             </div>
 
-            <!-- Tickets Table -->
+            <!-- Tickets List (Mobile Cards / Desktop Table) -->
             @if (ticketTypes().length > 0) {
-            <div class="overflow-x-auto mb-6">
+            <!-- Mobile: Cards -->
+            <div class="md:hidden space-y-3 mb-6">
+                @for (ticket of ticketTypes(); track ticket.id) {
+                <div class="bg-black/30 rounded-xl p-4 border border-white/10">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-white font-medium">{{ ticket.ticketTypeName }}</span>
+                        <button (click)="deleteTicketType(ticket.id)"
+                            class="p-1.5 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer bg-transparent border-none">
+                            🗑️
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div>
+                            <span class="text-white/40 text-xs">Precio</span>
+                            <p class="text-white font-mono">${{ ticket.price.toLocaleString() }}</p>
+                        </div>
+                        <div>
+                            <span class="text-white/40 text-xs">Stock</span>
+                            <p class="text-white font-mono">{{ ticket.maxQuantity }}</p>
+                        </div>
+                        <div>
+                            <span class="text-white/40 text-xs">Modo</span>
+                            <span class="bg-white/10 text-white/70 px-2 py-0.5 rounded text-xs">
+                                {{ ticket.saleMode === 'scheduled' ? 'Programado' : 'Manual' }}
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-white/40 text-xs">Estado</span>
+                            @if (ticket.isSaleActive) {
+                            <p class="text-[#b7ff00] text-sm">Activo</p>
+                            } @else {
+                            <p class="text-white/40 text-sm">Inactivo</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            
+            <!-- Desktop: Table -->
+            <div class="hidden md:block overflow-x-auto mb-6">
                 <table class="w-full">
                     <thead>
                         <tr class="border-b border-white/10 text-white/50 text-xs uppercase tracking-wider">
@@ -109,18 +153,22 @@
                                 <span class="text-white font-medium">{{ ticket.ticketTypeName }}</span>
                             </td>
                             <td class="py-4 px-2">
-                                <span class="text-white font-mono">{{ ticket.price.toLocaleString() }}</span>
+                                <span class="text-white font-mono">${{ ticket.price.toLocaleString() }}</span>
                             </td>
                             <td class="py-4 px-2">
                                 <span class="text-white font-mono">{{ ticket.maxQuantity }}</span>
                             </td>
                             <td class="py-4 px-2">
                                 <span class="bg-white/10 text-white/70 px-2 py-1 rounded text-xs">
-                                    {{ ticket.beginDatetime ? 'Programado' : 'Manual' }}
+                                    {{ ticket.saleMode === 'scheduled' ? 'Programado' : 'Manual' }}
                                 </span>
                             </td>
                             <td class="py-4 px-2">
+                                @if (ticket.isSaleActive) {
                                 <span class="text-[#b7ff00] text-sm">Activo</span>
+                                } @else {
+                                <span class="text-white/40 text-sm">Inactivo</span>
+                                }
                             </td>
                             <td class="py-4 px-2 text-right">
                                 <button (click)="deleteTicketType(ticket.id)"
@@ -134,7 +182,7 @@
                 </table>
             </div>
             } @else {
-            <div class="bg-white/5 border border-dashed border-white/20 rounded-xl p-8 text-center mb-6">
+            <div class="bg-white/5 border border-dashed border-white/20 rounded-xl p-6 md:p-8 text-center mb-6">
                 <span class="text-4xl mb-4 block">🎫</span>
                 <p class="text-white/60 mb-2">No hay tipos de tickets configurados</p>
                 <p class="text-white/40 text-sm">Agrega al menos un tipo de ticket para poder publicar el evento.</p>
@@ -143,73 +191,124 @@
 
             <!-- New Ticket Form (Inline) -->
             @if (showNewTicketForm()) {
-            <div class="bg-black/30 border border-[#b7ff00]/20 rounded-xl p-5 mb-4">
+            <div class="bg-black/30 border border-[#b7ff00]/20 rounded-xl p-4 md:p-5 mb-4">
                 <h3 class="text-white font-medium mb-4 flex items-center gap-2">
                     <span class="text-[#b7ff00]">+</span> Nuevo Tipo de Ticket
                 </h3>
                 <form [formGroup]="ticketForm" (ngSubmit)="addTicketType()" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                        <div class="md:col-span-2">
-                            <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-1">
-                                Nombre Ticket *
-                            </label>
-                            <input type="text" formControlName="ticketTypeName"
-                                class="w-full bg-black/40 border border-white/10 rounded-lg py-2 px-3 text-sm text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all"
-                                placeholder="Ej: General Early Bird">
-                        </div>
+                    <!-- Row 1: Name -->
+                    <div>
+                        <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-1">
+                            Nombre del Ticket *
+                        </label>
+                        <input type="text" formControlName="ticketTypeName"
+                            class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all"
+                            placeholder="Ej: General Early Bird">
+                    </div>
+
+                    <!-- Row 2: Price and Stock -->
+                    <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-1">
                                 Precio ($)
                             </label>
                             <input type="number" formControlName="price" min="0"
-                                class="w-full bg-black/40 border border-white/10 rounded-lg py-2 px-3 text-sm text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
+                                class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
                         </div>
                         <div>
                             <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-1">
                                 Stock
                             </label>
-                            <input type="number" formControlName="maxQuantity" min="1"
-                                class="w-full bg-black/40 border border-white/10 rounded-lg py-2 px-3 text-sm text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-1">
-                                Modo de Venta
-                            </label>
-                            <select formControlName="saleMode"
-                                class="w-full bg-black/40 border border-white/10 rounded-lg py-2 px-3 text-sm text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all">
-                                <option value="manual">Manual</option>
-                                <option value="scheduled">Programado</option>
-                            </select>
+                            <input type="number" formControlName="maxQuantity" min="0"
+                                class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
                         </div>
                     </div>
 
-                    <!-- Date Fields for Scheduled Mode -->
-                    @if (ticketForm.get('saleMode')?.value === 'scheduled') {
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-1">
-                                Fecha Desde (Inicio Venta)
-                            </label>
-                            <input type="datetime-local" formControlName="beginDatetime"
-                                class="w-full bg-black/40 border border-white/10 rounded-lg py-2 px-3 text-sm text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all">
+                    <!-- Row 3: Sale Mode -->
+                    <div>
+                        <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-2">
+                            Modo de Venta
+                        </label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button" (click)="setSaleMode('manual')"
+                                [class]="ticketForm.get('saleMode')?.value === 'manual' 
+                                    ? 'bg-[#b7ff00]/20 border-[#b7ff00]/50 text-[#b7ff00]' 
+                                    : 'bg-black/40 border-white/10 text-white/60 hover:border-white/30'"
+                                class="py-3 px-4 rounded-lg border text-sm font-medium transition-all cursor-pointer">
+                                Manual
+                            </button>
+                            <button type="button" (click)="setSaleMode('scheduled')"
+                                [class]="ticketForm.get('saleMode')?.value === 'scheduled' 
+                                    ? 'bg-[#b7ff00]/20 border-[#b7ff00]/50 text-[#b7ff00]' 
+                                    : 'bg-black/40 border-white/10 text-white/60 hover:border-white/30'"
+                                class="py-3 px-4 rounded-lg border text-sm font-medium transition-all cursor-pointer">
+                                Programado
+                            </button>
                         </div>
-                        <div>
-                            <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-1">
-                                Fecha Hasta (Fin Venta)
-                            </label>
-                            <input type="datetime-local" formControlName="finishDatetime"
-                                class="w-full bg-black/40 border border-white/10 rounded-lg py-2 px-3 text-sm text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all">
+                    </div>
+
+                    <!-- Toggle for Manual Mode -->
+                    @if (ticketForm.get('saleMode')?.value === 'manual') {
+                    <div class="bg-black/20 rounded-xl p-4 border border-white/5">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-white text-sm font-medium">Estado de venta</p>
+                                <p class="text-white/40 text-xs">Activa o desactiva la venta de este ticket manualmente</p>
+                            </div>
+                            <button type="button" (click)="toggleManualActivation()"
+                                [class]="ticketForm.get('isManuallyActivated')?.value 
+                                    ? 'bg-[#b7ff00]' 
+                                    : 'bg-white/20'"
+                                class="relative inline-flex h-7 w-12 items-center rounded-full transition-colors cursor-pointer border-none">
+                                <span
+                                    [class]="ticketForm.get('isManuallyActivated')?.value 
+                                        ? 'translate-x-6 bg-black' 
+                                        : 'translate-x-1 bg-white'"
+                                    class="inline-block h-5 w-5 transform rounded-full transition-transform"></span>
+                            </button>
+                        </div>
+                        <div class="mt-2">
+                            @if (ticketForm.get('isManuallyActivated')?.value) {
+                            <span class="text-[#b7ff00] text-sm font-medium">Activo - En venta</span>
+                            } @else {
+                            <span class="text-white/40 text-sm">Inactivo - No disponible para venta</span>
+                            }
                         </div>
                     </div>
                     }
 
-                    <div class="flex justify-end gap-3">
+                    <!-- Date Fields for Scheduled Mode -->
+                    @if (ticketForm.get('saleMode')?.value === 'scheduled') {
+                    <div class="bg-black/20 rounded-xl p-4 border border-white/5 space-y-4">
+                        <p class="text-white/60 text-xs">La venta se activará automáticamente en las fechas indicadas (desde las 00:00 del día de inicio hasta las 23:59 del día de fin)</p>
+                        
+                        <!-- Inicio de venta -->
+                        <div>
+                            <label class="block text-[10px] text-[#b7ff00]/70 uppercase tracking-widest mb-2">
+                                Fecha de Inicio de Venta *
+                            </label>
+                            <input type="date" formControlName="beginDate"
+                                class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all [color-scheme:dark]">
+                        </div>
+
+                        <!-- Fin de venta -->
+                        <div>
+                            <label class="block text-[10px] text-[#b7ff00]/70 uppercase tracking-widest mb-2">
+                                Fecha de Fin de Venta *
+                            </label>
+                            <input type="date" formControlName="finishDate"
+                                class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all [color-scheme:dark]">
+                        </div>
+                    </div>
+                    }
+
+                    <div class="flex flex-col sm:flex-row justify-end gap-3 pt-2">
                         <button type="button" (click)="toggleNewTicketForm()"
-                            class="px-4 py-2 text-white/60 hover:text-white transition-colors cursor-pointer bg-transparent border border-white/10 rounded-lg">
+                            class="px-4 py-3 text-white/60 hover:text-white transition-colors cursor-pointer bg-transparent border border-white/10 rounded-lg w-full sm:w-auto">
                             Cancelar
                         </button>
                         <button type="submit" [disabled]="submitting()"
-                            class="bg-[#b7ff00] text-black px-4 py-2 rounded-lg font-bold text-sm hover:bg-[#a8e600] transition-colors cursor-pointer disabled:opacity-50">
+                            class="bg-[#b7ff00] text-black px-6 py-3 rounded-lg font-bold text-sm hover:bg-[#a8e600] transition-colors cursor-pointer disabled:opacity-50 w-full sm:w-auto">
                             {{ submitting() ? 'Guardando...' : 'Agregar Ticket' }}
                         </button>
                     </div>
@@ -219,23 +318,23 @@
         </section>
 
         <!-- Summary Section -->
-        <section class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-8">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        <section class="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-8 mb-6 md:mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
                 <div class="flex items-center gap-4">
-                    <span class="text-3xl">📊</span>
+                    <span class="text-2xl md:text-3xl">📊</span>
                     <div>
                         <h3 class="text-white font-bold uppercase text-sm tracking-wider">RESUMEN DE VENTA</h3>
                         <p class="text-white/50 text-xs">Cálculo automático basado en stock y precios</p>
                     </div>
                 </div>
-                <div class="flex gap-8 md:gap-16">
+                <div class="flex gap-6 md:gap-16 w-full md:w-auto justify-around md:justify-end">
                     <div class="text-center">
-                        <p class="text-white/40 text-[10px] uppercase tracking-widest mb-1">Total Tickets a la Venta</p>
-                        <p class="text-white text-3xl font-bold">{{ totalTickets() }}</p>
+                        <p class="text-white/40 text-[10px] uppercase tracking-widest mb-1">Total Tickets</p>
+                        <p class="text-white text-2xl md:text-3xl font-bold">{{ totalTickets() }}</p>
                     </div>
                     <div class="text-center">
-                        <p class="text-white/40 text-[10px] uppercase tracking-widest mb-1">Ganancia Estimada Total</p>
-                        <p class="text-[#b7ff00] text-3xl font-bold">$ {{ estimatedRevenue().toLocaleString() }}</p>
+                        <p class="text-white/40 text-[10px] uppercase tracking-widest mb-1">Ganancia Estimada</p>
+                        <p class="text-[#b7ff00] text-2xl md:text-3xl font-bold">${{ estimatedRevenue().toLocaleString() }}</p>
                     </div>
                 </div>
             </div>
@@ -243,10 +342,10 @@
 
         <!-- Publish Button -->
         <div class="flex justify-center pb-8">
-            <button (click)="publishEvent()" [disabled]="!canPublish() || publishing()"
-                class="bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black font-bold text-xl uppercase py-4 px-12 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(183,255,0,0.3)] hover:shadow-[0_0_50px_rgba(183,255,0,0.5)] flex items-center gap-3 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100">
+            <button (click)="showPublishConfirmation()" [disabled]="!canPublish() || publishing()"
+                class="w-full md:w-auto bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black font-bold text-lg md:text-xl uppercase py-4 px-8 md:px-12 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(183,255,0,0.3)] hover:shadow-[0_0_50px_rgba(183,255,0,0.5)] flex items-center justify-center gap-3 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100">
                 @if (publishing()) {
-                <span>⏳</span>
+                <span class="animate-spin">⏳</span>
                 Publicando...
                 } @else {
                 <span>✓</span>
@@ -256,7 +355,7 @@
         </div>
 
         @if (!canPublish() && ticketTypes().length === 0) {
-        <p class="text-center text-white/40 text-sm">
+        <p class="text-center text-white/40 text-sm pb-4">
             Debes agregar al menos un tipo de ticket para poder publicar el evento.
         </p>
         }
@@ -264,3 +363,75 @@
         }
     </main>
 </div>
+
+<!-- Cancel Confirmation Modal -->
+@if (showCancelModal()) {
+<div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+    <div class="bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 max-w-md w-full shadow-2xl">
+        <div class="text-center mb-6">
+            <span class="text-5xl mb-4 block">⚠️</span>
+            <h3 class="text-xl font-bold text-white mb-2">¿Cancelar y eliminar?</h3>
+            <p class="text-white/60 text-sm">
+                Se eliminará el evento borrador y todos los tipos de tickets creados. Esta acción no se puede deshacer.
+            </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3">
+            <button (click)="closeCancelModal()"
+                class="flex-1 px-4 py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-colors cursor-pointer border-none">
+                Seguir editando
+            </button>
+            <button (click)="confirmCancelAndDelete()" [disabled]="deleting()"
+                class="flex-1 px-4 py-3 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-colors cursor-pointer border-none disabled:opacity-50">
+                @if (deleting()) {
+                Eliminando...
+                } @else {
+                Sí, eliminar
+                }
+            </button>
+        </div>
+    </div>
+</div>
+}
+
+<!-- Publish Confirmation Modal -->
+@if (showPublishModal()) {
+<div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+    <div class="bg-[#1a1a1a] border border-[#b7ff00]/20 rounded-2xl p-6 max-w-md w-full shadow-2xl">
+        <div class="text-center mb-6">
+            <span class="text-5xl mb-4 block">🎉</span>
+            <h3 class="text-xl font-bold text-white mb-2">¿Publicar evento?</h3>
+            <p class="text-white/60 text-sm mb-4">
+                Una vez publicado, el evento será visible para todos los usuarios y podrán comprar entradas.
+            </p>
+            <div class="bg-white/5 rounded-xl p-4 text-left space-y-2">
+                <div class="flex justify-between text-sm">
+                    <span class="text-white/50">Tipos de tickets:</span>
+                    <span class="text-white font-medium">{{ ticketTypes().length }}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-white/50">Total de entradas:</span>
+                    <span class="text-white font-medium">{{ totalTickets() }}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-white/50">Ganancia estimada:</span>
+                    <span class="text-[#b7ff00] font-bold">${{ estimatedRevenue().toLocaleString() }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3">
+            <button (click)="closePublishModal()"
+                class="flex-1 px-4 py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-colors cursor-pointer border-none">
+                Revisar
+            </button>
+            <button (click)="confirmPublish()" [disabled]="publishing()"
+                class="flex-1 px-4 py-3 bg-[#b7ff00] text-black rounded-xl font-bold hover:bg-[#a8e600] transition-colors cursor-pointer border-none disabled:opacity-50">
+                @if (publishing()) {
+                Publicando...
+                } @else {
+                Publicar
+                }
+            </button>
+        </div>
+    </div>
+</div>
+}

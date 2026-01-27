@@ -26,6 +26,7 @@ export interface AdminEvent {
     minAge: number;
     coverPhoto: string;
     location: {
+        id: number;
         locationName: string;
         address: string;
         city: {
@@ -33,9 +34,10 @@ export interface AdminEvent {
         };
     };
     dj: {
+        id: number;
         djApodo: string;
     };
-    ticketTypes?: AdminTicketType[];
+    ticketTypes: AdminTicketType[];
     isGalleryPublished: boolean;
     isPublished: boolean;
 }

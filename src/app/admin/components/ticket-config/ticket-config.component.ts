@@ -37,15 +37,19 @@ export class TicketConfigComponent implements OnInit {
     ticketForm: FormGroup = this.fb.group({
         ticketTypeName: ['', [Validators.required]],
         price: [0, [Validators.required, Validators.min(0)]],
-        maxQuantity: [100, [Validators.required, Validators.min(1)]],
+        maxQuantity: [1, [Validators.required, Validators.min(1)]],
         saleMode: ['scheduled'],
         isManuallyActivated: [false],
-        beginDatetime: [''],
-        finishDatetime: ['']
+        beginDate: [{ value: '', disabled: true }],  // Disabled por defecto, se habilita en modo scheduled
+        finishDate: [{ value: '', disabled: true }]   // Disabled por defecto, se habilita en modo scheduled
     });
 
     // Mostrar formulario de nuevo ticket
     showNewTicketForm = signal(false);
+    
+    // Modals
+    showCancelModal = signal(false);
+    showPublishModal = signal(false);
 
     // Computed
     canPublish = computed(() => {
@@ -98,11 +102,16 @@ export class TicketConfigComponent implements OnInit {
         this.router.navigate(['/admin']);
     }
 
+    // Open cancel modal instead of using confirm()
     cancelAndDelete() {
-        if (!confirm('¿Estás seguro? Se eliminará el evento y toda la información cargada.')) {
-            return;
-        }
-
+        this.showCancelModal.set(true);
+    }
+    
+    closeCancelModal() {
+        this.showCancelModal.set(false);
+    }
+    
+    confirmCancelAndDelete() {
         this.deleting.set(true);
         this.eventService.deleteEvent(this.eventId()!).subscribe({
             next: () => {
@@ -112,6 +121,7 @@ export class TicketConfigComponent implements OnInit {
                 console.error('Error deleting event:', err);
                 this.error.set('Error al eliminar el evento');
                 this.deleting.set(false);
+                this.showCancelModal.set(false);
             }
         });
     }
@@ -120,8 +130,34 @@ export class TicketConfigComponent implements OnInit {
     toggleNewTicketForm() {
         this.showNewTicketForm.update(v => !v);
         if (this.showNewTicketForm()) {
-            this.ticketForm.reset({ saleMode: 'scheduled', price: 0, maxQuantity: 100 });
+            this.ticketForm.reset({ saleMode: 'scheduled', price: 0, maxQuantity: 1, isManuallyActivated: false });
+            // Estado inicial: modo scheduled, fechas habilitadas
+            this.ticketForm.get('beginDate')?.enable();
+            this.ticketForm.get('finishDate')?.enable();
         }
+    }
+    
+    setSaleMode(mode: 'manual' | 'scheduled') {
+        this.ticketForm.patchValue({ saleMode: mode });
+        
+        // Habilitar/deshabilitar campos de fecha según el modo
+        if (mode === 'scheduled') {
+            this.ticketForm.get('beginDate')?.enable();
+            this.ticketForm.get('finishDate')?.enable();
+        } else {
+            this.ticketForm.get('beginDate')?.disable();
+            this.ticketForm.get('finishDate')?.disable();
+            // Limpiar valores al cambiar a manual
+            this.ticketForm.patchValue({
+                beginDate: '',
+                finishDate: ''
+            });
+        }
+    }
+    
+    toggleManualActivation() {
+        const current = this.ticketForm.get('isManuallyActivated')?.value;
+        this.ticketForm.patchValue({ isManuallyActivated: !current });
     }
 
     private formatToBackendDate(date: Date): string {
@@ -135,8 +171,39 @@ export class TicketConfigComponent implements OnInit {
             return;
         }
 
-        this.submitting.set(true);
         const values = this.ticketForm.value;
+
+        // Validar que si el modo es 'scheduled', las fechas sean requeridas
+        if (values.saleMode === 'scheduled') {
+            if (!values.beginDate || !values.finishDate) {
+                this.error.set('Para el modo programado, debes especificar las fechas de inicio y fin de venta');
+                return;
+            }
+
+            // Combine date with fixed times: begin at 00:00:00, finish at 23:59:59
+            const beginDatetime = new Date(`${values.beginDate}T00:00:00`);
+            const finishDatetime = new Date(`${values.finishDate}T23:59:59`);
+
+            // Validar que la fecha de fin sea posterior a la de inicio
+            if (finishDatetime <= beginDatetime) {
+                this.error.set('La fecha de fin de venta debe ser posterior a la fecha de inicio');
+                return;
+            }
+        }
+
+        this.submitting.set(true);
+        this.error.set(null);
+
+        // Combine date fields with fixed times for scheduled mode
+        let beginDatetime: Date | null = null;
+        let finishDatetime: Date | null = null;
+        
+        if (values.saleMode === 'scheduled' && values.beginDate) {
+            beginDatetime = new Date(`${values.beginDate}T00:00:00`);
+        }
+        if (values.saleMode === 'scheduled' && values.finishDate) {
+            finishDatetime = new Date(`${values.finishDate}T23:59:59`);
+        }
 
         const ticketData = {
             ticketTypeName: values.ticketTypeName,
@@ -145,17 +212,18 @@ export class TicketConfigComponent implements OnInit {
             event: this.eventId(),
             saleMode: values.saleMode,
             isManuallyActivated: values.saleMode === 'manual' ? values.isManuallyActivated : false,
-            beginDatetime: values.beginDatetime ? this.formatToBackendDate(new Date(values.beginDatetime)) : null,
-            finishDatetime: values.finishDatetime ? this.formatToBackendDate(new Date(values.finishDatetime)) : null,
+            beginDatetime: beginDatetime ? this.formatToBackendDate(beginDatetime) : null,
+            finishDatetime: finishDatetime ? this.formatToBackendDate(finishDatetime) : null,
         };
 
         this.ticketTypeService.createTicketType(this.eventId()!, ticketData as any).subscribe({
             next: () => {
                 this.successMessage.set('Tipo de ticket agregado');
                 this.showNewTicketForm.set(false);
-                this.ticketForm.reset({ saleMode: 'scheduled', price: 0, maxQuantity: 100 });
+                this.ticketForm.reset({ saleMode: 'scheduled', price: 0, maxQuantity: 1, isManuallyActivated: false });
                 this.loadEventData(this.eventId()!);
                 this.submitting.set(false);
+                this.clearMessagesAfterTimeout();
             },
             error: (err: any) => {
                 console.error('Error creating ticket type:', err);
@@ -172,6 +240,7 @@ export class TicketConfigComponent implements OnInit {
             next: () => {
                 this.successMessage.set('Tipo de ticket eliminado');
                 this.loadEventData(this.eventId()!);
+                this.clearMessagesAfterTimeout();
             },
             error: (err: any) => {
                 console.error('Error deleting ticket type:', err);
@@ -180,17 +249,32 @@ export class TicketConfigComponent implements OnInit {
         });
     }
 
-    // Publish
-    publishEvent() {
-        if (!this.canPublish()) return;
+    // Auto-clear messages after timeout
+    private clearMessagesAfterTimeout() {
+        setTimeout(() => {
+            this.successMessage.set(null);
+        }, 4000);
+    }
 
+    // Publish
+    showPublishConfirmation() {
+        if (!this.canPublish()) return;
+        this.showPublishModal.set(true);
+    }
+    
+    closePublishModal() {
+        this.showPublishModal.set(false);
+    }
+    
+    confirmPublish() {
         this.publishing.set(true);
         this.error.set(null);
 
         this.eventService.publishEvent(this.eventId()!).subscribe({
             next: () => {
-                this.successMessage.set('¡Evento publicado exitosamente!');
+                this.successMessage.set('Evento publicado exitosamente!');
                 this.publishing.set(false);
+                this.showPublishModal.set(false);
                 // Redirect to event list
                 setTimeout(() => {
                     this.router.navigate(['/admin']);
@@ -200,7 +284,13 @@ export class TicketConfigComponent implements OnInit {
                 console.error('Error publishing event:', err);
                 this.error.set(err.error?.message || 'Error al publicar el evento');
                 this.publishing.set(false);
+                this.showPublishModal.set(false);
             }
         });
+    }
+
+    // Keep legacy method for backwards compatibility
+    publishEvent() {
+        this.showPublishConfirmation();
     }
 }

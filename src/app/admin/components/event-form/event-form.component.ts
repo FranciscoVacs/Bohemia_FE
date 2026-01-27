@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -27,8 +27,12 @@ export class EventFormComponent implements OnInit {
     loading = signal(false);
     submitting = signal(false);
     savingDraft = signal(false);
+    deleting = signal(false);
     error = signal<string | null>(null);
     successMessage = signal<string | null>(null);
+
+    // Modal de cancelación
+    showCancelModal = signal(false);
 
     // Datos del evento cargado
     currentEvent = signal<AdminEvent | null>(null);
@@ -41,19 +45,21 @@ export class EventFormComponent implements OnInit {
     imagePreview = signal<string | null>(null);
     selectedFile = signal<File | null>(null);
 
-    // Computed: fecha mínima = hoy
-    minDate = computed(() => {
+    // Computed: fecha mínima = hoy (formato string para input date)
+    minDateStr = computed(() => {
         const today = new Date();
-        return today.toISOString().slice(0, 16);
+        return today.toISOString().slice(0, 10);
     });
 
-    // Formulario principal del evento
+    // Formulario principal del evento con campos de fecha separados
     eventForm: FormGroup = this.fb.group({
         eventName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
         eventDescription: ['', [Validators.maxLength(1000)]],
         minAge: [18, [Validators.required, Validators.min(0), Validators.max(99)]],
-        beginDatetime: ['', [Validators.required]],
-        finishDatetime: ['', [Validators.required]],
+        beginDate: ['', [Validators.required]],
+        beginTime: ['', [Validators.required]],
+        finishDate: ['', [Validators.required]],
+        finishTime: ['', [Validators.required]],
         locationId: ['', [Validators.required]],
         djId: ['', [Validators.required]],
     });
@@ -61,6 +67,14 @@ export class EventFormComponent implements OnInit {
     ngOnInit() {
         this.loadData();
         this.checkEditMode();
+    }
+
+    // Prevenir navegación accidental con beforeunload
+    @HostListener('window:beforeunload', ['$event'])
+    unloadNotification($event: any) {
+        if (this.eventForm.dirty || this.selectedFile()) {
+            $event.returnValue = true;
+        }
     }
 
     private loadData() {
@@ -90,12 +104,19 @@ export class EventFormComponent implements OnInit {
             next: (event) => {
                 this.currentEvent.set(event);
 
+                const beginDatetime = new Date(event.beginDatetime);
+                const finishDatetime = new Date(event.finishDatetime);
+
                 this.eventForm.patchValue({
                     eventName: event.eventName,
                     eventDescription: event.eventDescription,
                     minAge: event.minAge,
-                    beginDatetime: this.formatDatetimeLocal(event.beginDatetime),
-                    finishDatetime: this.formatDatetimeLocal(event.finishDatetime),
+                    beginDate: this.formatDateForInput(beginDatetime),
+                    beginTime: this.formatTimeForInput(beginDatetime),
+                    finishDate: this.formatDateForInput(finishDatetime),
+                    finishTime: this.formatTimeForInput(finishDatetime),
+                    locationId: event.location.id,
+                    djId: event.dj.id,
                 });
 
                 if (event.coverPhoto) {
@@ -112,10 +133,12 @@ export class EventFormComponent implements OnInit {
         });
     }
 
-    private formatDatetimeLocal(dateString: string): string {
-        if (!dateString) return '';
-        const date = new Date(dateString);
-        return date.toISOString().slice(0, 16);
+    private formatDateForInput(date: Date): string {
+        return date.toISOString().slice(0, 10);
+    }
+
+    private formatTimeForInput(date: Date): string {
+        return date.toTimeString().slice(0, 5);
     }
 
     onFileSelected(event: Event) {
@@ -153,21 +176,48 @@ export class EventFormComponent implements OnInit {
         this.imagePreview.set(null);
     }
 
-    // Cancel - go back to list
+    // Cancel - show confirmation modal
     cancel() {
-        if (this.isEditMode()) {
-            if (!confirm('¿Estás seguro? El evento quedará guardado como borrador.')) {
-                return;
-            }
+        this.showCancelModal.set(true);
+    }
+
+    closeCancelModal() {
+        this.showCancelModal.set(false);
+    }
+
+    confirmCancel() {
+        if (this.isEditMode() && this.eventId()) {
+            // Eliminar el evento borrador
+            this.deleting.set(true);
+            this.eventService.deleteEvent(this.eventId()!).subscribe({
+                next: () => {
+                    this.router.navigate(['/admin']);
+                },
+                error: (err) => {
+                    console.error('Error deleting event:', err);
+                    this.error.set('Error al eliminar el evento');
+                    this.deleting.set(false);
+                    this.showCancelModal.set(false);
+                }
+            });
+        } else {
+            // No hay evento creado, solo navegar
+            this.router.navigate(['/admin']);
         }
-        this.router.navigate(['/admin']);
+    }
+
+    // Combine date and time fields into a single Date object
+    private combineDateAndTime(dateStr: string, timeStr: string): Date {
+        return new Date(`${dateStr}T${timeStr}:00`);
     }
 
     // Validate that end date is after start date
     private validateDates(): boolean {
-        const beginDate = this.eventForm.get('beginDatetime')?.value;
-        const finishDate = this.eventForm.get('finishDatetime')?.value;
-        if (beginDate && finishDate && new Date(finishDate) <= new Date(beginDate)) {
+        const values = this.eventForm.value;
+        const beginDatetime = this.combineDateAndTime(values.beginDate, values.beginTime);
+        const finishDatetime = this.combineDateAndTime(values.finishDate, values.finishTime);
+        
+        if (finishDatetime <= beginDatetime) {
             this.error.set('La fecha de fin debe ser posterior a la fecha de inicio');
             return false;
         }
@@ -185,6 +235,7 @@ export class EventFormComponent implements OnInit {
     saveDraft() {
         if (this.eventForm.invalid) {
             this.eventForm.markAllAsTouched();
+            this.error.set('Por favor completa todos los campos requeridos');
             return;
         }
 
@@ -239,6 +290,7 @@ export class EventFormComponent implements OnInit {
     goToStep2() {
         if (this.eventForm.invalid) {
             this.eventForm.markAllAsTouched();
+            this.error.set('Por favor completa todos los campos requeridos');
             return;
         }
 
@@ -292,11 +344,11 @@ export class EventFormComponent implements OnInit {
         formData.append('eventDescription', values.eventDescription || '');
         formData.append('minAge', values.minAge.toString());
 
-        // Format dates to backend expected format 'YYYY-MM-DD HH:MM:SS'
-        const beginDate = new Date(values.beginDatetime);
-        const finishDate = new Date(values.finishDatetime);
-        formData.append('beginDatetime', this.formatToBackendDate(beginDate));
-        formData.append('finishDatetime', this.formatToBackendDate(finishDate));
+        // Combine date and time, then format to backend expected format 'YYYY-MM-DD HH:MM:SS'
+        const beginDatetime = this.combineDateAndTime(values.beginDate, values.beginTime);
+        const finishDatetime = this.combineDateAndTime(values.finishDate, values.finishTime);
+        formData.append('beginDatetime', this.formatToBackendDate(beginDatetime));
+        formData.append('finishDatetime', this.formatToBackendDate(finishDatetime));
 
         formData.append('location', values.locationId);
         formData.append('dj', values.djId);
