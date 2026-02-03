@@ -25,7 +25,7 @@ export class EventService {
   }
 
   getTicketTypes(eventId: number): Observable<any[]> {
-    return this.http.get<ApiResponse<any[]>>(`${this.apiUrl}/event/${eventId}/ticketType`)
+    return this.http.get<ApiResponse<any[]>>(`${this.apiUrl}/event/${eventId}/ticketTypes`)
       .pipe(map(response => response.data));
   }
 }

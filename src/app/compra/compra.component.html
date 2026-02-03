@@ -58,10 +58,10 @@
     class="fixed top-0 w-full z-50 transition-all duration-300 bg-black/90 backdrop-blur-md border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
-        <div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+        <a routerLink="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <span class="material-symbols-outlined text-white/50 hover:text-white transition-colors">arrow_back</span>
-          <span class="font-display text-2xl tracking-wider text-white">BOHEMIA</span>
-        </div>
+          <span class="font-display text-2xl tracking-wider text-gradient cursor-pointer">BOHEMIA</span>
+        </a>
         <div class="flex items-center gap-4">
           <div class="hidden md:flex items-center gap-2 text-sm text-gray-400">
             <span class="text-white font-medium">1. Entradas</span>
@@ -89,7 +89,7 @@
           Venta activa
         </div>
         <h1 class="font-display text-5xl md:text-7xl uppercase tracking-tighter text-white mb-2 leading-none">
-          Bohemia <span class="text-stroke text-transparent">Rosario</span>
+          Bohemia <span class="text-stroke text-transparent"> {{event?.eventName}}</span>
         </h1>
         <div *ngIf="event as e">
           <div class="flex flex-wrap gap-4 text-gray-400 text-sm uppercase tracking-wide font-medium mt-4">
@@ -108,7 +108,7 @@
         class="hidden md:block w-32 h-24 rounded-xl overflow-hidden border border-white/20 relative group shadow-lg shadow-primary/5">
         <img alt="Event thumb"
           class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJ1Y9CpQrrmUDOvUbxdICiHIg19xETLEczajeWzlL2HoaKV3enP9WO_HR1UaWcJgPoVBLqaS59HAl3np-JCjqROGoDNzewVx6kMTrfY8ZQx1MjuYy8YoNPuXMSJ2nLqRp64COgX6UDEDY4x3Yb0cJ2EUg_DRj9UPGz5jeKVt1vRfYQ_GW9GQk21jg8O40QPJkul4w0PARsBcIjM6pCFYoDI1PnoeIHTtiAHKdGIVjFD3yG6qs1_O5VJ8J1MjJRws5Va01QC5WHPMrK" />
+          src="{{event?.coverPhoto}}" />
       </div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 relative">
@@ -117,23 +117,8 @@
           <span class="material-symbols-outlined text-primary">local_activity</span>
           Seleccioná tus entradas
         </h2>
-        <div
-          class="p-6 rounded-2xl bg-[#0A0A0A] border border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-60 pointer-events-none select-none">
-          <div class="flex-1">
-            <div class="flex items-center gap-3 mb-2">
-              <h3 class="font-display text-2xl uppercase tracking-wide text-gray-400">General</h3>
-              <span
-                class="bg-gray-800 text-gray-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-white/10">Lote
-                1</span>
-            </div>
-            <p class="text-gray-500 text-sm">Acceso al sector general. Cupos limitados.</p>
-          </div>
-          <div class="flex flex-col items-end gap-1">
-            <span
-              class="bg-red-500/10 text-red-500 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider border border-red-500/20">Agotado</span>
-            <span class="text-lg font-bold text-gray-500 line-through decoration-red-500/50">$35.000</span>
-          </div>
-        </div>
+          @for (ticketType of ticketTypes; track ticketType.id) {
+            @if (ticketType.availableTickets > 0) {
         <div class="relative group">
           <div
             class="absolute -inset-0.5 bg-gradient-to-r from-secondary to-primary rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500">
@@ -143,8 +128,67 @@
             <div class="flex-1">
               <div class="flex items-center gap-3 mb-2">
                 <h3
-                  class="font-display text-2xl uppercase tracking-wide text-white group-hover:text-primary transition-colors">
-                  General</h3>
+                  class="font-display text-2xl uppercase tracking-wide text-white group-hover:text-secondary transition-colors">
+                  {{ ticketType.ticketTypeName }}</h3>
+                <span
+                  class="bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-primary/20">Lote
+                  2</span>
+              </div>
+              <p class="text-gray-400 text-sm mb-4">Acceso al sector general. Incluye consumición hasta las 2 AM.</p>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold text-white">${{ticketType.price}}</span>
+                <span class="text-xs text-gray-500 font-bold">ARS</span>
+                <span class="text-xs text-gray-600 ml-2">+ 10% SC</span>
+              </div>
+            </div>
+            <div class="flex items-center bg-black rounded-lg border border-white/20 p-1 shadow-inner">
+              <button (click)="removeTicket(ticketType)"
+                class="w-10 h-10 flex items-center justify-center text-white hover:text-primary transition-colors hover:bg-white/5 rounded-md">
+                <span class="material-symbols-outlined text-lg">remove</span>
+              </button>
+              <span class="w-10 text-center font-display text-xl pt-1">{{ ticketType.amountSelected }}</span>
+              <button (click)="addTicket(ticketType)"
+                class="w-10 h-10 flex items-center justify-center text-white hover:text-primary transition-colors hover:bg-white/5 rounded-md">
+                <span class="material-symbols-outlined text-lg">add</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+        @else{
+                  <div
+                    class="p-6 rounded-2xl bg-[#0A0A0A] border border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-60 pointer-events-none select-none">
+                    <div class="flex-1">
+                      <div class="flex items-center gap-3 mb-2">
+                        <h3 class="font-display text-2xl uppercase tracking-wide text-gray-400">{{ ticketType.ticketTypeName }}</h3>
+                        <span
+                          class="bg-gray-800 text-gray-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-white/10">Lote
+                          1</span>
+                      </div>
+                      <p class="text-gray-500 text-sm">Acceso al sector general. Cupos limitados.</p>
+                    </div>
+                    <div class="flex flex-col items-end gap-1">
+                      <span
+                        class="bg-red-500/10 text-red-500 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider border border-red-500/20">Agotado</span>
+                      <span class="text-lg font-bold text-gray-500 line-through decoration-red-500/50">${{ ticketType.price}}</span>
+                    </div>
+                  </div>
+        }
+          } @empty {
+          <li>No hay tipos de ticket.</li>
+          }
+        <div *ngFor="let ticketType of event?.ticketTypes">
+          
+        <div class="relative group">
+          <div
+            class="absolute -inset-0.5 bg-gradient-to-r from-secondary to-primary rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500">
+          </div>
+          <div
+            class="relative p-6 rounded-2xl bg-[#121212] border border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <h3 class="font-display text-2xl uppercase tracking-wide text-white group-hover:text-secondary transition-colors">
+                  {{ ticketType.ticketTypeName }}</h3>
                 <span
                   class="bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-primary/20">Lote
                   2</span>
@@ -169,67 +213,7 @@
             </div>
           </div>
         </div>
-        <div
-          class="p-6 rounded-2xl bg-[#121212] border border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 group hover:border-secondary/50 transition-all">
-          <div class="flex-1">
-            <div class="flex items-center gap-3 mb-2">
-              <h3
-                class="font-display text-2xl uppercase tracking-wide text-white group-hover:text-secondary transition-colors">
-                VIP Standing</h3>
-              <span
-                class="bg-secondary/20 text-secondary text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-secondary/20">Preferencial</span>
-            </div>
-            <p class="text-gray-400 text-sm mb-4">Acceso exclusivo, barra premium, vista elevada al escenario.</p>
-            <div class="flex items-baseline gap-1">
-              <span class="text-2xl font-bold text-white">$80.000</span>
-              <span class="text-xs text-gray-500 font-bold">ARS</span>
-              <span class="text-xs text-gray-600 ml-2">+ 10% SC</span>
-            </div>
-          </div>
-          <div class="flex items-center bg-black rounded-lg border border-white/20 p-1">
-            <button
-              class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-white transition-colors disabled:opacity-50">
-              <span class="material-symbols-outlined text-lg">remove</span>
-            </button>
-            <span class="w-10 text-center font-display text-xl pt-1 text-gray-500">0</span>
-            <button
-              class="w-10 h-10 flex items-center justify-center text-white hover:text-secondary transition-colors hover:bg-white/5 rounded-md">
-              <span class="material-symbols-outlined text-lg">add</span>
-            </button>
-          </div>
-        </div>
-        <div
-          class="p-6 rounded-2xl bg-gradient-to-r from-[#121212] to-[#1a1a1a] border border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 group hover:border-primary/50 transition-all relative overflow-hidden">
-          <div class="absolute -top-6 -right-6 p-2 opacity-5 pointer-events-none transform rotate-12">
-            <span class="material-symbols-outlined text-[150px]">star</span>
-          </div>
-          <div class="flex-1 relative z-10">
-            <div class="flex items-center gap-3 mb-2">
-              <h3
-                class="font-display text-2xl uppercase tracking-wide text-white group-hover:text-gradient transition-all">
-                Backstage Experience</h3>
-              <span
-                class="bg-white/10 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-white/20">Exclusivo</span>
-            </div>
-            <p class="text-gray-400 text-sm mb-4">La experiencia definitiva. Acceso total, parking, hospitality y meet
-              &amp; greet.</p>
-            <div class="flex items-baseline gap-1">
-              <span class="text-2xl font-bold text-white">$150.000</span>
-              <span class="text-xs text-gray-500 font-bold">ARS</span>
-              <span class="text-xs text-gray-600 ml-2">+ 10% SC</span>
-            </div>
-          </div>
-          <div class="flex items-center bg-black rounded-lg border border-white/20 p-1 relative z-10">
-            <button class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-white transition-colors">
-              <span class="material-symbols-outlined text-lg">remove</span>
-            </button>
-            <span class="w-10 text-center font-display text-xl pt-1 text-gray-500">0</span>
-            <button
-              class="w-10 h-10 flex items-center justify-center text-white hover:text-primary transition-colors hover:bg-white/5 rounded-md">
-              <span class="material-symbols-outlined text-lg">add</span>
-            </button>
-          </div>
-        </div>
+      </div>
       </div>
       <div class="lg:col-span-4">
         <div class="sticky top-28 space-y-4">
@@ -241,24 +225,37 @@
               <span class="material-symbols-outlined text-gray-500">shopping_cart</span>
             </h3>
             <div class="space-y-4 mb-6 pb-6 border-b border-white/10 min-h-[100px]">
+              @if (!ticketAdded) {
+              <div class="flex justify-between items-start animate-[pulse_3s_infinite]">
+                <p class="text-sm font-bold text-white">Selecciona una entrada</p>
+              </div>
+              }
+              @for (ticketType of ticketTypes; track ticketType.id) {
+                @if (ticketType.amountSelected > 0) {
               <div class="flex justify-between items-start animate-[pulse_3s_infinite]">
                 <div>
-                  <p class="text-sm font-bold text-white">2x General - Lote 2</p>
-                  <p class="text-[10px] text-gray-500 uppercase tracking-wider">Bohemia Rosario</p>
+                  <p class="text-sm font-bold text-white">{{ ticketType.amountSelected }}x {{ ticketType.ticketTypeName }} - Lote 2</p>
+                  <p class="text-[10px] text-gray-500 uppercase tracking-wider">Bohemia {{ event?.location?.city?.cityName }}</p>
                 </div>
-                <span class="text-sm font-bold text-white">$90.000</span>
+                <span class="text-sm font-bold text-white">${{ticketType.price * ticketType.amountSelected}}</span>
+              </div>}
+              }@empty {
+              <div class="flex justify-between items-start animate-[pulse_3s_infinite]">
+                <p class="text-sm font-bold text-white">No hay tipos de ticket</p>
               </div>
+              }
+              
               <div class="space-y-2 mt-4 pt-4 border-t border-white/5">
                 <div class="flex justify-between items-center text-xs text-gray-400">
                   <span>Subtotal</span>
-                  <span>$90.000</span>
+                  <span>${{calculateSubtotal()}}</span>
                 </div>
                 <div class="flex justify-between items-center text-xs text-gray-400">
                   <span class="flex items-center gap-1 group cursor-help relative">
                     Cargo de servicio (10%)
                     <span class="material-symbols-outlined text-[12px] text-gray-600">info</span>
                   </span>
-                  <span>$9.000</span>
+                  <span>${{calculateSubtotal() * 0.1}}</span>
                 </div>
               </div>
             </div>
@@ -266,7 +263,7 @@
               <span class="text-gray-400 text-sm font-bold uppercase tracking-widest pb-1">Total</span>
               <div class="text-right">
                 <span
-                  class="block text-3xl font-display text-transparent bg-clip-text bg-gradient-primary">$99.000</span>
+                  class="block text-3xl font-display text-transparent bg-clip-text bg-gradient-primary">${{calculateSubtotal() + (calculateSubtotal() * 0.1)}}</span>
                 <span class="text-[10px] text-gray-500 uppercase font-medium">ARS (Incl. Impuestos)</span>
               </div>
             </div>
