@@ -62,13 +62,16 @@
           <span class="material-symbols-outlined text-white/50 hover:text-white transition-colors">arrow_back</span>
           <span class="font-display text-2xl tracking-wider text-gradient cursor-pointer">BOHEMIA</span>
         </a>
+        @if (state == 1) {
         <div class="flex items-center gap-4">
           <div class="hidden md:flex items-center gap-2 text-sm text-gray-400">
-            <span class="text-white font-medium">1. Entradas</span>
+            <span class="text-white font-bold flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full border border-white/10">
+              1. Entradas</span>
             <span class="material-symbols-outlined text-xs">chevron_right</span>
-            <span class="hover:text-white transition-colors cursor-not-allowed">2. Datos</span>
+            <span class="text-gray-600 font-medium cursor-not-allowed">2. Datos</span>
             <span class="material-symbols-outlined text-xs">chevron_right</span>
-            <span class="hover:text-white transition-colors cursor-not-allowed">3. Pago</span>
+            <span class="text-gray-600 font-medium cursor-not-allowed">3. Pago</span>
+
           </div>
           <div class="w-px h-6 bg-white/10 hidden md:block"></div>
           <button
@@ -76,6 +79,54 @@
             <span class="material-symbols-outlined text-3xl">account_circle</span>
           </button>
         </div>
+      }
+      @else if (state == 2){
+        <div class="flex items-center gap-4">
+          <div class="hidden md:flex items-center gap-3 text-sm">
+            <span class="text-primary font-bold flex items-center gap-1.5 opacity-80">
+              <span class="material-symbols-outlined text-base">check_circle</span>
+              1. Entradas
+            </span>
+            <span class="material-symbols-outlined text-xs text-gray-600">chevron_right</span>
+            <span
+              class="text-white font-bold flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full border border-white/10">
+              2. Datos
+            </span>
+            <span class="material-symbols-outlined text-xs text-gray-600">chevron_right</span>
+            <span class="text-gray-600 font-medium cursor-not-allowed">3. Pago</span>
+          </div>
+          <div class="w-px h-6 bg-white/10 hidden md:block"></div>
+          <button
+            class="text-white hover:text-secondary transition-colors flex items-center justify-center p-2 rounded-full hover:bg-white/5">
+            <span class="material-symbols-outlined text-3xl">account_circle</span>
+          </button>
+        </div>
+      }
+      @else if (state == 3){
+        <div class="flex items-center gap-4">
+          <div class="hidden md:flex items-center gap-3 text-sm">
+            <span class="text-primary font-bold flex items-center gap-1.5 opacity-80">
+              <span class="material-symbols-outlined text-base">check_circle</span>
+              1. Entradas
+            </span>
+            <span class="material-symbols-outlined text-xs text-gray-600">chevron_right</span>
+            <span class="text-primary font-bold flex items-center gap-1.5 opacity-80">
+              <span class="material-symbols-outlined text-base">check_circle</span>
+              2. Datos
+            </span>
+            <span class="material-symbols-outlined text-xs text-gray-600">chevron_right</span>
+            <span
+              class="text-white font-bold flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full border border-white/10">
+              3. Pago
+            </span>
+          </div>
+          <div class="w-px h-6 bg-white/10 hidden md:block"></div>
+          <button
+            class="text-white hover:text-secondary transition-colors flex items-center justify-center p-2 rounded-full hover:bg-white/5">
+            <span class="material-symbols-outlined text-3xl">account_circle</span>
+          </button>
+        </div>
+      }
       </div>
     </div>
   </nav>
@@ -112,6 +163,7 @@
       </div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 relative">
+      @if (state == 1) {
       <div class="lg:col-span-8 space-y-4">
         <h2 class="text-xl font-bold text-white mb-6 uppercase tracking-wide flex items-center gap-2">
           <span class="material-symbols-outlined text-primary">local_activity</span>
@@ -177,44 +229,27 @@
           } @empty {
           <li>No hay tipos de ticket.</li>
           }
-        <div *ngFor="let ticketType of event?.ticketTypes">
-          
-        <div class="relative group">
-          <div
-            class="absolute -inset-0.5 bg-gradient-to-r from-secondary to-primary rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500">
+
+        <div class="mt-4">
+          <div class="flex justify-start">
+            <button (click)="removeState()" class="bg-gray-700 text-white px-4 py-2 rounded text-sm hover:bg-gray-600 hover:shadow-sm transition-colors">
+              Volver
+            </button>
           </div>
-          <div
-            class="relative p-6 rounded-2xl bg-[#121212] border border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex-1">
-              <div class="flex items-center gap-3 mb-2">
-                <h3 class="font-display text-2xl uppercase tracking-wide text-white group-hover:text-secondary transition-colors">
-                  {{ ticketType.ticketTypeName }}</h3>
-                <span
-                  class="bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-primary/20">Lote
-                  2</span>
-              </div>
-              <p class="text-gray-400 text-sm mb-4">Acceso al sector general. Incluye consumición hasta las 2 AM.</p>
-              <div class="flex items-baseline gap-1">
-                <span class="text-2xl font-bold text-white">$45.000</span>
-                <span class="text-xs text-gray-500 font-bold">ARS</span>
-                <span class="text-xs text-gray-600 ml-2">+ 10% SC</span>
-              </div>
-            </div>
-            <div class="flex items-center bg-black rounded-lg border border-white/20 p-1 shadow-inner">
-              <button
-                class="w-10 h-10 flex items-center justify-center text-white hover:text-primary transition-colors hover:bg-white/5 rounded-md">
-                <span class="material-symbols-outlined text-lg">remove</span>
-              </button>
-              <span class="w-10 text-center font-display text-xl pt-1">2</span>
-              <button
-                class="w-10 h-10 flex items-center justify-center text-white hover:text-primary transition-colors hover:bg-white/5 rounded-md">
-                <span class="material-symbols-outlined text-lg">add</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        </div>  
+      
       </div>
+    }
+    @if (state == 2) {
+      <div class="lg:col-span-8">
+        <attendees-data></attendees-data>
       </div>
+    }
+    @if (state == 3) {
+      <div class="lg:col-span-8">
+        <payment-method></payment-method>
+      </div>
+    }
       <div class="lg:col-span-4">
         <div class="sticky top-28 space-y-4">
           <div
@@ -267,11 +302,21 @@
                 <span class="text-[10px] text-gray-500 uppercase font-medium">ARS (Incl. Impuestos)</span>
               </div>
             </div>
-            <button
+            <button (click) = "addState()"
               class="w-full bg-gradient-primary text-black py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(204,255,0,0.3)] flex items-center justify-center gap-2 group">
+              @if(state == 1){
               Continuar Compra
               <span
                 class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              }
+              @else if(state == 2){
+               Continuar al Pago
+              <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">credit_card</span>
+              }
+              @else if(state == 3){
+              Finalizar compra
+              <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">check</span>
+              }
             </button>
             <div
               class="mt-4 flex justify-center items-center gap-2 text-[10px] text-gray-500 bg-white/5 py-2 rounded-lg">

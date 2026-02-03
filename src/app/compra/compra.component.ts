@@ -5,12 +5,14 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Event } from '../models/event';
 import { TicketType } from '../models/ticket-type';
 import { switchMap, of, catchError } from 'rxjs';
+import { AttendeesDataComponent } from './attendees-data/attendees-data.component.js';
+import { PaymentMethodComponent } from './payment-method/payment-method.component.js';
 type TicketWithAmount = TicketType & { amountSelected: number };
 
 @Component({
   selector: 'app-compra',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AttendeesDataComponent, PaymentMethodComponent],
   templateUrl: './compra.component.html',
   styleUrl: './compra.component.css'
 })
@@ -21,6 +23,7 @@ export class CompraComponent {
   // UI ticket type that includes a quantity selected by the user
   ticketTypes: TicketWithAmount[] = [];
   eventID!: number;
+  state: number = 1; // 1: seleccionar tickets, 2: datos, 3: pago
   ticketAdded = false;
   ngOnInit(){
 
@@ -85,4 +88,14 @@ export class CompraComponent {
     });
     return subtotal;
   }
+
+  addState(): void {
+    this.state++;
+  }
+
+  removeState(): void {
+    if (this.state > 1)
+    this.state--;
+  }
+
 }

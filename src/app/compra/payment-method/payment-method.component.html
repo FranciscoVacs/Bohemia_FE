@@ -1,0 +1,94 @@
+<div class="lg:col-span-8 space-y-8">
+  <h2 class="text-xl font-bold text-white uppercase tracking-wide flex items-center gap-3">
+    <span
+      class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary border border-secondary/20">
+      <span class="material-symbols-outlined text-lg">payments</span>
+    </span>
+    Método de Pago
+  </h2>
+  <div class="space-y-4">
+    <label class="relative block cursor-pointer group">
+      <input class="peer sr-only" name="payment_method" type="radio" value="mercadopago" />
+      <div
+        class="p-6 rounded-2xl bg-[#121212] border border-white/10 hover:border-white/20 peer-checked:border-secondary peer-checked:bg-white/5 peer-checked:ring-1 peer-checked:ring-secondary/30 transition-all duration-300 flex items-center justify-between shadow-lg">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-[#009EE3]/10 rounded-full flex items-center justify-center text-[#009EE3]">
+            <span class="material-symbols-outlined">handshake</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-lg">Mercado Pago</h3>
+            <p class="text-sm text-gray-500">Dinero en cuenta, tarjetas guardadas o Mercado Crédito</p>
+          </div>
+        </div>
+        <div
+          class="w-6 h-6 rounded-full border border-white/20 peer-checked:border-secondary peer-checked:bg-secondary flex items-center justify-center">
+          <div class="w-2.5 h-2.5 bg-black rounded-full opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+        </div>
+      </div>
+    </label>
+    <label class="relative block cursor-pointer group">
+      <input checked="" class="peer sr-only" name="payment_method" type="radio" value="card" />
+      <div
+        class="p-6 rounded-2xl bg-[#121212] border border-white/10 hover:border-white/20 peer-checked:border-secondary peer-checked:bg-white/5 peer-checked:ring-1 peer-checked:ring-secondary/30 transition-all duration-300 flex items-center justify-between shadow-lg">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center text-white">
+            <span class="material-symbols-outlined">credit_card</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-lg">Tarjeta de Crédito / Débito</h3>
+            <p class="text-sm text-gray-500">Visa, Mastercard, American Express</p>
+          </div>
+        </div>
+        <div
+          class="w-6 h-6 rounded-full border border-white/20 peer-checked:border-secondary peer-checked:bg-secondary flex items-center justify-center">
+          <div class="w-2.5 h-2.5 bg-black rounded-full opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+        </div>
+      </div>
+      <div class="max-h-0 overflow-hidden peer-checked:max-h-[500px] transition-all duration-500 ease-in-out">
+        <div class="mt-4 p-6 rounded-2xl bg-[#181818] border border-white/5 space-y-6">
+          <div>
+            <label class="label-minimal">Número de tarjeta</label>
+            <div class="relative">
+              <input class="input-minimal pr-12 font-mono" maxlength="19" placeholder="0000 0000 0000 0000"
+                type="text" />
+              <div class="absolute right-4 top-1/2 -translate-y-1/2 flex gap-2">
+                <div class="w-8 h-5 bg-white/10 rounded"></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label class="label-minimal">Nombre en la tarjeta</label>
+            <input class="input-minimal" placeholder="COMO FIGURA EN EL PLÁSTICO" type="text" uppercase="" />
+          </div>
+          <div class="grid grid-cols-2 gap-6">
+            <div>
+              <label class="label-minimal">Vencimiento</label>
+              <input class="input-minimal text-center font-mono" maxlength="5" placeholder="MM/AA" type="text" />
+            </div>
+            <div>
+              <label class="label-minimal">CVV</label>
+              <div class="relative">
+                <input class="input-minimal text-center font-mono" maxlength="4" placeholder="123" type="password" />
+                <span
+                  class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 text-sm cursor-help"
+                  title="Código de 3 o 4 dígitos al dorso">help</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-green-400">lock</span>
+            <p class="text-xs text-gray-400">Sus datos de pago se procesan de forma segura mediante encriptación de 256
+              bits.</p>
+          </div>
+        </div>
+      </div>
+    </label>
+  </div>
+  <div class="bg-blue-500/5 border border-blue-500/20 rounded-xl p-4 flex gap-3 items-start mt-8">
+    <span class="material-symbols-outlined text-blue-400 mt-0.5">verified_user</span>
+    <p class="text-sm text-blue-200/80 leading-relaxed">
+      Al confirmar la compra, aceptas los Términos y Condiciones de Bohemia Rosario. La transacción aparecerá en tu
+      resumen como "TICKETS-BOHEMIA".
+    </p>
+  </div>
+</div>
