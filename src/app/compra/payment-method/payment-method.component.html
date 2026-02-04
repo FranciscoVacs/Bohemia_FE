@@ -49,7 +49,7 @@
           <div>
             <label class="label-minimal">Número de tarjeta</label>
             <div class="relative">
-              <input class="input-minimal pr-12 font-mono" maxlength="19" placeholder="0000 0000 0000 0000"
+              <input class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base font-mono" formControlName="cardNumber" maxlength="19" placeholder="0000 0000 0000 0000"
                 type="text" />
               <div class="absolute right-4 top-1/2 -translate-y-1/2 flex gap-2">
                 <div class="w-8 h-5 bg-white/10 rounded"></div>
@@ -58,17 +58,19 @@
           </div>
           <div>
             <label class="label-minimal">Nombre en la tarjeta</label>
-            <input class="input-minimal" placeholder="COMO FIGURA EN EL PLÁSTICO" type="text" uppercase="" />
+            <input class="font-mono w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
+             placeholder="COMO FIGURA EN EL PLÁSTICO" type="text" uppercase="" />
           </div>
           <div class="grid grid-cols-2 gap-6">
             <div>
               <label class="label-minimal">Vencimiento</label>
-              <input class="input-minimal text-center font-mono" maxlength="5" placeholder="MM/AA" type="text" />
+              <input class="text-center font-mono w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
+               maxlength="5" placeholder="MM/AA" type="text" />
             </div>
             <div>
               <label class="label-minimal">CVV</label>
               <div class="relative">
-                <input class="input-minimal text-center font-mono" maxlength="4" placeholder="123" type="password" />
+                <input class="text-center w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base font-mono" maxlength="4" placeholder="123" type="password" />
                 <span
                   class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 text-sm cursor-help"
                   title="Código de 3 o 4 dígitos al dorso">help</span>

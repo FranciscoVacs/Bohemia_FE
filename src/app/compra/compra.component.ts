@@ -62,7 +62,7 @@ export class CompraComponent {
     });
   }
 
-  // Formatear hora
+
   formatTime(dateString: string): string {
     const date = new Date(dateString);
     return date.toLocaleTimeString('es-AR', {
