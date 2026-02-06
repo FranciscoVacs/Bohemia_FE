@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { EventService } from '../services/event.service';
+import { PurchaseService } from '../services/purchase.service.js';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Event } from '../models/event';
@@ -7,18 +8,21 @@ import { TicketType } from '../models/ticket-type';
 import { switchMap, of, catchError } from 'rxjs';
 import { AttendeesDataComponent } from './attendees-data/attendees-data.component.js';
 import { PaymentMethodComponent } from './payment-method/payment-method.component.js';
+import { CreatePurchaseDTO } from '../dto/purchase.dto.js';
+import {UserDropdownComponent} from '../user-dropdown/user-dropdown.component.js'
 type TicketWithAmount = TicketType & { amountSelected: number };
 
 @Component({
   selector: 'app-compra',
   standalone: true,
-  imports: [CommonModule, RouterLink, AttendeesDataComponent, PaymentMethodComponent],
+  imports: [CommonModule, RouterLink, AttendeesDataComponent, PaymentMethodComponent, UserDropdownComponent],
   templateUrl: './compra.component.html',
   styleUrl: './compra.component.css'
 })
 
 export class CompraComponent {
-  constructor(private eventService: EventService, private route: ActivatedRoute) {}
+  private eventService = inject(EventService);
+  private purchaseService = inject(PurchaseService);
   event!: Event | null;
   // UI ticket type that includes a quantity selected by the user
   ticketTypes: TicketWithAmount[] = [];
@@ -54,6 +58,26 @@ export class CompraComponent {
       });
   }
   
+  createPurchase(){
+    this.ticketTypes.forEach(tType => { 
+    if (tType.amountSelected === 0) return;
+    const purchaseDTO: CreatePurchaseDTO = {
+    ticketQuantity: tType.amountSelected,
+    ticketTypeId: tType.id,
+    }
+    console.log(purchaseDTO.ticketQuantity, " ", purchaseDTO.ticketTypeId);
+
+    this.purchaseService.createPurchase(purchaseDTO).subscribe({
+        next: (response) => {
+          console.log('Purchase created', response);
+        },
+        error: (err) => {
+          console.error('Error creating purchase', err);
+        }
+      })
+    })
+  }
+
   formatDate(dateString: string): string {
     const date = new Date(dateString);
     return date.toLocaleDateString('es-AR', {
@@ -81,6 +105,10 @@ export class CompraComponent {
     this.ticketAdded = true;
   }  
 
+  calculateServiceFee(): number {
+     return this.calculateSubtotal() * 0.1
+  }
+
   calculateSubtotal(): number {
     let subtotal = 0;
     this.ticketTypes.forEach(tType => {
@@ -89,8 +117,13 @@ export class CompraComponent {
     return subtotal;
   }
 
+  calculateTotal(): number {
+    return this.calculateSubtotal() + this.calculateServiceFee();
+  }
+
   addState(): void {
-    this.state++;
+    if (this.state < 3) this.state++;
+    else this.createPurchase();
   }
 
   removeState(): void {
