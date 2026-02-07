@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { EventService } from '../services/event.service';
 import { PurchaseService } from '../services/purchase.service.js';
+import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Event } from '../models/event';
@@ -23,12 +24,18 @@ type TicketWithAmount = TicketType & { amountSelected: number };
 export class CompraComponent {
   private eventService = inject(EventService);
   private purchaseService = inject(PurchaseService);
+  public authService = inject(AuthService);
   event!: Event | null;
   // UI ticket type that includes a quantity selected by the user
   ticketTypes: TicketWithAmount[] = [];
   eventID!: number;
   state: number = 1; // 1: seleccionar tickets, 2: datos, 3: pago
   ticketAdded = false;
+  anySelected = true;
+  loginRequired = false;
+  @ViewChild(AttendeesDataComponent) child!: AttendeesDataComponent ;
+
+
   ngOnInit(){
 
     // Get the future event, then fetch its ticket types.
@@ -126,9 +133,32 @@ export class CompraComponent {
     else this.createPurchase();
   }
 
+  handleContinue(): void {
+    this.loginRequired = false;
+    const valid = this.checkFormState();
+    if (!valid) return;
+    if (this.state === 2 && !this.authService.isAuthenticated()) {
+      this.loginRequired = true;
+      return;
+    }
+    this.addState();
+  }
+
   removeState(): void {
     if (this.state > 1)
     this.state--;
   }
 
+  checkFormState(): boolean {
+    if (this.state === 1) {
+      this.anySelected = this.ticketTypes.some(t => t.amountSelected > 0);
+      return this.anySelected;
+    }
+    else if (this.state === 2) {
+    return this.child.checkInputs()
+    }
+    else 
+      return true;
+    
+  }
 }

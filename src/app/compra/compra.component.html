@@ -226,7 +226,9 @@
       <payment-method></payment-method>
     </div>
     }
-
+    @if (!anySelected) {
+    <p class="text-red-400 text-xs mt-1">Selecciona al menos 1 ticket</p>
+    }
     <div class="mt-4">
       <div class="flex justify-start">
           <button (click)="removeState()" class="bg-white/5 text-white px-4 py-2 rounded text-sm hover:text-secondary transition-colors transition-shadow border border-white/15  hover:shadow-[0_0_10px_rgba(148,163,184,0.25)]">
@@ -234,6 +236,7 @@
           </button>
       </div>
     </div>
+
     </div>
 
     
@@ -289,7 +292,7 @@
               <span class="text-[10px] text-gray-500 uppercase font-medium">ARS (Incl. Impuestos)</span>
             </div>
           </div>
-          <button (click) = "addState()"
+          <button (click) = "handleContinue()"
             class="cursor-pointer w-full bg-gradient-primary text-black py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(204,255,0,0.3)] flex items-center justify-center gap-2 group">
             @if(state == 1){
             Continuar Compra
@@ -305,6 +308,9 @@
             <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">check</span>
             }
           </button>
+          @if (loginRequired && state == 2) {
+          <p class="text-red-400 text-sm mt-3">Por favor iniciá sesión usando el botón <strong>Login</strong> en la sección "Datos personales" antes de continuar al pago.</p>
+          }
           <div
             class="mt-4 flex justify-center items-center gap-2 text-[10px] text-gray-500 bg-white/5 py-2 rounded-lg">
             <span class="material-symbols-outlined text-sm">timer</span>
