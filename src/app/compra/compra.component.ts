@@ -188,7 +188,21 @@ export class CompraComponent {
 
   addState(): void {
     if (this.state < 3) this.state++;
-    else this.createPurchase();
+    else this.createPreference();
+  }
+
+  createPreference(): void {
+    console.log("hello");
+    this.purchaseService.createPreference({
+      ticketTypeName: this.ticketTypes[2].ticketTypeName,
+      ticketNumbers: this.ticketTypes[2].amountSelected,
+      price: this.ticketTypes[2].price}).subscribe({
+        next: (res) => {
+          window.location.href = res.init_point;
+        },
+        error: (err) => {          console.error('Error creating preference', err);
+        }
+      })
   }
 
   handleContinue(): void {
