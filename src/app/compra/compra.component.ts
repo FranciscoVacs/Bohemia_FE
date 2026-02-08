@@ -11,6 +11,9 @@ import { AttendeesDataComponent } from './attendees-data/attendees-data.componen
 import { PaymentMethodComponent } from './payment-method/payment-method.component.js';
 import { CreatePurchaseDTO } from '../dto/purchase.dto.js';
 import {UserDropdownComponent} from '../user-dropdown/user-dropdown.component.js'
+import { Router } from '@angular/router';
+import { SafeResourceUrl } from '@angular/platform-browser';
+declare let L: any;
 type TicketWithAmount = TicketType & { amountSelected: number };
 
 @Component({
@@ -22,10 +25,15 @@ type TicketWithAmount = TicketType & { amountSelected: number };
 })
 
 export class CompraComponent {
+  router = inject(Router);
   private eventService = inject(EventService);
   private purchaseService = inject(PurchaseService);
-  public authService = inject(AuthService);
+  private authService = inject(AuthService);
+  mapUrl: SafeResourceUrl = '';
   event!: Event | null;
+  locationName: string  = '';
+  purchaseError: string | null = null;
+  purchaseComplete: boolean = false;
   // UI ticket type that includes a quantity selected by the user
   ticketTypes: TicketWithAmount[] = [];
   eventID!: number;
@@ -33,6 +41,7 @@ export class CompraComponent {
   ticketAdded = false;
   anySelected = true;
   loginRequired = false;
+  
   @ViewChild(AttendeesDataComponent) child!: AttendeesDataComponent ;
 
 
@@ -44,6 +53,7 @@ export class CompraComponent {
       .pipe(
         switchMap((event) => {
           this.event = event;
+          this.locationName = event.location!.locationName
           console.log('Loaded event', this.event);
           if (event && event.id) {
             return this.eventService.getTicketTypes(event.id);
@@ -60,12 +70,55 @@ export class CompraComponent {
           const arr = types || [];
           this.ticketTypes = arr.map((t: TicketType) => ({ ...t, amountSelected: 0 }));
           console.log('Loaded ticket types', this.ticketTypes);
+          // Initialize map after event and template have rendered
+          setTimeout(() => this.showMap(), 0);
         },
         error: (err) => console.error(err)
       });
+      
+  }
+
+  // Leaflet map instance
+  private map: any = null;
+
+  showMap() {
+    if (!this.event || !this.event.location) {
+      console.warn('showMap: event or location not available yet');
+      return;
+    }
+
+    const query = `${this.event.location.address} ${this.event.location.city.cityName}`;
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !data.length) { console.warn('No location found for query', query); return; }
+
+        const lat = Number(data[0].lat);
+        const lng = Number(data[0].lon);
+
+        // Remove existing map instance if present
+        try {
+          if (this.map) {
+            this.map.remove();
+            this.map = null;
+          }
+        } catch (e) {
+          console.warn('Error removing existing map', e);
+        }
+
+        this.map = L.map('map', { zoomControl: true }).setView([lat, lng], 15);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(this.map);
+
+        L.marker([lat, lng]).addTo(this.map);
+      })
+      .catch(err => console.error('Error fetching geocoding data', err));
   }
   
   createPurchase(){
+    this.purchaseError = null;
     this.ticketTypes.forEach(tType => { 
     if (tType.amountSelected === 0) return;
     const purchaseDTO: CreatePurchaseDTO = {
@@ -77,9 +130,14 @@ export class CompraComponent {
     this.purchaseService.createPurchase(purchaseDTO).subscribe({
         next: (response) => {
           console.log('Purchase created', response);
+          this.purchaseComplete = true;
+          this.purchaseError = null;
+          this.router.navigate(['/']);
+
         },
         error: (err) => {
-          console.error('Error creating purchase', err);
+          this.purchaseError = err?.error?.message || 'Error al crear la compra.';
+          this.purchaseComplete = false;
         }
       })
     })
