@@ -104,13 +104,27 @@ export class CompraComponent {
           console.warn('Error removing existing map', e);
         }
 
-        this.map = L.map('map', { zoomControl: true }).setView([lat, lng], 15);
+
+        const redIcon = L.icon({
+          iconUrl: 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2_hdpi.png',
+          iconSize: [27, 43],
+          iconAnchor: [13, 43],  
+        });
+        this.map = L.map('map', { scrollWheelZoom: false }).setView([lat, lng], 15);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; OpenStreetMap contributors'
         }).addTo(this.map);
 
-        L.marker([lat, lng]).addTo(this.map);
+        L.marker([lat, lng], { icon: redIcon}).addTo(this.map);
+        this.map.getContainer().addEventListener('wheel', (e:any) => {
+          if (e.ctrlKey) {
+            e.preventDefault();    
+            this.map.scrollWheelZoom.enable();
+          } else {
+            this.map.scrollWheelZoom.disable();
+          }
+        },{ passive: false });
       })
       .catch(err => console.error('Error fetching geocoding data', err));
   }
@@ -185,19 +199,7 @@ export class CompraComponent {
   
   }
 
-//  createPreference(): void {
-//    this.purchaseService.createPreference({
-//      id: 0, 
-//      ticketTypeName: this.ticketTypes[2].ticketTypeName,
-//      ticketNumbers: this.ticketTypes[2].amountSelected,
-//      price: this.ticketTypes[2].price}).subscribe({
-//        next: (res) => {
-//          window.location.href = res.init_point;
-//        },
-//        error: (err) => {          console.error('Error creating preference', err);
-//        }
-//      })
-//  }
+
 
   handleContinue(): void {
     this.loginRequired = false;

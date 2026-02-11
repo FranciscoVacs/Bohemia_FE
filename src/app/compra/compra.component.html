@@ -169,8 +169,8 @@
                   class="font-display text-2xl uppercase tracking-wide text-white group-hover:text-secondary transition-colors">
                   {{ ticketType.ticketTypeName }}</h3>
                 <span
-                  class="bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-primary/20">Lote
-                  2</span>
+                  class="bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-primary/20">Disponible
+                </span>
               </div>
               <p class="text-gray-400 text-sm mb-4">Acceso al sector general. Incluye consumición hasta las 2 AM.</p>
               <div class="flex items-baseline gap-1">
@@ -199,9 +199,6 @@
           <div class="flex-1">
             <div class="flex items-center gap-3 mb-2">
               <h3 class="font-display text-2xl uppercase tracking-wide text-gray-400">{{ ticketType.ticketTypeName }}</h3>
-              <span
-                class="bg-gray-800 text-gray-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-white/10">Lote
-                1</span>
             </div>
             <p class="text-gray-500 text-sm">Acceso al sector general. Cupos limitados.</p>
           </div>
@@ -259,7 +256,7 @@
               @if (ticketType.amountSelected > 0) {
             <div class="flex justify-between items-start animate-[pulse_3s_infinite]">
               <div>
-                <p class="text-sm font-bold text-white">{{ ticketType.amountSelected }}x {{ ticketType.ticketTypeName }} - Lote 2</p>
+                <p class="text-sm font-bold text-white">{{ ticketType.amountSelected }}x {{ ticketType.ticketTypeName }}</p>
                 <p class="text-[10px] text-gray-500 uppercase tracking-wider">Bohemia {{ event?.location?.city?.cityName }}</p>
               </div>
               <span class="text-sm font-bold text-white">${{ticketType.price * ticketType.amountSelected}}</span>
@@ -331,18 +328,7 @@
       </h2>
       <div class="bg-[#121212] rounded-[32px] p-1 border border-white/10 overflow-hidden relative group">
         <div class="relative h-[450px] w-full rounded-[28px] overflow-hidden shadow-2xl shadow-primary/5">
-
           <div id="map" class="w-full h-full"></div>
-
-          <!-- Centered red pin overlay -->
-          <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);pointer-events:none;z-index:40;">
-            <svg width="44" height="44" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path fill="#d32f2f" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/>
-              <circle cx="12" cy="9" r="1.2" fill="#fff" opacity="0.2" />
-            </svg>
-          </div>
-
-          
         </div>
       </div>
     </div>
