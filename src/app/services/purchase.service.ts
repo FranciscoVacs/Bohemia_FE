@@ -3,9 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Purchase } from '../models/purchase.js';
 import { ApiResponse } from '../models/api-response.js';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CreatePurchaseDTO } from '../dto/purchase.dto.js';
-import { CreatePreferenceDTO } from '../dto/purchase.dto.js';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +16,9 @@ export class PurchaseService {
   createPurchase(createPurchase: CreatePurchaseDTO): Observable<ApiResponse<Purchase>> {
       return this.http.post<ApiResponse<Purchase>>(`${this.apiUrl}/purchase`, createPurchase);
       }
-  createPreference(createPreference: CreatePreferenceDTO): Observable<{init_point: string}> {
-    console.log('Creating preference with data', createPreference);
-    return this.http.post<{init_point: string}>(`${this.apiUrl}/purchase/create_preference`, createPreference);
+
+  createPreference(id: number): Observable<{init_point: string}> {
+    return this.http.post<{init_point: string}>(`${this.apiUrl}/purchase/create_preference`, {id});
   }    
     
     }

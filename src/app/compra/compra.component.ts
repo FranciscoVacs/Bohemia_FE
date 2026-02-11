@@ -32,8 +32,6 @@ export class CompraComponent {
   mapUrl: SafeResourceUrl = '';
   event!: Event | null;
   locationName: string  = '';
-  purchaseError: string | null = null;
-  purchaseComplete: boolean = false;
   // UI ticket type that includes a quantity selected by the user
   ticketTypes: TicketWithAmount[] = [];
   eventID!: number;
@@ -117,31 +115,6 @@ export class CompraComponent {
       .catch(err => console.error('Error fetching geocoding data', err));
   }
   
-  createPurchase(){
-    this.purchaseError = null;
-    this.ticketTypes.forEach(tType => { 
-    if (tType.amountSelected === 0) return;
-    const purchaseDTO: CreatePurchaseDTO = {
-    ticketQuantity: tType.amountSelected,
-    ticketTypeId: tType.id,
-    }
-    console.log(purchaseDTO.ticketQuantity, " ", purchaseDTO.ticketTypeId);
-
-    this.purchaseService.createPurchase(purchaseDTO).subscribe({
-        next: (response) => {
-          console.log('Purchase created', response);
-          this.purchaseComplete = true;
-          this.purchaseError = null;
-          this.router.navigate(['/']);
-
-        },
-        error: (err) => {
-          this.purchaseError = err?.error?.message || 'Error al crear la compra.';
-          this.purchaseComplete = false;
-        }
-      })
-    })
-  }
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -186,24 +159,45 @@ export class CompraComponent {
     return this.calculateSubtotal() + this.calculateServiceFee();
   }
 
-  addState(): void {
-    if (this.state < 3) this.state++;
-    else this.createPreference();
-  }
+  createPurchase(){
+  //  this.ticketTypes.forEach(tType => { 
+    if (this.ticketTypes[2].amountSelected === 0) return;
+    const purchaseDTO: CreatePurchaseDTO = {
+    ticketQuantity: this.ticketTypes[2].amountSelected,
+    ticketTypeId: this.ticketTypes[2].id,
+    }
+    console.log(purchaseDTO.ticketQuantity, " ", purchaseDTO.ticketTypeId);
 
-  createPreference(): void {
-    console.log("hello");
-    this.purchaseService.createPreference({
-      ticketTypeName: this.ticketTypes[2].ticketTypeName,
-      ticketNumbers: this.ticketTypes[2].amountSelected,
-      price: this.ticketTypes[2].price}).subscribe({
+    this.purchaseService.createPurchase(purchaseDTO).pipe(switchMap((purchaseResponse) => {
+      const purchase = purchaseResponse.data;  
+      console.log('Purchase created', purchase);
+      return this.purchaseService.createPreference(
+      purchase.id)
+      })).subscribe({
         next: (res) => {
+          console.log("preference res", res);
           window.location.href = res.init_point;
         },
-        error: (err) => {          console.error('Error creating preference', err);
-        }
-      })
+        error: (err) => {
+          console.log('Error creating preference', err);
+      }});
+//    }
+  
   }
+
+//  createPreference(): void {
+//    this.purchaseService.createPreference({
+//      id: 0, 
+//      ticketTypeName: this.ticketTypes[2].ticketTypeName,
+//      ticketNumbers: this.ticketTypes[2].amountSelected,
+//      price: this.ticketTypes[2].price}).subscribe({
+//        next: (res) => {
+//          window.location.href = res.init_point;
+//        },
+//        error: (err) => {          console.error('Error creating preference', err);
+//        }
+//      })
+//  }
 
   handleContinue(): void {
     this.loginRequired = false;
@@ -214,6 +208,11 @@ export class CompraComponent {
       return;
     }
     this.addState();
+  }
+
+  addState(): void {
+    if (this.state < 3) this.state++;
+    else this.createPurchase();
   }
 
   removeState(): void {

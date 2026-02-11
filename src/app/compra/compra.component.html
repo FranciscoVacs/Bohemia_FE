@@ -292,12 +292,6 @@
               <span class="text-[10px] text-gray-500 uppercase font-medium">ARS (Incl. Impuestos)</span>
             </div>
           </div>
-          <div *ngIf="purchaseError" class="mb-4">
-            <p class="text-red-500 text-sm font-medium">{{ purchaseError }}</p>
-          </div>
-          <div *ngIf="purchaseComplete" class="mb-4">
-            <p class="text-green-500 text-sm font-medium">Compra realizada con éxito.</p>
-          </div>
           <button (click) = "handleContinue()"
             class="cursor-pointer w-full bg-gradient-primary text-black py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(204,255,0,0.3)] flex items-center justify-center gap-2 group">
             @if(state == 1){
