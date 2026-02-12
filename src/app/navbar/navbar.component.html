@@ -26,56 +26,14 @@
                     Admin Panel
                 </a>
                 } @else {
-                <button
+                <a routerLink="/compra"
                     class="bg-linear-to-r from-secondary to-primary text-black px-5 py-1.5 rounded-full font-bold uppercase text-sm tracking-wider hover:opacity-95 transition-all cursor-pointer shadow-[0_0_20px_rgba(0,224,255,0.3),0_0_40px_rgba(204,255,0,0.2)]">
                     COMPRAR ENTRADAS
-                </button>
+                </a>
                 }
 
                 <!-- Auth State -->
-                @if (authService.isAuthenticated()) {
-                <!-- User Dropdown Container -->
-                <div class="relative user-dropdown-container">
-                    <!-- Initials Avatar Button -->
-                    <button (click)="toggleDropdown(); $event.stopPropagation()"
-                        class="w-10 h-10 rounded-full bg-linear-to-br from-secondary to-primary p-[2px] cursor-pointer hover:shadow-[0_0_15px_rgba(0,224,255,0.4)] transition-all">
-                        <div
-                            class="translate-x-[0.5px] w-full h-full rounded-full bg-black flex items-center justify-center text-white font-semibold text-sm uppercase tracking-wide">
-                            {{ userInitials() }}
-                        </div>
-                    </button>
-
-                    <!-- Dropdown Menu -->
-                    @if (isDropdownOpen()) {
-                    <div
-                        class="absolute right-0 top-full mt-2 w-48 bg-black/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.5)] overflow-hidden animate-[fadeIn_0.15s_ease-out]">
-                        <a routerLink="/mis-entradas" (click)="closeDropdown()"
-                            class="flex items-center gap-3 px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">
-                            <span class="material-symbols-outlined text-lg">confirmation_number</span>
-                            <span class="text-sm font-medium">Mis Entradas</span>
-                        </a>
-                        <a routerLink="/mi-perfil" (click)="closeDropdown()"
-                            class="flex items-center gap-3 px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">
-                            <span class="material-symbols-outlined text-lg">person</span>
-                            <span class="text-sm font-medium">Mi Perfil</span>
-                        </a>
-                        <div class="border-t border-white/10"></div>
-                        <button (click)="logout()"
-                            class="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors cursor-pointer">
-                            <span class="material-symbols-outlined text-lg">logout</span>
-                            <span class="text-sm font-medium">Cerrar Sesión</span>
-                        </button>
-                    </div>
-                    }
-                </div>
-                } @else {
-                <button (click)="modalService.openLogin()"
-                    class="w-10 h-10 rounded-full bg-linear-to-br from-secondary to-primary p-[2px] cursor-pointer hover:shadow-[0_0_15px_rgba(0,224,255,0.4)] transition-all">
-                    <div class="w-full h-full rounded-full bg-black grid place-items-center text-white">
-                        <span class="material-symbols-outlined text-xl leading-none translate-x-[0.5px]">person</span>
-                    </div>
-                </button>
-                }
+                <user-dropdown></user-dropdown>
             </div>
         </div>
     </div>

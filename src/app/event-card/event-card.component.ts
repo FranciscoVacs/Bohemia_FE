@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { Event } from '../models/event.js';
 import { CapitalizePipe } from '../pipes/capitalize.pipe.js';
 
 @Component({
   selector: 'app-event-card',
   standalone: true,
-  imports: [CommonModule, CapitalizePipe],
+  imports: [CommonModule, CapitalizePipe, RouterModule],
   templateUrl: './event-card.component.html',
   styleUrl: './event-card.component.css'
 })

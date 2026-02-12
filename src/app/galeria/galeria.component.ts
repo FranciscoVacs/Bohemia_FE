@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './galeria.component.html',
-  styleUrl: './galeria.component.css'
+  styleUrls: ['./galeria.component.css']
 })
 export class GaleriaComponent {
 
