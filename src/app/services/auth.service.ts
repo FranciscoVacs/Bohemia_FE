@@ -4,7 +4,7 @@ import { Observable, tap, catchError, throwError, map } from 'rxjs';
 import { User } from '../models/user';
 import { ApiResponse } from '../models/api-response';
 import { LoginData, RegisterData } from '../models/auth';
-import { environment } from '../../environments/environment.development.js';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

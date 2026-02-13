@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { AdminEvent } from '../../models/event';
 import { ApiResponse } from '../../models/api-response';
 import { EventStats } from '../../models/event-stats';

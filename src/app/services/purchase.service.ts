@@ -1,4 +1,4 @@
-import { environment } from '../../environments/environment.development.js';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Purchase } from '../models/purchase.js';

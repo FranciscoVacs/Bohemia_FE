@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development.js';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Event } from '../models/event.js';
 import { ApiResponse } from '../models/api-response';
