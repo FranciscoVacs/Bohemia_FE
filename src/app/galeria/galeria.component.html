@@ -1,68 +1,260 @@
-<nav style="width:100%;background:transparent;padding:16px 0;">
-  <div style="max-width:1200px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;">
-    <p id="highlight" style="color:#ea8478;font-size:20px;margin:0;font-weight:600;">Katherine Kato</p>
-    <ul style="list-style:none;margin:0;padding:0;display:flex;gap:16px;align-items:center;">
-      <li style="margin:0;"><a href="#" style="color:#2e2e2e;text-decoration:none;font-weight:700;">Work</a></li>
-      <li style="margin:0;"><a href="#" style="color:#787878;text-decoration:none;">About</a></li>
-    </ul>
-  </div>
-</nav>
-<section class="gallery" style="display:flex;justify-content:center;width:100%;padding:24px 0 48px 0;">
-  <div style="max-width:1200px;width:100%;margin:0 auto;padding:0 16px;">
-    <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;justify-content:center;">
-      <!-- Card 1 -->
-      <div style="flex:1 1 calc(33.333% - 16px);min-width:260px;">
-        <figure style="display:flex;align-items:center;justify-content:center;overflow:hidden;height:380px;border-radius:12px;margin:0;background:#fff;">
-          <img src="https://assets.codepen.io/1159990/smart-watch.jpg" alt="Smart Watch"
-            style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1);transition:transform .3s ease-in-out;"
-            onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
-        </figure>
-      </div>
+<!-- ============================== -->
+<!-- VISTA: LISTADO DE EVENTOS      -->
+<!-- ============================== -->
+@if (currentView() === 'events') {
+<section class="min-h-screen pt-28 pb-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <!-- Card 2 -->
-      <div style="flex:1 1 calc(33.333% - 16px);min-width:260px;">
-        <figure style="display:flex;align-items:center;justify-content:center;overflow:hidden;height:380px;border-radius:12px;margin:0;background:#fff;">
-          <img src="https://assets.codepen.io/1159990/camera-film.jpg" alt="Camera Film"
-            style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1);transition:transform .3s ease-in-out;"
-            onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
-        </figure>
-      </div>
-
-      <!-- Card 3 -->
-      <div style="flex:1 1 calc(33.333% - 16px);min-width:260px;">
-        <figure style="display:flex;align-items:center;justify-content:center;overflow:hidden;height:380px;border-radius:12px;margin:0;background:#fff;">
-          <img src="https://assets.codepen.io/1159990/coffee.jpg" alt="Coffee"
-            style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1);transition:transform .3s ease-in-out;"
-            onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
-        </figure>
-      </div>
-
-      <!-- Card 4 (half width) -->
-      <div style="flex:1 1 calc(50% - 16px);min-width:300px;">
-        <figure style="display:flex;align-items:center;justify-content:center;overflow:hidden;height:380px;border-radius:12px;margin:0;background:#fff;">
-          <img src="https://assets.codepen.io/1159990/phone.jpg" alt="Phone"
-            style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1);transition:transform .3s ease-in-out;"
-            onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
-        </figure>
-      </div>
-
-      <!-- Card 5 (half width) -->
-      <div style="flex:1 1 calc(50% - 16px);min-width:300px;">
-        <figure style="display:flex;align-items:center;justify-content:center;overflow:hidden;height:380px;border-radius:12px;margin:0;background:#fff;">
-          <img src="https://assets.codepen.io/1159990/keyboard.jpg" alt="Keyboard"
-            style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1);transition:transform .3s ease-in-out;"
-            onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
-        </figure>
-      </div>
-
-      <!-- Full width -->
-      <div style="flex:1 1 100%;min-width:260px;">
-        <figure style="display:flex;align-items:center;justify-content:center;overflow:hidden;height:420px;border-radius:12px;margin:0;background:#fff;">
-          <img src="https://assets.codepen.io/1159990/wrist-watch.jpg" alt="Wrist Watch"
-            style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1);transition:transform .3s ease-in-out;"
-            onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
-        </figure>
-      </div>
+    <!-- Header -->
+    <div class="mb-10 sm:mb-14">
+      <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-wide">
+        Galería
+      </h1>
+      <p class="text-white/50 mt-3 text-sm sm:text-base max-w-xl">
+        Reviví los mejores momentos de nuestros eventos. Seleccioná un evento para ver las fotos.
+      </p>
     </div>
+
+    <!-- Loading -->
+    @if (loading()) {
+    <div class="flex justify-center items-center py-20">
+      <div class="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+    </div>
+    }
+
+    <!-- Error -->
+    @if (error() && !loading()) {
+    <div class="text-center py-20">
+      <span class="material-symbols-outlined text-5xl text-white/20 mb-4">error</span>
+      <p class="text-white/50">{{ error() }}</p>
+      <button (click)="loadEvents()"
+        class="mt-4 px-6 py-2 border border-primary/30 text-primary rounded-full text-sm hover:bg-primary/10 transition-colors cursor-pointer">
+        Reintentar
+      </button>
+    </div>
+    }
+
+    <!-- Sin galerías -->
+    @if (!loading() && !error() && events().length === 0) {
+    <div class="text-center py-20">
+      <span class="material-symbols-outlined text-6xl text-white/10 mb-4">photo_library</span>
+      <p class="text-white/40 text-lg">No hay galerías disponibles por el momento.</p>
+    </div>
+    }
+
+    <!-- Grid de eventos -->
+    @if (!loading() && events().length > 0) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      @for (event of events(); track event.id) {
+      <article
+        (click)="openAlbum(event)"
+        class="group relative rounded-2xl overflow-hidden cursor-pointer
+               border border-white/5 bg-white/5 backdrop-blur-sm
+               hover:border-primary/20 transition-all duration-300
+               hover:shadow-[0_0_30px_rgba(204,255,0,0.1)]">
+
+        <!-- Imagen del evento -->
+        <div class="relative aspect-[4/3] overflow-hidden">
+          <img [src]="event.coverPhoto || 'https://placehold.co/800x600/1a1a1a/333?text=Bohemia'"
+            [alt]="event.eventName"
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy" />
+
+          <!-- Overlay oscuro -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+          <!-- Badge: requiere login -->
+          @if (!isAuthenticated()) {
+          <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm text-white/70">lock</span>
+            <span class="text-white/70 text-xs font-medium">Iniciar sesión</span>
+          </div>
+          }
+
+          <!-- Info del evento sobre la imagen -->
+          <div class="absolute bottom-0 left-0 right-0 p-4">
+            <h3 class="text-white font-bold text-lg sm:text-xl uppercase tracking-wide leading-tight mb-1">
+              {{ event.eventName }}
+            </h3>
+            <div class="flex flex-wrap items-center gap-3 text-white/60 text-xs sm:text-sm">
+              <div class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">calendar_month</span>
+                <span>{{ formatDate(event.beginDatetime) }}</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">location_on</span>
+                <span>{{ event.location.locationName }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer con icono -->
+        <div class="px-4 py-3 flex items-center justify-between border-t border-white/5">
+          <span class="text-white/40 text-xs uppercase tracking-wider">Ver álbum</span>
+          <span class="material-symbols-outlined text-primary/60 text-xl group-hover:text-primary group-hover:translate-x-1 transition-all">
+            arrow_forward
+          </span>
+        </div>
+      </article>
+      }
+    </div>
+    }
   </div>
 </section>
+}
+
+
+<!-- ============================== -->
+<!-- VISTA: ÁLBUM DE FOTOS          -->
+<!-- ============================== -->
+@if (currentView() === 'album') {
+<section class="min-h-screen pt-28 pb-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Header con botón volver -->
+    <div class="mb-8 sm:mb-12">
+      <button (click)="goBack()"
+        class="flex items-center gap-2 text-white/50 hover:text-primary transition-colors mb-4 cursor-pointer group">
+        <span class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
+        <span class="text-sm uppercase tracking-wider">Volver a galerías</span>
+      </button>
+
+      @if (selectedEvent(); as event) {
+      <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl text-white uppercase tracking-wide">
+        {{ event.eventName }}
+      </h1>
+      <div class="flex flex-wrap items-center gap-4 mt-3 text-white/40 text-sm">
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-base">calendar_month</span>
+          <span>{{ formatDate(event.beginDatetime) }}</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-base">location_on</span>
+          <span>{{ event.location.locationName }}</span>
+        </div>
+        @if (photos().length > 0) {
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-base">photo_library</span>
+          <span>{{ photos().length }} fotos</span>
+        </div>
+        }
+      </div>
+      }
+    </div>
+
+    <!-- Loading fotos -->
+    @if (loadingPhotos()) {
+    <div class="flex justify-center items-center py-20">
+      <div class="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+    </div>
+    }
+
+    <!-- Error -->
+    @if (error() && !loadingPhotos()) {
+    <div class="text-center py-20">
+      <span class="material-symbols-outlined text-5xl text-white/20 mb-4">error</span>
+      <p class="text-white/50">{{ error() }}</p>
+      <button (click)="goBack()"
+        class="mt-4 px-6 py-2 border border-primary/30 text-primary rounded-full text-sm hover:bg-primary/10 transition-colors cursor-pointer">
+        Volver
+      </button>
+    </div>
+    }
+
+    <!-- Sin fotos -->
+    @if (!loadingPhotos() && !error() && photos().length === 0) {
+    <div class="text-center py-20">
+      <span class="material-symbols-outlined text-6xl text-white/10 mb-4">no_photography</span>
+      <p class="text-white/40 text-lg">Este álbum aún no tiene fotos.</p>
+    </div>
+    }
+
+    <!-- Grid de fotos - Layout tipo galería responsive -->
+    @if (!loadingPhotos() && photos().length > 0) {
+    <div class="columns-1 sm:columns-2 lg:columns-3 gap-3 sm:gap-4">
+      @for (photo of photos(); track photo.id; let i = $index) {
+      <div class="break-inside-avoid mb-3 sm:mb-4">
+        <figure
+          (click)="openLightbox(photo, i)"
+          class="relative rounded-xl overflow-hidden cursor-pointer group m-0">
+          <img [src]="photo.cloudinaryUrl"
+            [alt]="photo.originalName"
+            class="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
+            loading="lazy" />
+          <!-- Overlay al hover -->
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300
+                      flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-white text-3xl drop-shadow-lg">
+                zoom_in
+              </span>
+            </div>
+          </div>
+        </figure>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</section>
+}
+
+
+<!-- ============================== -->
+<!-- LIGHTBOX - Vista completa      -->
+<!-- ============================== -->
+@if (lightboxOpen() && lightboxPhoto()) {
+<div
+  class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center"
+  (click)="closeLightbox()"
+  (keydown)="onLightboxKeydown($event)"
+  tabindex="0"
+  #lightboxOverlay>
+
+  <!-- Barra superior -->
+  <div class="absolute top-0 left-0 right-0 flex items-center justify-between px-4 sm:px-6 py-4 z-10"
+    (click)="$event.stopPropagation()">
+    <!-- Contador -->
+    <span class="text-white/50 text-sm">
+      {{ lightboxIndex() + 1 }} / {{ photos().length }}
+    </span>
+    <!-- Acciones -->
+    <div class="flex items-center gap-2">
+      <button (click)="downloadPhoto(lightboxPhoto()!)"
+        class="w-10 h-10 rounded-full bg-white/10 hover:bg-primary/20 flex items-center justify-center transition-colors cursor-pointer"
+        title="Descargar">
+        <span class="material-symbols-outlined text-white text-xl">download</span>
+      </button>
+      <button (click)="closeLightbox()"
+        class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer"
+        title="Cerrar">
+        <span class="material-symbols-outlined text-white text-xl">close</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Imagen -->
+  <div class="max-w-[90vw] max-h-[80vh] flex items-center justify-center" (click)="$event.stopPropagation()">
+    <img [src]="lightboxPhoto()!.cloudinaryUrl"
+      [alt]="lightboxPhoto()!.originalName"
+      class="max-w-full max-h-[80vh] object-contain rounded-lg select-none" />
+  </div>
+
+  <!-- Navegación: Anterior -->
+  @if (photos().length > 1) {
+  <button
+    (click)="$event.stopPropagation(); prevPhoto()"
+    class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer">
+    <span class="material-symbols-outlined text-white text-2xl">chevron_left</span>
+  </button>
+
+  <!-- Navegación: Siguiente -->
+  <button
+    (click)="$event.stopPropagation(); nextPhoto()"
+    class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer">
+    <span class="material-symbols-outlined text-white text-2xl">chevron_right</span>
+  </button>
+  }
+</div>
+}

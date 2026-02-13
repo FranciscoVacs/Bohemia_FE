@@ -7,6 +7,7 @@ import { PurchaseRedirectComponent} from './compra/purchase-redirect/purchase-re
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'galeria', component: GaleriaComponent },
+    { path: 'galeria/:eventId', component: GaleriaComponent },
     { path: 'compra', component: CompraComponent },
     { path: 'success', component: PurchaseRedirectComponent },
     {

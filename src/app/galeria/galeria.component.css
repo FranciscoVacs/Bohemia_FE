@@ -1,1 +1,5 @@
-/* Styles migrated inline into the component HTML. Kept empty to avoid conflicts. */
+/* Galeria Component Styles */
+
+:host {
+  display: block;
+}
