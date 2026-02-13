@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://bohemia-be.onrender.com'
+  apiUrl: 'https://bohemia-be.onrender.com/api'
 };
