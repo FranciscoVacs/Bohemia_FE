@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'purchase-redirect',
@@ -9,9 +10,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './purchase-redirect.component.css'
 })
 export class PurchaseRedirectComponent {
-  constructor() {}
+  constructor(private route: ActivatedRoute) {}
 
-  ngOnInit() {
-  console.log('PurchaseRedirectComponent initialized');
-  }
+ngOnInit() {
+  console.log('component loaded');
+
+  this.route.queryParams.subscribe(params => {
+    console.log('ALL PARAMS:', params);
+    console.log('payment_id:', params['payment_id']);
+  });
+}
 }

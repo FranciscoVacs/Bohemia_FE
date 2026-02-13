@@ -20,6 +20,10 @@ export class PurchaseService {
   createPreference(id: number): Observable<{init_point: string}> {
     return this.http.post<{init_point: string}>(`${this.apiUrl}/purchase/create_preference`, {id});
   }    
-    
-    }
+
+  verifyPayment(paymentId: number): Observable<{success:boolean, purchaseId: number}> {
+    return this.http.get<{success:boolean, purchaseId: number}>(`${this.apiUrl}/purchase/verify/${paymentId}`);
+  }
+
+  }
     

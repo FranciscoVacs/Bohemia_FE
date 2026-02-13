@@ -8,7 +8,7 @@ export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'galeria', component: GaleriaComponent },
     { path: 'compra', component: CompraComponent },
-    { path: 'success', component: PurchaseRedirectComponent },
+    { path: 'redirect', component: PurchaseRedirectComponent },
     {
         path: 'admin',
         loadChildren: () => import('./admin/admin.routes').then(m => m.adminRoutes)
