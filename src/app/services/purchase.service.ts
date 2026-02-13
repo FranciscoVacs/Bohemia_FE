@@ -17,6 +17,11 @@ export class PurchaseService {
       return this.http.post<ApiResponse<Purchase>>(`${this.apiUrl}/purchase`, createPurchase);
       }
 
+
+  getPurchaseById(id: number): Observable<ApiResponse<Purchase>> {
+    return this.http.get<ApiResponse<Purchase>>(`${this.apiUrl}/purchase/${id}`);
+  } 
+
   createPreference(id: number): Observable<{init_point: string}> {
     return this.http.post<{init_point: string}>(`${this.apiUrl}/purchase/create_preference`, {id});
   }    
