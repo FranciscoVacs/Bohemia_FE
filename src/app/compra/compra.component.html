@@ -306,8 +306,8 @@
             <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">check</span>
             }
           </button>
-          @if (loginRequired && state == 2) {
-          <p class="text-red-400 text-sm mt-3">Por favor iniciá sesión usando el botón <strong>Login</strong> en la sección "Datos personales" antes de continuar al pago.</p>
+          @if (loginRequired && state == 1) {
+          <p class="text-red-400 text-sm mt-3">Por favor iniciá sesión antes de continuar.</p>
           }
           <div
             class="mt-4 flex justify-center items-center gap-2 text-[10px] text-gray-500 bg-white/5 py-2 rounded-lg">
