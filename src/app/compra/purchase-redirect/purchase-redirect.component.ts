@@ -16,6 +16,7 @@ import { PurchaseDetails } from '../../models/purchase';
 export class PurchaseRedirectComponent {
   constructor(private route: ActivatedRoute, private purchaseService: PurchaseService) {}
   purchaseDetails?: PurchaseDetails;
+  purchaseId?: number;
 
 ngOnInit() {
   console.log('component loaded');
@@ -29,6 +30,7 @@ ngOnInit() {
     }),
     switchMap(((verificationResult:{success: boolean, purchaseId: number}) => {
       console.log('Verification Result:', verificationResult);
+      this.purchaseId = verificationResult.purchaseId;
       return this.purchaseService.getPurchaseById(verificationResult.purchaseId);
     })
     )).subscribe({

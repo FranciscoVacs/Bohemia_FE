@@ -3,6 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { GaleriaComponent } from './galeria/galeria.component';
 import { CompraComponent } from './compra/compra.component';
 import { PurchaseRedirectComponent} from './compra/purchase-redirect/purchase-redirect.component';
+import { PurchaseFailComponent } from './compra/purchase-fail/purchase-fail.component.js';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -10,6 +11,7 @@ export const routes: Routes = [
     { path: 'galeria/:eventId', component: GaleriaComponent },
     { path: 'compra', component: CompraComponent },
     { path: 'redirect', component: PurchaseRedirectComponent },
+    { path: 'failed', component: PurchaseFailComponent },
     {
         path: 'admin',
         loadChildren: () => import('./admin/admin.routes').then(m => m.adminRoutes)
