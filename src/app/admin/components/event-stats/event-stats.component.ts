@@ -76,9 +76,10 @@ export class EventStatsComponent implements OnInit, OnDestroy {
    * Fetch stats returning an Observable for use with switchMap
    */
   private fetchStats() {
+    // Solo mostrar loading spinner en la carga inicial (cuando no hay datos aún)
     this.state.update(state => ({
       ...state,
-      loading: true,
+      loading: state.stats === null,
       error: null
     }));
 
@@ -156,10 +157,9 @@ export class EventStatsComponent implements OnInit, OnDestroy {
    * Determina el color de la barra de progreso según porcentaje
    */
   getProgressBarColor(percentage: number): string {
-    if (percentage >= 80) return 'bg-gradient-primary';
-    if (percentage >= 60) return 'bg-yellow-500';
-    if (percentage >= 40) return 'bg-blue-500';
-    return 'bg-gray-400';
+    if (percentage >= 75) return 'bg-[#b7ff00]';
+    if (percentage >= 40) return 'bg-white/30';
+    return 'bg-white/15';
   }
 
   /**

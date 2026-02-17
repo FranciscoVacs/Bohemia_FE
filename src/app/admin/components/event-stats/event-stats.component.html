@@ -1,171 +1,166 @@
-<main class="min-h-screen pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+<div class="min-h-screen bg-linear-to-b from-[#0a0a0a] to-[#111111]">
+  <!-- Header - Fixed navbar -->
+  <nav class="fixed top-0 left-0 right-0 h-14 flex items-center justify-between px-4 md:px-8 bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
+    <button (click)="goBack()"
+      class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-[#b7ff00]/10 hover:text-[#b7ff00] cursor-pointer bg-transparent border-none">
+      <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+      <span class="hidden md:inline">Volver al Listado</span>
+    </button>
+    <span class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
+      ESTADISTICAS
+    </span>
+    <button (click)="refreshStats()" 
+      [disabled]="loading()"
+      class="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm px-4 py-2 rounded-lg transition-all hover:bg-white/10 cursor-pointer bg-transparent border border-white/20 hover:border-white/40 disabled:opacity-50 disabled:cursor-not-allowed">
+      <span class="material-symbols-outlined text-[18px]">refresh</span>
+      <span class="hidden md:inline">Refrescar</span>
+    </button>
+  </nav>
+
+  <main class="px-4 md:px-8 pt-20 pb-8 max-w-6xl mx-auto">
   <!-- Header -->
-  <div class="mb-8 flex items-center justify-between">
-    <div class="flex items-center gap-4">
-      <button (click)="goBack()" 
-        class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center transition-colors text-gray-400 hover:text-white">
-        <span class="material-symbols-outlined">arrow_back</span>
-      </button>
-      <div>
-        <h1 class="font-display text-4xl md:text-5xl uppercase tracking-tighter text-white mb-2">
-          <span class="text-gradient">Estadísticas</span> del Evento
-        </h1>
-        @if (stats()) {
-          <div class="flex items-center gap-4 text-sm">
-            <span class="text-white font-medium">{{ stats()!.eventName }}</span>
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border" 
+  <div class="mb-6 md:mb-8">
+    <!-- Título y badges -->
+    <div>
+      <h1 class="text-2xl md:text-4xl font-extrabold text-white mb-2 uppercase tracking-wider">
+        <span class="text-[#b7ff00] italic">Estadísticas</span> del Evento
+      </h1>
+      @if (stats()) {
+        <div class="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
+          <span class="text-white/60 text-sm md:text-base font-medium truncate">{{ stats()!.eventName }}</span>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border" 
               [ngClass]="getEventStatusBadge(stats()!.eventStatus).classes">
               {{ getEventStatusBadge(stats()!.eventStatus).text }}
             </span>
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border" 
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border" 
               [ngClass]="getSaleStatusBadge(stats()!.saleStatus).classes">
               {{ getSaleStatusBadge(stats()!.saleStatus).text }}
             </span>
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20">
-              ON AIR
-            </span>
           </div>
-        }
-      </div>
-    </div>
-    <div class="flex items-center gap-4">
-      @if (lastUpdated()) {
-        <span class="text-xs text-gray-400">
-          Última actualización: {{ formatDate(lastUpdated()!.toISOString()) }}
-        </span>
+        </div>
       }
-      <button (click)="refreshStats()" 
-        [disabled]="loading()"
-        class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg flex items-center gap-2 transition-colors text-gray-400 hover:text-white disabled:opacity-50">
-        <span class="material-symbols-outlined">refresh</span>
-        <span class="text-sm font-medium">Refrescar</span>
-      </button>
+      @if (lastUpdated()) {
+        <p class="text-white/30 text-xs mt-2">
+          Actualizado: {{ formatDate(lastUpdated()!.toISOString()) }}
+        </p>
+      }
     </div>
   </div>
 
   <!-- Loading State -->
-  @if (loading()) {
-    <div class="flex flex-col items-center justify-center py-20">
-      <div class="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full"></div>
-      <p class="text-white/50 mt-4">Cargando estadísticas...</p>
+  @if (loading() && !stats()) {
+    <div class="flex flex-col items-center justify-center py-16 md:py-20">
+      <div class="animate-spin w-7 h-7 md:w-8 md:h-8 border-2 border-primary border-t-transparent rounded-full"></div>
+      <p class="text-white/50 mt-4 text-sm">Cargando estadísticas...</p>
     </div>
   }
 
   <!-- Error State -->
   @if (error()) {
-    <div class="flex flex-col items-center justify-center py-20">
-      <span class="material-symbols-outlined text-6xl text-red-500 mb-4">error</span>
-      <p class="text-red-400 text-center">{{ error() }}</p>
+    <div class="flex flex-col items-center justify-center py-16 md:py-20">
+      <span class="material-symbols-outlined text-4xl md:text-5xl text-red-500/60 mb-3">error</span>
+      <p class="text-red-400/80 text-sm text-center px-4">{{ error() }}</p>
       <button (click)="refreshStats()" 
-        class="mt-4 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors">
+        class="mt-4 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl text-sm font-medium transition-colors cursor-pointer">
         Reintentar
       </button>
     </div>
   }
 
   <!-- Stats Content -->
-  @if (stats() && !loading()) {
+  @if (stats() && !error()) {
     <!-- KPI Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 gap-4 mb-6 md:grid-cols-3 md:gap-6 md:mb-8">
       <!-- Tickets Vendidos -->
-      <div class="bg-[#0a0a0a] border border-white/10 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary via-primary to-secondary"></div>
-        <div class="relative z-10">
-          <div class="flex items-center justify-between mb-4">
-            <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-              <span class="material-symbols-outlined text-primary text-2xl">confirmation_number</span>
-            </div>
-            <span class="text-xs text-gray-500 font-mono bg-white/5 px-2 py-1 rounded">
-              {{ stats()!.summary.totalTicketsSold }}/{{ stats()!.summary.totalCapacity }}
-            </span>
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6">
+        <div class="flex items-center justify-between mb-3 md:mb-4">
+          <div class="flex items-center gap-2 text-gray-400">
+            <span class="material-symbols-outlined text-[18px] md:text-[20px]">confirmation_number</span>
+            <span class="text-xs md:text-sm font-medium">Tickets Vendidos</span>
           </div>
-          <div class="text-3xl font-bold text-white mb-2">{{ stats()!.summary.totalTicketsSold }}</div>
-          <div class="text-sm text-gray-400">Tickets Vendidos</div>
-          <div class="mt-4 w-full bg-black/40 rounded-full h-2 overflow-hidden">
-            <div class="h-full bg-gradient-primary transition-all duration-500" 
-              [style.width.%]="stats()!.summary.percentageSold"></div>
-          </div>
-          <div class="text-xs text-gray-500 mt-2">{{ stats()!.summary.percentageSold }}% del total</div>
+          <span class="text-[11px] md:text-xs font-mono text-gray-500 bg-white/5 px-1.5 md:px-2 py-0.5 md:py-1 rounded">
+            {{ stats()!.summary.totalTicketsSold }}/{{ stats()!.summary.totalCapacity }}
+          </span>
         </div>
+        <div class="text-2xl md:text-3xl font-extrabold text-white mb-2 md:mb-3">{{ stats()!.summary.totalTicketsSold }}</div>
+        <div class="w-full bg-white/5 rounded-full h-1.5 md:h-2 overflow-hidden">
+          <div class="h-full bg-[#b7ff00] rounded-full transition-all duration-500" 
+            [style.width.%]="stats()!.summary.percentageSold"></div>
+        </div>
+        <div class="text-[11px] md:text-xs text-gray-500 mt-1.5 md:mt-2">{{ stats()!.summary.percentageSold }}% del total</div>
       </div>
 
       <!-- Recaudación Total -->
-      <div class="bg-[#0a0a0a] border border-white/10 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary via-primary to-secondary"></div>
-        <div class="relative z-10">
-          <div class="flex items-center justify-between mb-4">
-            <div class="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center">
-              <span class="material-symbols-outlined text-secondary text-2xl">payments</span>
-            </div>
-            <span class="text-xs text-gray-500 font-mono bg-white/5 px-2 py-1 rounded">
-              PROM: {{ formatCurrency(stats()!.summary.averageTicketPrice) }}
-            </span>
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6">
+        <div class="flex items-center justify-between mb-3 md:mb-4">
+          <div class="flex items-center gap-2 text-gray-400">
+            <span class="material-symbols-outlined text-[18px] md:text-[20px]">payments</span>
+            <span class="text-xs md:text-sm font-medium">Recaudación Total</span>
           </div>
-          <div class="text-3xl font-bold text-white mb-2">{{ formatCurrency(stats()!.summary.totalRevenue) }}</div>
-          <div class="text-sm text-gray-400">Recaudación Total</div>
-          <div class="mt-4 flex items-center gap-2 text-xs">
-            <span class="material-symbols-outlined text-primary text-[16px]">trending_up</span>
-            <span class="text-green-400 font-medium">+12.5% vs. último evento</span>
-          </div>
+          <span class="text-[11px] md:text-xs font-mono text-gray-500 bg-white/5 px-1.5 md:px-2 py-0.5 md:py-1 rounded">
+            PROM: {{ formatCurrency(stats()!.summary.averageTicketPrice) }}
+          </span>
         </div>
+        <div class="text-2xl md:text-3xl font-extrabold text-white">{{ formatCurrency(stats()!.summary.totalRevenue) }}</div>
       </div>
 
       <!-- Última Venta -->
-      <div class="bg-[#0a0a0a] border border-white/10 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary via-primary to-secondary"></div>
-        <div class="relative z-10">
-          <div class="flex items-center justify-between mb-4">
-            <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
-              <span class="material-symbols-outlined text-green-500 text-2xl">shopping_cart</span>
-            </div>
-            @if (stats()!.lastSale) {
-              <span class="text-xs text-gray-500 font-mono bg-white/5 px-2 py-1 rounded">
-                {{ stats()!.lastSale?.timeAgo }}
-              </span>
-            }
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6">
+        <div class="flex items-center justify-between mb-3 md:mb-4">
+          <div class="flex items-center gap-2 text-gray-400">
+            <span class="material-symbols-outlined text-[18px] md:text-[20px]">schedule</span>
+            <span class="text-xs md:text-sm font-medium">Última Venta</span>
           </div>
-          <div class="text-lg font-bold text-white mb-2">Última Venta</div>
           @if (stats()!.lastSale) {
-            <div class="text-sm text-gray-400 mb-2">{{ stats()!.lastSale?.userName }}</div>
-            <div class="text-xs text-gray-500">{{ stats()!.lastSale?.ticketTypeName }}</div>
-          } @else {
-            <div class="text-sm text-gray-400 mb-2">Sin ventas aún</div>
-            <div class="text-xs text-gray-500">-</div>
+            <span class="text-[11px] md:text-xs font-mono text-gray-500 bg-white/5 px-1.5 md:px-2 py-0.5 md:py-1 rounded">
+              {{ stats()!.lastSale?.timeAgo }}
+            </span>
           }
         </div>
+        @if (stats()!.lastSale) {
+          <div class="text-base md:text-lg font-bold text-white mb-0.5 md:mb-1">{{ stats()!.lastSale?.userName }}</div>
+          <div class="text-xs md:text-sm text-gray-500">{{ stats()!.lastSale?.ticketTypeName }}</div>
+        } @else {
+          <div class="text-base md:text-lg font-bold text-white/30">Sin ventas aún</div>
+        }
       </div>
     </div>
 
     <!-- Desglose por Tipo de Ticket -->
-    <div class="bg-[#0a0a0a] border border-white/10 rounded-3xl overflow-hidden shadow-2xl relative mb-8">
-      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary via-primary to-secondary"></div>
-      <div class="p-6 border-b border-white/10 bg-[#121212]/50 backdrop-blur-sm">
-        <h2 class="font-display text-2xl text-white uppercase tracking-wide flex items-center gap-2">
-          <span class="material-symbols-outlined text-primary">analytics</span>
-          Desglose por Tipo de Ticket
-        </h2>
+    <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden mb-6 md:mb-8">
+      <div class="px-4 py-3 md:p-6 border-b border-white/10 bg-[#121212]/50">
+        <div class="flex items-center justify-between">
+          <h2 class="font-display text-sm md:text-lg text-white uppercase tracking-wide flex items-center gap-2">
+            <span class="material-symbols-outlined text-gray-400 text-[18px] md:text-[20px]">analytics</span>
+            Desglose por Ticket
+          </h2>
+          <span class="text-[11px] md:text-xs font-mono text-gray-500 bg-white/5 px-1.5 md:px-2 py-0.5 md:py-1 rounded border border-white/5">
+            {{ stats()!.byTicketType.length }} tipos
+          </span>
+        </div>
       </div>
-      <div class="p-6 space-y-4">
+      <div class="p-3 md:p-6 space-y-3 md:space-y-4">
         @for (ticketType of stats()!.byTicketType; track ticketType.id) {
-          <div class="bg-black/40 border border-white/5 rounded-xl p-4">
-            <div class="flex items-center justify-between mb-3">
-              <div>
-                <h3 class="text-white font-bold">{{ ticketType.name }}</h3>
-                <p class="text-sm text-gray-400">{{ formatCurrency(ticketType.price) }} por ticket</p>
+          <div class="bg-black/40 border border-white/5 rounded-xl p-3 md:p-4">
+            <div class="flex items-center justify-between mb-2 md:mb-3">
+              <div class="min-w-0 mr-3">
+                <h3 class="text-white font-bold text-xs md:text-sm truncate">{{ ticketType.name }}</h3>
+                <p class="text-[11px] md:text-xs text-gray-500">{{ formatCurrency(ticketType.price) }} c/u</p>
               </div>
-              <div class="text-right">
-                <div class="text-white font-bold">{{ ticketType.sold }}/{{ ticketType.capacity }}</div>
-                <div class="text-sm text-gray-400">{{ ticketType.percentageSold }}% vendido</div>
+              <div class="text-right shrink-0">
+                <div class="text-white font-bold text-xs md:text-sm">{{ ticketType.sold }}/{{ ticketType.capacity }}</div>
+                <div class="text-[11px] md:text-xs text-gray-500">{{ ticketType.percentageSold }}%</div>
               </div>
             </div>
-            <div class="w-full bg-white/5 rounded-full h-3 overflow-hidden">
-              <div class="h-full transition-all duration-500" 
+            <div class="w-full bg-white/5 rounded-full h-1.5 md:h-2 overflow-hidden">
+              <div class="h-full rounded-full transition-all duration-500" 
                 [ngClass]="getProgressBarColor(ticketType.percentageSold)"
                 [style.width.%]="ticketType.percentageSold"></div>
             </div>
-            <div class="mt-2 flex items-center justify-between text-xs">
-              <span class="text-gray-400">Ingresos: {{ formatCurrency(ticketType.revenue) }}</span>
-              <span class="text-gray-400">Disponibles: {{ ticketType.capacity - ticketType.sold }}</span>
+            <div class="mt-1.5 md:mt-2 flex items-center justify-between text-[11px] md:text-xs text-gray-500">
+              <span>{{ formatCurrency(ticketType.revenue) }}</span>
+              <span>{{ ticketType.capacity - ticketType.sold }} disponibles</span>
             </div>
           </div>
         }
@@ -173,15 +168,49 @@
     </div>
 
     <!-- Transacciones Recientes -->
-    <div class="bg-[#0a0a0a] border border-white/10 rounded-3xl overflow-hidden shadow-2xl relative">
-      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary via-primary to-secondary"></div>
-      <div class="p-6 border-b border-white/10 bg-[#121212]/50 backdrop-blur-sm">
-        <h2 class="font-display text-2xl text-white uppercase tracking-wide flex items-center gap-2">
-          <span class="material-symbols-outlined text-primary">receipt_long</span>
-          Transacciones Recientes
-        </h2>
+    <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+      <div class="px-4 py-3 md:p-6 border-b border-white/10 bg-[#121212]/50">
+        <div class="flex items-center justify-between">
+          <h2 class="font-display text-sm md:text-lg text-white uppercase tracking-wide flex items-center gap-2">
+            <span class="material-symbols-outlined text-gray-400 text-[18px] md:text-[20px]">receipt_long</span>
+            Transacciones
+          </h2>
+          <span class="text-[11px] md:text-xs font-mono text-gray-500 bg-white/5 px-1.5 md:px-2 py-0.5 md:py-1 rounded border border-white/5">
+            {{ stats()!.recentTransactions.length }}
+          </span>
+        </div>
       </div>
-      <div class="overflow-x-auto">
+
+      <!-- Vista Mobile: Cards -->
+      <div class="md:hidden divide-y divide-white/5">
+        @for (transaction of stats()!.recentTransactions; track transaction.id) {
+          <div class="p-4">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 font-bold text-[10px] uppercase shrink-0">
+                  {{ transaction.userInitials }}
+                </div>
+                <span class="text-white text-sm font-medium truncate">{{ transaction.userName }}</span>
+              </div>
+              <span class="text-white text-sm font-medium shrink-0 ml-3">{{ formatCurrency(transaction.totalPrice) }}</span>
+            </div>
+            <div class="flex items-center justify-between pl-[38px] text-[11px] text-gray-500">
+              <span>{{ transaction.ticketTypeName }} x{{ transaction.quantity }}</span>
+              <span>{{ getTimeAgo(transaction.createdAt) }}</span>
+            </div>
+          </div>
+        }
+
+        @if (stats()!.recentTransactions.length === 0) {
+          <div class="text-center py-10">
+            <span class="material-symbols-outlined text-3xl text-gray-600 mb-2">receipt_long</span>
+            <p class="text-gray-500 text-xs">No hay transacciones aún</p>
+          </div>
+        }
+      </div>
+
+      <!-- Vista Desktop: Tabla -->
+      <div class="hidden md:block overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="border-b border-white/10 bg-black/20">
@@ -197,25 +226,23 @@
               <tr class="hover:bg-white/[0.02] transition-colors duration-200">
                 <td class="px-6 py-4">
                   <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+                    <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 font-bold text-xs uppercase">
                       {{ transaction.userInitials }}
                     </div>
-                    <div>
-                      <div class="text-white font-medium">{{ transaction.userName }}</div>
-                    </div>
+                    <span class="text-white text-sm font-medium">{{ transaction.userName }}</span>
                   </div>
                 </td>
                 <td class="px-6 py-4">
-                  <div class="text-white">{{ transaction.ticketTypeName }}</div>
+                  <span class="text-white text-sm">{{ transaction.ticketTypeName }}</span>
                 </td>
                 <td class="px-6 py-4">
-                  <div class="text-white">{{ transaction.quantity }}</div>
+                  <span class="text-white text-sm">{{ transaction.quantity }}</span>
                 </td>
                 <td class="px-6 py-4 text-right">
-                  <div class="text-white font-medium">{{ formatCurrency(transaction.totalPrice) }}</div>
+                  <span class="text-white text-sm font-medium">{{ formatCurrency(transaction.totalPrice) }}</span>
                 </td>
                 <td class="px-6 py-4 text-right">
-                  <div class="text-gray-400 text-sm">{{ getTimeAgo(transaction.createdAt) }}</div>
+                  <span class="text-gray-500 text-xs">{{ getTimeAgo(transaction.createdAt) }}</span>
                 </td>
               </tr>
             }
@@ -224,11 +251,12 @@
         
         @if (stats()!.recentTransactions.length === 0) {
           <div class="text-center py-12">
-            <span class="material-symbols-outlined text-6xl text-gray-500 mb-4">no_transactions</span>
-            <p class="text-gray-400">No hay transacciones aún</p>
+            <span class="material-symbols-outlined text-4xl text-gray-600 mb-3">receipt_long</span>
+            <p class="text-gray-500 text-sm">No hay transacciones aún</p>
           </div>
         }
       </div>
     </div>
   }
 </main>
+</div>

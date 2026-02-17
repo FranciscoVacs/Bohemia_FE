@@ -37,6 +37,7 @@ export class GalleryManagerComponent implements OnInit {
         this.images().length > 0 && this.selectedImages().size === this.images().length
     );
     isPublished = computed(() => this.isGalleryPublished());
+    canPublish = computed(() => this.images().length > 0);
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
@@ -83,6 +84,12 @@ export class GalleryManagerComponent implements OnInit {
     toggleGalleryStatus() {
         const eventId = this.eventId();
         if (!eventId || this.updatingStatus()) return;
+
+        // No permitir publicar sin fotos
+        if (!this.isGalleryPublished() && !this.canPublish()) {
+            this.error.set('No se puede publicar una galería sin fotos. Subí al menos una imagen.');
+            return;
+        }
 
         const newStatus = !this.isGalleryPublished();
         this.updatingStatus.set(true);

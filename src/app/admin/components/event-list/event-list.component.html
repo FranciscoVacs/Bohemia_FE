@@ -119,8 +119,14 @@
             <p class="text-red-400">{{ error() }}</p>
         </div>
         } @else if (paginatedEvents().length === 0) {
-        <div class="min-h-[300px] flex items-center justify-center">
+        <div class="min-h-[300px] flex flex-col items-center justify-center gap-2">
+            @if (events().length === 0) {
+            <span class="material-symbols-outlined text-4xl text-white/20">calendar_today</span>
+            <p class="text-white/50">No hay eventos creados</p>
+            } @else {
+            <span class="material-symbols-outlined text-4xl text-white/20">filter_list_off</span>
             <p class="text-white/50">No hay eventos que coincidan con los filtros</p>
+            }
         </div>
         } @else {
 
@@ -130,13 +136,13 @@
             <div class="p-6 bg-[#121212] relative">
                 <!-- Badge de estado -->
                 <div class="absolute top-6 right-6 z-10">
-                    @if (event.isPublished) {
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
-                        Publicado
+                    @if (isEventPast(event)) {
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/5 text-gray-400 border border-white/10">
+                        Finalizado
                     </span>
                     } @else {
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
-                        Borrador
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
+                        Activo
                     </span>
                     }
                 </div>
@@ -175,14 +181,9 @@
                 </div>
 
                 <!-- Acciones -->
-                <div class="grid grid-cols-4 gap-2">
-                    <button (click)="viewStats(event)"
-                        class="h-10 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all border border-white/5 cursor-pointer"
-                        title="Estadísticas">
-                        <span class="material-symbols-outlined text-[20px]">bar_chart</span>
-                    </button>
+                <div class="grid grid-cols-5 gap-2">
                     <button (click)="viewGallery(event)"
-                        class="h-10 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all border border-white/5 cursor-pointer relative"
+                        class="h-10 rounded-lg bg-white/5 hover:bg-primary/10 text-gray-400 hover:text-primary flex items-center justify-center transition-all border border-white/5 cursor-pointer relative"
                         [class.text-primary]="event.isGalleryPublished"
                         title="Galería">
                         <span class="material-symbols-outlined text-[20px]">photo_library</span>
@@ -190,10 +191,20 @@
                         <span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
                         }
                     </button>
+                    <button (click)="viewTickets(event)"
+                        class="h-10 rounded-lg bg-white/5 hover:bg-secondary/10 text-gray-400 hover:text-secondary flex items-center justify-center transition-all border border-white/5 cursor-pointer"
+                        title="Tickets">
+                        <span class="material-symbols-outlined text-[20px]">confirmation_number</span>
+                    </button>
                     <button (click)="editEvent(event)"
-                        class="h-10 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-secondary flex items-center justify-center transition-all border border-white/5 cursor-pointer"
+                        class="h-10 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all border border-white/5 cursor-pointer"
                         title="Editar">
                         <span class="material-symbols-outlined text-[20px]">edit</span>
+                    </button>
+                    <button (click)="viewStats(event)"
+                        class="h-10 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all border border-white/5 cursor-pointer"
+                        title="Estadísticas">
+                        <span class="material-symbols-outlined text-[20px]">bar_chart</span>
                     </button>
                     <button (click)="deleteEvent(event)"
                         class="h-10 rounded-lg bg-white/5 hover:bg-red-500/10 text-gray-400 hover:text-red-500 flex items-center justify-center transition-all border border-white/5 cursor-pointer"
@@ -270,13 +281,13 @@
 
                     <!-- Estado -->
                     <td class="px-6 py-4">
-                        @if (event.isPublished) {
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Publicado
+                        @if (isEventPast(event)) {
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/5 text-gray-400 border border-white/10">
+                            Finalizado
                         </span>
                         } @else {
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
-                            Borrador
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                            Activo
                         </span>
                         }
                     </td>
@@ -284,11 +295,6 @@
                     <!-- Acciones -->
                     <td class="px-6 py-4 text-right">
                         <div class="flex justify-end items-center gap-2">
-                            <button (click)="viewStats(event)"
-                                class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all cursor-pointer text-gray-400"
-                                title="Estadísticas">
-                                <span class="material-symbols-outlined text-[18px]">bar_chart</span>
-                            </button>
                             <button (click)="viewGallery(event)"
                                 class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary flex items-center justify-center transition-all cursor-pointer relative"
                                 [class.text-primary]="event.isGalleryPublished"
@@ -299,10 +305,20 @@
                                 <span class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full border border-[#0a0a0a]"></span>
                                 }
                             </button>
-                            <button (click)="editEvent(event)"
+                            <button (click)="viewTickets(event)"
                                 class="w-8 h-8 rounded-full bg-white/5 hover:bg-secondary/20 hover:text-secondary flex items-center justify-center transition-all cursor-pointer text-gray-400"
-                                title="Editar">
+                                title="Tickets">
+                                <span class="material-symbols-outlined text-[18px]">confirmation_number</span>
+                            </button>
+                            <button (click)="editEvent(event)"
+                                class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/20 hover:text-white flex items-center justify-center transition-all cursor-pointer text-gray-400"
+                                title="Editar Evento">
                                 <span class="material-symbols-outlined text-[18px]">edit</span>
+                            </button>
+                            <button (click)="viewStats(event)"
+                                class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/20 hover:text-white flex items-center justify-center transition-all cursor-pointer text-gray-400"
+                                title="Estadísticas">
+                                <span class="material-symbols-outlined text-[18px]">bar_chart</span>
                             </button>
                             <button (click)="deleteEvent(event)"
                                 class="w-8 h-8 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-500 flex items-center justify-center transition-all cursor-pointer text-gray-400"
@@ -345,3 +361,32 @@
         </div>
     </div>
 </section>
+
+<!-- Delete Confirmation Modal -->
+@if (showDeleteModal()) {
+<div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+    <div class="bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 max-w-md w-full shadow-2xl">
+        <div class="text-center mb-6">
+            <span class="text-5xl mb-4 block">🗑️</span>
+            <h3 class="text-xl font-bold text-white mb-2">¿Eliminar evento?</h3>
+            <p class="text-white/60 text-sm">
+                Se eliminará <span class="text-white font-medium">"{{ eventToDelete()?.eventName }}"</span> y todos sus tipos de tickets. Esta acción no se puede deshacer.
+            </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3">
+            <button (click)="closeDeleteModal()"
+                class="flex-1 px-4 py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-colors cursor-pointer border-none">
+                Cancelar
+            </button>
+            <button (click)="confirmDelete()" [disabled]="deleting()"
+                class="flex-1 px-4 py-3 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-colors cursor-pointer border-none disabled:opacity-50">
+                @if (deleting()) {
+                Eliminando...
+                } @else {
+                Sí, eliminar
+                }
+            </button>
+        </div>
+    </div>
+</div>
+}

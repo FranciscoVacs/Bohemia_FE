@@ -41,6 +41,11 @@ export class EventListComponent implements OnInit {
     // UI State
     showExtraFilters = signal(false);
 
+    // Modal de eliminación
+    showDeleteModal = signal(false);
+    eventToDelete = signal<AdminEvent | null>(null);
+    deleting = signal(false);
+
     // Ciudades únicas (computado desde los eventos cargados)
     cities = computed(() => {
         const citySet = new Set<string>();
@@ -160,7 +165,7 @@ export class EventListComponent implements OnInit {
         // Cargar eventos
         this.eventService.getAllEvents().subscribe({
             next: (events) => {
-                this.events.set(events);
+                this.events.set(events.filter(e => e.isPublished));
                 this.loading.set(false);
             },
             error: (err) => {
@@ -264,18 +269,40 @@ export class EventListComponent implements OnInit {
         this.router.navigate(['/admin/eventos', event.id, 'editar']);
     }
 
+    viewTickets(event: AdminEvent) {
+        this.router.navigate(['/admin/eventos', event.id, 'tickets']);
+    }
+
     deleteEvent(event: AdminEvent) {
-        if (confirm(`¿Estás seguro de eliminar "${event.eventName}"?`)) {
-            this.eventService.deleteEvent(event.id).subscribe({
-                next: () => {
-                    this.loadData();
-                },
-                error: (err) => {
-                    console.error('Error deleting event:', err);
-                    alert('Error al eliminar el evento');
-                }
-            });
-        }
+        this.eventToDelete.set(event);
+        this.showDeleteModal.set(true);
+    }
+
+    closeDeleteModal() {
+        this.showDeleteModal.set(false);
+        this.eventToDelete.set(null);
+    }
+
+    confirmDelete() {
+        const event = this.eventToDelete();
+        if (!event) return;
+
+        this.deleting.set(true);
+        this.eventService.deleteEvent(event.id).subscribe({
+            next: () => {
+                this.deleting.set(false);
+                this.showDeleteModal.set(false);
+                this.eventToDelete.set(null);
+                this.loadData();
+            },
+            error: (err) => {
+                console.error('Error deleting event:', err);
+                this.error.set('Error al eliminar el evento');
+                this.deleting.set(false);
+                this.showDeleteModal.set(false);
+                this.eventToDelete.set(null);
+            }
+        });
     }
 
     viewStats(event: AdminEvent) {
