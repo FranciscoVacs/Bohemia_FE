@@ -147,7 +147,7 @@
 
             @if (allDisplayedTickets().length > 0) {
             <!-- Mobile: Cards -->
-            <div class="md:hidden flex flex-col gap-3 mb-6">
+            <div class="md:hidden space-y-3 mb-6">
                 @for (ticket of allDisplayedTickets(); track ticket.isPending ? ticket.tempId : ticket.id) {
                 <div [ngClass]="ticket.isPending 
                     ? 'bg-[#b7ff00]/5 rounded-xl p-4 border border-[#b7ff00]/20 border-dashed' 
@@ -315,7 +315,7 @@
             <!-- =========== CREACION: usa sortedTicketTypes (directo del servidor) =========== -->
             @if (sortedTicketTypes().length > 0) {
             <!-- Mobile: Cards -->
-            <div class="md:hidden flex flex-col gap-3 mb-6">
+            <div class="md:hidden space-y-3 mb-6">
                 @for (ticket of sortedTicketTypes(); track ticket.id) {
                 <div
                     [ngClass]="ticket.status === 'active' ? 'bg-black/30 rounded-xl p-4 border border-[#b7ff00]/30' : 'bg-black/30 rounded-xl p-4 border border-white/10'">
@@ -454,7 +454,7 @@
                 <h3 class="text-white font-medium mb-4 flex items-center gap-2">
                     <span class="text-[#b7ff00]">+</span> Nuevo Tipo de Ticket
                 </h3>
-                <form [formGroup]="ticketForm" (ngSubmit)="addTicketType()" class="flex flex-col gap-4">
+                <form [formGroup]="ticketForm" (ngSubmit)="addTicketType()" class="space-y-4">
                     <!-- Row 1: Name -->
                     <div>
                         <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-1">
@@ -653,7 +653,7 @@
             <p class="text-white/60 text-sm mb-4">
                 Una vez publicado, el evento sera visible para todos los usuarios y podran comprar entradas.
             </p>
-            <div class="bg-white/5 rounded-xl p-4 text-left flex flex-col gap-2">
+            <div class="bg-white/5 rounded-xl p-4 text-left space-y-2">
                 <div class="flex justify-between text-sm">
                     <span class="text-white/50">Tipos de tickets:</span>
                     <span class="text-white font-medium">{{ ticketTypes().length }}</span>

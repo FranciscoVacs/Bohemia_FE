@@ -150,7 +150,7 @@
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 relative">
 
-      <div class="lg:col-span-8 flex flex-col gap-4">
+      <div class="lg:col-span-8 space-y-4">
         @if (state == 1) {
         <h2 class="text-xl font-bold text-white mb-6 uppercase tracking-wide flex items-center gap-2">
           <span class="material-symbols-outlined text-primary">local_activity</span>
@@ -244,7 +244,7 @@
 
 
       <div class="lg:col-span-4">
-        <div class="sticky top-28 flex flex-col gap-4">
+        <div class="sticky top-28 space-y-4">
           <div
             class="bg-[#121212] rounded-3xl p-6 border border-white/10 shadow-2xl relative overflow-hidden ring-1 ring-white/5">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-primary"></div>
@@ -252,7 +252,7 @@
               Resumen
               <span class="material-symbols-outlined text-gray-500">shopping_cart</span>
             </h3>
-            <div class="flex flex-col gap-4 mb-6 pb-6 border-b border-white/10 min-h-[100px]">
+            <div class="space-y-4 mb-6 pb-6 border-b border-white/10 min-h-[100px]">
               @if (!ticketAdded) {
               <div class="flex justify-between items-start animate-[pulse_3s_infinite]">
                 <p class="text-sm font-bold text-white">Selecciona una entrada</p>
@@ -275,7 +275,7 @@
               </div>
               }
 
-              <div class="flex flex-col gap-2 mt-4 pt-4 border-t border-white/5">
+              <div class="space-y-2 mt-4 pt-4 border-t border-white/5">
                 <div class="flex justify-between items-center text-xs text-gray-400">
                   <span>Subtotal</span>
                   <span>${{calculateSubtotal()}}</span>
