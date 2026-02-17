@@ -7,8 +7,9 @@
             <span class="material-symbols-outlined text-[20px]">arrow_back</span>
             <span class="hidden md:inline">Volver al Listado</span>
         </button>
-        <span class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
-            GALERIAS
+        <span
+            class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
+            GALERIA
         </span>
     </nav>
 
@@ -48,7 +49,8 @@
                     <span class="text-white/50 font-medium text-sm uppercase">Archivada</span>
                     }
                 </div>
-<button (click)="toggleGalleryStatus()" [disabled]="updatingStatus() || (!isPublished() && !canPublish())"
+                <button (click)="toggleGalleryStatus()"
+                    [disabled]="updatingStatus() || (!isPublished() && !canPublish())"
                     [class]="isPublished() 
                         ? 'w-full px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer border-none bg-white/10 text-white/70 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed'
                         : 'w-full px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer border-none bg-[#b7ff00] text-black hover:bg-[#c8ff33] disabled:opacity-50 disabled:cursor-not-allowed'">
