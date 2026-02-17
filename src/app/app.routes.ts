@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { GaleriaComponent } from './galeria/galeria.component';
 import { CompraComponent } from './compra/compra.component';
-import { PurchaseRedirectComponent} from './compra/purchase-redirect/purchase-redirect.component';
+import { PurchaseRedirectComponent } from './compra/purchase-redirect/purchase-redirect.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -10,6 +11,11 @@ export const routes: Routes = [
     { path: 'galeria/:eventId', component: GaleriaComponent },
     { path: 'compra', component: CompraComponent },
     { path: 'redirect', component: PurchaseRedirectComponent },
+    {
+        path: 'mi-perfil',
+        loadComponent: () => import('./mi-perfil/mi-perfil.component').then(m => m.MiPerfilComponent),
+        canActivate: [authGuard]
+    },
     {
         path: 'admin',
         loadChildren: () => import('./admin/admin.routes').then(m => m.adminRoutes)

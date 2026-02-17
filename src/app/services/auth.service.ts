@@ -115,6 +115,23 @@ export class AuthService {
     );
   }
 
+  updateProfile(data: Partial<User & { password?: string }>): Observable<ApiResponse<User>> {
+    return this.http.patch<ApiResponse<User>>(
+      `${this.API_URL}/user/me`,
+      data
+    ).pipe(
+      tap(response => {
+        if (response.data) {
+          this._currentUser.set(response.data);
+        }
+      }),
+      catchError(error => {
+        console.error('Update profile error:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
   logout(): void {
     this._currentUser.set(null);
     this.clearTokenFromStorage();
