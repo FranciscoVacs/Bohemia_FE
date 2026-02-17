@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../";
 
 /* Tema personalizado de Bohemia */
 @theme {
@@ -6,7 +7,7 @@
   --color-primary: #CCFF00;
   --color-secondary: #00E0FF;
   --color-surface: #0A0A0A;
-  
+
   /* Fuentes */
   --font-display: "Anton", sans-serif;
   --font-sans: "Inter", sans-serif;
@@ -17,12 +18,12 @@
   body {
     @apply bg-[#050508] text-white font-sans antialiased relative;
   }
-  
+
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: 
+    background:
       radial-gradient(ellipse 80% 50% at 20% 40%, rgba(204, 255, 0, 0.15), transparent),
       radial-gradient(ellipse 60% 50% at 80% 60%, rgba(0, 224, 255, 0.1), transparent);
     pointer-events: none;
