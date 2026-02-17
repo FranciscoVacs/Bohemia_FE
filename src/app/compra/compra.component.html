@@ -66,7 +66,8 @@
         <div class="flex items-center gap-4">
           @if (state == 1) {
           <div class="hidden md:flex items-center gap-2 text-sm text-gray-400">
-            <span class="text-white font-bold flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full border border-white/10">
+            <span
+              class="text-white font-bold flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full border border-white/10">
               1. Entradas</span>
             <span class="material-symbols-outlined text-xs">chevron_right</span>
             <span class="text-gray-600 font-medium cursor-not-allowed">2. Datos</span>
@@ -148,15 +149,15 @@
       </div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 relative">
-      
-    <div class="lg:col-span-8 space-y-4">
-    @if (state == 1) {
+
+      <div class="lg:col-span-8 flex flex-col gap-4">
+        @if (state == 1) {
         <h2 class="text-xl font-bold text-white mb-6 uppercase tracking-wide flex items-center gap-2">
           <span class="material-symbols-outlined text-primary">local_activity</span>
           Seleccioná tus entradas
         </h2>
         @for (ticketType of ticketTypes; track ticketType.id) {
-          
+
         @if (!checkTicketType(ticketType)) {
         <div class="relative group">
           <div
@@ -199,128 +200,137 @@
           class="p-6 rounded-2xl bg-[#0A0A0A] border border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-60 pointer-events-none select-none">
           <div class="flex-1">
             <div class="flex items-center gap-3 mb-2">
-              <h3 class="font-display text-2xl uppercase tracking-wide text-gray-400">{{ ticketType.ticketTypeName }}</h3>
+              <h3 class="font-display text-2xl uppercase tracking-wide text-gray-400">{{ ticketType.ticketTypeName }}
+              </h3>
             </div>
             <p class="text-gray-500 text-sm">Acceso al sector general. Cupos limitados.</p>
           </div>
           <div class="flex flex-col items-end gap-1">
             <span
-              class="bg-red-500/10 text-red-500 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider border border-red-500/20">{{ ticketType.availableTickets <= 0 ? "Agotado" : "No disponible" }}</span>
-            <span class="text-lg font-bold text-gray-500 line-through decoration-red-500/50">${{ ticketType.price}}</span>
+              class="bg-red-500/10 text-red-500 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider border border-red-500/20">{{
+              ticketType.availableTickets <= 0 ? "Agotado" : "No disponible" }}</span>
+                <span class="text-lg font-bold text-gray-500 line-through decoration-red-500/50">${{
+                  ticketType.price}}</span>
           </div>
         </div>
         }
         } @empty {
         <li>No hay tipos de ticket.</li>
         }
-    }
-    @if (state == 2) {
-    <div class="lg:col-span-8">
-      <attendees-data></attendees-data>
-    </div>
-    }
-    @if (state == 3) {
-    <div class="lg:col-span-8">
-      <payment-method></payment-method>
-    </div>
-    }
-    @if (!anySelected) {
-    <p class="text-red-400 text-xs mt-1">Selecciona al menos 1 ticket</p>
-    }
-    <div class="mt-4">
-      <div class="flex justify-start">
-          <button (click)="removeState()" class="bg-white/5 text-white px-4 py-2 rounded text-sm hover:text-secondary transition-colors transition-shadow border border-white/15  hover:shadow-[0_0_10px_rgba(148,163,184,0.25)]">
-            Volver
-          </button>
+        }
+        @if (state == 2) {
+        <div class="lg:col-span-8">
+          <attendees-data></attendees-data>
+        </div>
+        }
+        @if (state == 3) {
+        <div class="lg:col-span-8">
+          <payment-method></payment-method>
+        </div>
+        }
+        @if (!anySelected) {
+        <p class="text-red-400 text-xs mt-1">Selecciona al menos 1 ticket</p>
+        }
+        <div class="mt-4">
+          <div class="flex justify-start">
+            <button (click)="removeState()"
+              class="bg-white/5 text-white px-4 py-2 rounded text-sm hover:text-secondary transition-colors transition-shadow border border-white/15  hover:shadow-[0_0_10px_rgba(148,163,184,0.25)]">
+              Volver
+            </button>
+          </div>
+        </div>
+
       </div>
-    </div>
 
-    </div>
 
-    
-    <div class="lg:col-span-4">
-      <div class="sticky top-28 space-y-4">
-        <div
-          class="bg-[#121212] rounded-3xl p-6 border border-white/10 shadow-2xl relative overflow-hidden ring-1 ring-white/5">
-          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-primary"></div>
-          <h3 class="font-display text-2xl uppercase tracking-wide mb-6 flex justify-between items-center">
-            Resumen
-            <span class="material-symbols-outlined text-gray-500">shopping_cart</span>
-          </h3>
-          <div class="space-y-4 mb-6 pb-6 border-b border-white/10 min-h-[100px]">
-            @if (!ticketAdded) {
-            <div class="flex justify-between items-start animate-[pulse_3s_infinite]">
-              <p class="text-sm font-bold text-white">Selecciona una entrada</p>
-            </div>
-            }
-            @for (ticketType of ticketTypes; track ticketType.id) {
-              @if (ticketType.amountSelected > 0) {
-            <div class="flex justify-between items-start animate-[pulse_3s_infinite]">
-              <div>
-                <p class="text-sm font-bold text-white">{{ ticketType.amountSelected }}x {{ ticketType.ticketTypeName }}</p>
-                <p class="text-[10px] text-gray-500 uppercase tracking-wider">Bohemia {{ event?.location?.city?.cityName }}</p>
-              </div>
-              <span class="text-sm font-bold text-white">${{ticketType.price * ticketType.amountSelected}}</span>
-            </div>}
-            }@empty {
-            <div class="flex justify-between items-start animate-[pulse_3s_infinite]">
-              <p class="text-sm font-bold text-white">No hay tipos de ticket</p>
-            </div>
-            }
-            
-            <div class="space-y-2 mt-4 pt-4 border-t border-white/5">
-              <div class="flex justify-between items-center text-xs text-gray-400">
-                <span>Subtotal</span>
-                <span>${{calculateSubtotal()}}</span>
-              </div>
-              <div class="flex justify-between items-center text-xs text-gray-400">
-                <span class="flex items-center gap-1 group cursor-help relative">
-                  Cargo de servicio (10%)
-                  <span class="material-symbols-outlined text-[12px] text-gray-600">info</span>
-                </span>
-                <span>${{calculateServiceFee()}}</span>
-              </div>
-            </div>
-          </div>
-          <div class="flex justify-between items-end mb-8">
-            <span class="text-gray-400 text-sm font-bold uppercase tracking-widest pb-1">Total</span>
-            <div class="text-right">
-              <span
-                class="block text-3xl font-display text-transparent bg-clip-text bg-gradient-primary">${{calculateTotal()}}</span>
-              <span class="text-[10px] text-gray-500 uppercase font-medium">ARS (Incl. Impuestos)</span>
-            </div>
-          </div>
-          <button (click) = "handleContinue()"
-            class="cursor-pointer w-full bg-gradient-primary text-black py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(204,255,0,0.3)] flex items-center justify-center gap-2 group">
-            @if(state == 1){
-            Continuar Compra
-            <span
-              class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
-            }
-            @else if(state == 2){
-             Continuar al Pago
-            <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">credit_card</span>
-            }
-            @else if(state == 3){
-            Finalizar compra
-            <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">check</span>
-            }
-          </button>
-          @if (loginRequired && state == 2) {
-          <p class="text-red-400 text-sm mt-3">Por favor iniciá sesión usando el botón <strong>Login</strong> en la sección "Datos personales" antes de continuar al pago.</p>
-          }
+      <div class="lg:col-span-4">
+        <div class="sticky top-28 flex flex-col gap-4">
           <div
-            class="mt-4 flex justify-center items-center gap-2 text-[10px] text-gray-500 bg-white/5 py-2 rounded-lg">
-            <span class="material-symbols-outlined text-sm">timer</span>
-            Entradas reservadas por <span class="text-primary font-mono font-bold text-xs">09:59</span>
+            class="bg-[#121212] rounded-3xl p-6 border border-white/10 shadow-2xl relative overflow-hidden ring-1 ring-white/5">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-primary"></div>
+            <h3 class="font-display text-2xl uppercase tracking-wide mb-6 flex justify-between items-center">
+              Resumen
+              <span class="material-symbols-outlined text-gray-500">shopping_cart</span>
+            </h3>
+            <div class="flex flex-col gap-4 mb-6 pb-6 border-b border-white/10 min-h-[100px]">
+              @if (!ticketAdded) {
+              <div class="flex justify-between items-start animate-[pulse_3s_infinite]">
+                <p class="text-sm font-bold text-white">Selecciona una entrada</p>
+              </div>
+              }
+              @for (ticketType of ticketTypes; track ticketType.id) {
+              @if (ticketType.amountSelected > 0) {
+              <div class="flex justify-between items-start animate-[pulse_3s_infinite]">
+                <div>
+                  <p class="text-sm font-bold text-white">{{ ticketType.amountSelected }}x {{ ticketType.ticketTypeName
+                    }}</p>
+                  <p class="text-[10px] text-gray-500 uppercase tracking-wider">Bohemia {{
+                    event?.location?.city?.cityName }}</p>
+                </div>
+                <span class="text-sm font-bold text-white">${{ticketType.price * ticketType.amountSelected}}</span>
+              </div>}
+              }@empty {
+              <div class="flex justify-between items-start animate-[pulse_3s_infinite]">
+                <p class="text-sm font-bold text-white">No hay tipos de ticket</p>
+              </div>
+              }
+
+              <div class="flex flex-col gap-2 mt-4 pt-4 border-t border-white/5">
+                <div class="flex justify-between items-center text-xs text-gray-400">
+                  <span>Subtotal</span>
+                  <span>${{calculateSubtotal()}}</span>
+                </div>
+                <div class="flex justify-between items-center text-xs text-gray-400">
+                  <span class="flex items-center gap-1 group cursor-help relative">
+                    Cargo de servicio (10%)
+                    <span class="material-symbols-outlined text-[12px] text-gray-600">info</span>
+                  </span>
+                  <span>${{calculateServiceFee()}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-between items-end mb-8">
+              <span class="text-gray-400 text-sm font-bold uppercase tracking-widest pb-1">Total</span>
+              <div class="text-right">
+                <span
+                  class="block text-3xl font-display text-transparent bg-clip-text bg-gradient-primary">${{calculateTotal()}}</span>
+                <span class="text-[10px] text-gray-500 uppercase font-medium">ARS (Incl. Impuestos)</span>
+              </div>
+            </div>
+            <button (click)="handleContinue()"
+              class="cursor-pointer w-full bg-gradient-primary text-black py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(204,255,0,0.3)] flex items-center justify-center gap-2 group">
+              @if(state == 1){
+              Continuar Compra
+              <span
+                class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              }
+              @else if(state == 2){
+              Continuar al Pago
+              <span
+                class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">credit_card</span>
+              }
+              @else if(state == 3){
+              Finalizar compra
+              <span
+                class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">check</span>
+              }
+            </button>
+            @if (loginRequired && state == 2) {
+            <p class="text-red-400 text-sm mt-3">Por favor iniciá sesión usando el botón <strong>Login</strong> en la
+              sección "Datos personales" antes de continuar al pago.</p>
+            }
+            <div
+              class="mt-4 flex justify-center items-center gap-2 text-[10px] text-gray-500 bg-white/5 py-2 rounded-lg">
+              <span class="material-symbols-outlined text-sm">timer</span>
+              Entradas reservadas por <span class="text-primary font-mono font-bold text-xs">09:59</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-center gap-2 text-gray-600 text-xs uppercase tracking-wide">
+            <span class="material-symbols-outlined text-sm">lock</span>
+            Pago seguro encriptado
           </div>
         </div>
-        <div class="flex items-center justify-center gap-2 text-gray-600 text-xs uppercase tracking-wide">
-          <span class="material-symbols-outlined text-sm">lock</span>
-          Pago seguro encriptado
-        </div>
       </div>
-    </div>
     </div>
     <div class="mt-12 pt-16 border-t border-white/10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-xl font-bold text-white mb-8 uppercase tracking-wide flex items-center gap-2">
@@ -333,7 +343,7 @@
         </div>
       </div>
     </div>
-    
+
   </main>
   <footer class="bg-black text-white py-12 border-t border-white/10 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">

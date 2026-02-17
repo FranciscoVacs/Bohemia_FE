@@ -110,7 +110,7 @@
         </div>
         } @else {
 
-        <form [formGroup]="eventForm" class="space-y-6 md:space-y-8">
+        <form [formGroup]="eventForm" class="flex flex-col gap-6 md:gap-8">
 
             <!-- Sección: Información General -->
             <section class="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-8">
@@ -164,7 +164,7 @@
                     <span class="text-xl">📅</span>
                     FECHA Y HORA
                 </h2>
-                <div class="space-y-4">
+                <div class="flex flex-col gap-4">
                     <!-- Inicio del Evento -->
                     <div class="bg-black/20 rounded-xl p-4 border border-white/5">
                         <label class="block text-xs font-bold text-[#b7ff00]/70 uppercase tracking-widest mb-3">

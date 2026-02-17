@@ -1,16 +1,17 @@
 <div class="min-h-screen bg-linear-to-b from-[#0a0a0a] to-[#111111]">
   <!-- Header - Fixed navbar -->
-  <nav class="fixed top-0 left-0 right-0 h-14 flex items-center justify-between px-4 md:px-8 bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
+  <nav
+    class="fixed top-0 left-0 right-0 h-14 flex items-center justify-between px-4 md:px-8 bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
     <button (click)="goBack()"
       class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-[#b7ff00]/10 hover:text-[#b7ff00] cursor-pointer bg-transparent border-none">
       <span class="material-symbols-outlined text-[20px]">arrow_back</span>
       <span class="hidden md:inline">Volver al Listado</span>
     </button>
-    <span class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
+    <span
+      class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
       ESTADISTICAS
     </span>
-    <button (click)="refreshStats()" 
-      [disabled]="loading()"
+    <button (click)="refreshStats()" [disabled]="loading()"
       class="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm px-4 py-2 rounded-lg transition-all hover:bg-white/10 cursor-pointer bg-transparent border border-white/20 hover:border-white/40 disabled:opacity-50 disabled:cursor-not-allowed">
       <span class="material-symbols-outlined text-[18px]">refresh</span>
       <span class="hidden md:inline">Refrescar</span>
@@ -18,58 +19,60 @@
   </nav>
 
   <main class="px-4 md:px-8 pt-20 pb-8 max-w-6xl mx-auto">
-  <!-- Header -->
-  <div class="mb-6 md:mb-8">
-    <!-- Título y badges -->
-    <div>
-      <h1 class="text-2xl md:text-4xl font-extrabold text-white mb-2 uppercase tracking-wider">
-        <span class="text-[#b7ff00] italic">Estadísticas</span> del Evento
-      </h1>
-      @if (stats()) {
+    <!-- Header -->
+    <div class="mb-6 md:mb-8">
+      <!-- Título y badges -->
+      <div>
+        <h1 class="text-2xl md:text-4xl font-extrabold text-white mb-2 uppercase tracking-wider">
+          <span class="text-[#b7ff00] italic">Estadísticas</span> del Evento
+        </h1>
+        @if (stats()) {
         <div class="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
           <span class="text-white/60 text-sm md:text-base font-medium truncate">{{ stats()!.eventName }}</span>
           <div class="flex items-center gap-2">
-            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border" 
+            <span
+              class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border"
               [ngClass]="getEventStatusBadge(stats()!.eventStatus).classes">
               {{ getEventStatusBadge(stats()!.eventStatus).text }}
             </span>
-            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border" 
+            <span
+              class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border"
               [ngClass]="getSaleStatusBadge(stats()!.saleStatus).classes">
               {{ getSaleStatusBadge(stats()!.saleStatus).text }}
             </span>
           </div>
         </div>
-      }
-      @if (lastUpdated()) {
+        }
+        @if (lastUpdated()) {
         <p class="text-white/30 text-xs mt-2">
           Actualizado: {{ formatDate(lastUpdated()!.toISOString()) }}
         </p>
-      }
+        }
+      </div>
     </div>
-  </div>
 
-  <!-- Loading State -->
-  @if (loading() && !stats()) {
+    <!-- Loading State -->
+    @if (loading() && !stats()) {
     <div class="flex flex-col items-center justify-center py-16 md:py-20">
       <div class="animate-spin w-7 h-7 md:w-8 md:h-8 border-2 border-primary border-t-transparent rounded-full"></div>
       <p class="text-white/50 mt-4 text-sm">Cargando estadísticas...</p>
     </div>
-  }
+    }
 
-  <!-- Error State -->
-  @if (error()) {
+    <!-- Error State -->
+    @if (error()) {
     <div class="flex flex-col items-center justify-center py-16 md:py-20">
       <span class="material-symbols-outlined text-4xl md:text-5xl text-red-500/60 mb-3">error</span>
       <p class="text-red-400/80 text-sm text-center px-4">{{ error() }}</p>
-      <button (click)="refreshStats()" 
+      <button (click)="refreshStats()"
         class="mt-4 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl text-sm font-medium transition-colors cursor-pointer">
         Reintentar
       </button>
     </div>
-  }
+    }
 
-  <!-- Stats Content -->
-  @if (stats() && !error()) {
+    <!-- Stats Content -->
+    @if (stats() && !error()) {
     <!-- KPI Cards -->
     <div class="grid grid-cols-1 gap-4 mb-6 md:grid-cols-3 md:gap-6 md:mb-8">
       <!-- Tickets Vendidos -->
@@ -83,12 +86,14 @@
             {{ stats()!.summary.totalTicketsSold }}/{{ stats()!.summary.totalCapacity }}
           </span>
         </div>
-        <div class="text-2xl md:text-3xl font-extrabold text-white mb-2 md:mb-3">{{ stats()!.summary.totalTicketsSold }}</div>
+        <div class="text-2xl md:text-3xl font-extrabold text-white mb-2 md:mb-3">{{ stats()!.summary.totalTicketsSold }}
+        </div>
         <div class="w-full bg-white/5 rounded-full h-1.5 md:h-2 overflow-hidden">
-          <div class="h-full bg-[#b7ff00] rounded-full transition-all duration-500" 
+          <div class="h-full bg-[#b7ff00] rounded-full transition-all duration-500"
             [style.width.%]="stats()!.summary.percentageSold"></div>
         </div>
-        <div class="text-[11px] md:text-xs text-gray-500 mt-1.5 md:mt-2">{{ stats()!.summary.percentageSold }}% del total</div>
+        <div class="text-[11px] md:text-xs text-gray-500 mt-1.5 md:mt-2">{{ stats()!.summary.percentageSold }}% del
+          total</div>
       </div>
 
       <!-- Recaudación Total -->
@@ -102,7 +107,8 @@
             PROM: {{ formatCurrency(stats()!.summary.averageTicketPrice) }}
           </span>
         </div>
-        <div class="text-2xl md:text-3xl font-extrabold text-white">{{ formatCurrency(stats()!.summary.totalRevenue) }}</div>
+        <div class="text-2xl md:text-3xl font-extrabold text-white">{{ formatCurrency(stats()!.summary.totalRevenue) }}
+        </div>
       </div>
 
       <!-- Última Venta -->
@@ -113,16 +119,16 @@
             <span class="text-xs md:text-sm font-medium">Última Venta</span>
           </div>
           @if (stats()!.lastSale) {
-            <span class="text-[11px] md:text-xs font-mono text-gray-500 bg-white/5 px-1.5 md:px-2 py-0.5 md:py-1 rounded">
-              {{ stats()!.lastSale?.timeAgo }}
-            </span>
+          <span class="text-[11px] md:text-xs font-mono text-gray-500 bg-white/5 px-1.5 md:px-2 py-0.5 md:py-1 rounded">
+            {{ stats()!.lastSale?.timeAgo }}
+          </span>
           }
         </div>
         @if (stats()!.lastSale) {
-          <div class="text-base md:text-lg font-bold text-white mb-0.5 md:mb-1">{{ stats()!.lastSale?.userName }}</div>
-          <div class="text-xs md:text-sm text-gray-500">{{ stats()!.lastSale?.ticketTypeName }}</div>
+        <div class="text-base md:text-lg font-bold text-white mb-0.5 md:mb-1">{{ stats()!.lastSale?.userName }}</div>
+        <div class="text-xs md:text-sm text-gray-500">{{ stats()!.lastSale?.ticketTypeName }}</div>
         } @else {
-          <div class="text-base md:text-lg font-bold text-white/30">Sin ventas aún</div>
+        <div class="text-base md:text-lg font-bold text-white/30">Sin ventas aún</div>
         }
       </div>
     </div>
@@ -135,34 +141,35 @@
             <span class="material-symbols-outlined text-gray-400 text-[18px] md:text-[20px]">analytics</span>
             Desglose por Ticket
           </h2>
-          <span class="text-[11px] md:text-xs font-mono text-gray-500 bg-white/5 px-1.5 md:px-2 py-0.5 md:py-1 rounded border border-white/5">
+          <span
+            class="text-[11px] md:text-xs font-mono text-gray-500 bg-white/5 px-1.5 md:px-2 py-0.5 md:py-1 rounded border border-white/5">
             {{ stats()!.byTicketType.length }} tipos
           </span>
         </div>
       </div>
-      <div class="p-3 md:p-6 space-y-3 md:space-y-4">
+      <div class="p-3 md:p-6 flex flex-col gap-3 md:gap-4">
         @for (ticketType of stats()!.byTicketType; track ticketType.id) {
-          <div class="bg-black/40 border border-white/5 rounded-xl p-3 md:p-4">
-            <div class="flex items-center justify-between mb-2 md:mb-3">
-              <div class="min-w-0 mr-3">
-                <h3 class="text-white font-bold text-xs md:text-sm truncate">{{ ticketType.name }}</h3>
-                <p class="text-[11px] md:text-xs text-gray-500">{{ formatCurrency(ticketType.price) }} c/u</p>
-              </div>
-              <div class="text-right shrink-0">
-                <div class="text-white font-bold text-xs md:text-sm">{{ ticketType.sold }}/{{ ticketType.capacity }}</div>
-                <div class="text-[11px] md:text-xs text-gray-500">{{ ticketType.percentageSold }}%</div>
-              </div>
+        <div class="bg-black/40 border border-white/5 rounded-xl p-3 md:p-4">
+          <div class="flex items-center justify-between mb-2 md:mb-3">
+            <div class="min-w-0 mr-3">
+              <h3 class="text-white font-bold text-xs md:text-sm truncate">{{ ticketType.name }}</h3>
+              <p class="text-[11px] md:text-xs text-gray-500">{{ formatCurrency(ticketType.price) }} c/u</p>
             </div>
-            <div class="w-full bg-white/5 rounded-full h-1.5 md:h-2 overflow-hidden">
-              <div class="h-full rounded-full transition-all duration-500" 
-                [ngClass]="getProgressBarColor(ticketType.percentageSold)"
-                [style.width.%]="ticketType.percentageSold"></div>
-            </div>
-            <div class="mt-1.5 md:mt-2 flex items-center justify-between text-[11px] md:text-xs text-gray-500">
-              <span>{{ formatCurrency(ticketType.revenue) }}</span>
-              <span>{{ ticketType.capacity - ticketType.sold }} disponibles</span>
+            <div class="text-right shrink-0">
+              <div class="text-white font-bold text-xs md:text-sm">{{ ticketType.sold }}/{{ ticketType.capacity }}</div>
+              <div class="text-[11px] md:text-xs text-gray-500">{{ ticketType.percentageSold }}%</div>
             </div>
           </div>
+          <div class="w-full bg-white/5 rounded-full h-1.5 md:h-2 overflow-hidden">
+            <div class="h-full rounded-full transition-all duration-500"
+              [ngClass]="getProgressBarColor(ticketType.percentageSold)" [style.width.%]="ticketType.percentageSold">
+            </div>
+          </div>
+          <div class="mt-1.5 md:mt-2 flex items-center justify-between text-[11px] md:text-xs text-gray-500">
+            <span>{{ formatCurrency(ticketType.revenue) }}</span>
+            <span>{{ ticketType.capacity - ticketType.sold }} disponibles</span>
+          </div>
+        </div>
         }
       </div>
     </div>
@@ -175,7 +182,8 @@
             <span class="material-symbols-outlined text-gray-400 text-[18px] md:text-[20px]">receipt_long</span>
             Transacciones
           </h2>
-          <span class="text-[11px] md:text-xs font-mono text-gray-500 bg-white/5 px-1.5 md:px-2 py-0.5 md:py-1 rounded border border-white/5">
+          <span
+            class="text-[11px] md:text-xs font-mono text-gray-500 bg-white/5 px-1.5 md:px-2 py-0.5 md:py-1 rounded border border-white/5">
             {{ stats()!.recentTransactions.length }}
           </span>
         </div>
@@ -184,28 +192,30 @@
       <!-- Vista Mobile: Cards -->
       <div class="md:hidden divide-y divide-white/5">
         @for (transaction of stats()!.recentTransactions; track transaction.id) {
-          <div class="p-4">
-            <div class="flex items-center justify-between mb-2">
-              <div class="flex items-center gap-2.5 min-w-0">
-                <div class="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 font-bold text-[10px] uppercase shrink-0">
-                  {{ transaction.userInitials }}
-                </div>
-                <span class="text-white text-sm font-medium truncate">{{ transaction.userName }}</span>
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div
+                class="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 font-bold text-[10px] uppercase shrink-0">
+                {{ transaction.userInitials }}
               </div>
-              <span class="text-white text-sm font-medium shrink-0 ml-3">{{ formatCurrency(transaction.totalPrice) }}</span>
+              <span class="text-white text-sm font-medium truncate">{{ transaction.userName }}</span>
             </div>
-            <div class="flex items-center justify-between pl-[38px] text-[11px] text-gray-500">
-              <span>{{ transaction.ticketTypeName }} x{{ transaction.quantity }}</span>
-              <span>{{ getTimeAgo(transaction.createdAt) }}</span>
-            </div>
+            <span class="text-white text-sm font-medium shrink-0 ml-3">{{ formatCurrency(transaction.totalPrice)
+              }}</span>
           </div>
+          <div class="flex items-center justify-between pl-[38px] text-[11px] text-gray-500">
+            <span>{{ transaction.ticketTypeName }} x{{ transaction.quantity }}</span>
+            <span>{{ getTimeAgo(transaction.createdAt) }}</span>
+          </div>
+        </div>
         }
 
         @if (stats()!.recentTransactions.length === 0) {
-          <div class="text-center py-10">
-            <span class="material-symbols-outlined text-3xl text-gray-600 mb-2">receipt_long</span>
-            <p class="text-gray-500 text-xs">No hay transacciones aún</p>
-          </div>
+        <div class="text-center py-10">
+          <span class="material-symbols-outlined text-3xl text-gray-600 mb-2">receipt_long</span>
+          <p class="text-gray-500 text-xs">No hay transacciones aún</p>
+        </div>
         }
       </div>
 
@@ -223,40 +233,41 @@
           </thead>
           <tbody class="divide-y divide-white/5">
             @for (transaction of stats()!.recentTransactions; track transaction.id) {
-              <tr class="hover:bg-white/[0.02] transition-colors duration-200">
-                <td class="px-6 py-4">
-                  <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 font-bold text-xs uppercase">
-                      {{ transaction.userInitials }}
-                    </div>
-                    <span class="text-white text-sm font-medium">{{ transaction.userName }}</span>
+            <tr class="hover:bg-white/[0.02] transition-colors duration-200">
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 font-bold text-xs uppercase">
+                    {{ transaction.userInitials }}
                   </div>
-                </td>
-                <td class="px-6 py-4">
-                  <span class="text-white text-sm">{{ transaction.ticketTypeName }}</span>
-                </td>
-                <td class="px-6 py-4">
-                  <span class="text-white text-sm">{{ transaction.quantity }}</span>
-                </td>
-                <td class="px-6 py-4 text-right">
-                  <span class="text-white text-sm font-medium">{{ formatCurrency(transaction.totalPrice) }}</span>
-                </td>
-                <td class="px-6 py-4 text-right">
-                  <span class="text-gray-500 text-xs">{{ getTimeAgo(transaction.createdAt) }}</span>
-                </td>
-              </tr>
+                  <span class="text-white text-sm font-medium">{{ transaction.userName }}</span>
+                </div>
+              </td>
+              <td class="px-6 py-4">
+                <span class="text-white text-sm">{{ transaction.ticketTypeName }}</span>
+              </td>
+              <td class="px-6 py-4">
+                <span class="text-white text-sm">{{ transaction.quantity }}</span>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <span class="text-white text-sm font-medium">{{ formatCurrency(transaction.totalPrice) }}</span>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <span class="text-gray-500 text-xs">{{ getTimeAgo(transaction.createdAt) }}</span>
+              </td>
+            </tr>
             }
           </tbody>
         </table>
-        
+
         @if (stats()!.recentTransactions.length === 0) {
-          <div class="text-center py-12">
-            <span class="material-symbols-outlined text-4xl text-gray-600 mb-3">receipt_long</span>
-            <p class="text-gray-500 text-sm">No hay transacciones aún</p>
-          </div>
+        <div class="text-center py-12">
+          <span class="material-symbols-outlined text-4xl text-gray-600 mb-3">receipt_long</span>
+          <p class="text-gray-500 text-sm">No hay transacciones aún</p>
+        </div>
         }
       </div>
     </div>
-  }
-</main>
+    }
+  </main>
 </div>

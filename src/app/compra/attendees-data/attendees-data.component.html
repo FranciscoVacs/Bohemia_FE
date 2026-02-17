@@ -1,4 +1,4 @@
-<div class="lg:col-span-8 space-y-8">
+<div class="lg:col-span-8 flex flex-col gap-8">
   <h2 class="text-xl font-bold text-white uppercase tracking-wide flex items-center gap-3">
     <span
       class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary border border-secondary/20">
@@ -24,7 +24,9 @@
     <div [formGroup]="attendeeForm" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
       <div class="col-span-1 md:col-span-2">
         <label class="label-minimal">DNI / Pasaporte</label>
-        <input formControlName="dniOrPassport" class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base" placeholder="Sin puntos ni guiones" type="text" />
+        <input formControlName="dniOrPassport"
+          class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
+          placeholder="Sin puntos ni guiones" type="text" />
         @if (attendeeForm.get('dniOrPassport')?.touched && attendeeForm.get('dniOrPassport')?.errors) {
         <p class="text-red-400 text-xs mt-1">El DNI/Pasaporte es requerido (5-20 caracteres)</p>
         }
@@ -32,7 +34,9 @@
 
       <div>
         <label class="label-minimal">Dirección</label>
-        <input formControlName="direccion" class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base" placeholder="Ej. Calle Falsa 123" type="text" />
+        <input formControlName="direccion"
+          class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
+          placeholder="Ej. Calle Falsa 123" type="text" />
         @if (attendeeForm.get('direccion')?.touched && attendeeForm.get('direccion')?.errors) {
         <p class="text-red-400 text-xs mt-1">La dirección es requerida (3-100 caracteres)</p>
         }
@@ -41,7 +45,9 @@
 
       <div>
         <label class="label-minimal">Teléfono</label>
-        <input formControlName="telefono" class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base" placeholder="Ej. +54 9 11 1234-5678" type="tel" />
+        <input formControlName="telefono"
+          class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
+          placeholder="Ej. +54 9 11 1234-5678" type="tel" />
         @if (attendeeForm.get('telefono')?.touched && attendeeForm.get('telefono')?.errors) {
         <p class="text-red-400 text-xs mt-1">El teléfono es requerido (7-20 caracteres)</p>
         }
@@ -57,5 +63,5 @@
       }
     </div>
   </div>
- 
+
 </div>

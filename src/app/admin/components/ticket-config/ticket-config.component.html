@@ -9,7 +9,8 @@
             <span class="material-symbols-outlined text-[20px]">arrow_back</span>
             <span class="hidden sm:inline">Volver al Listado</span>
         </button>
-        <span class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
+        <span
+            class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
             TICKETS
         </span>
         <button (click)="saveAllChanges()" [disabled]="saving() || !hasUnsavedChanges()"
@@ -35,7 +36,8 @@
             <span class="material-symbols-outlined text-[20px]">arrow_back</span>
             <span class="hidden sm:inline">Volver</span>
         </button>
-        <span class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
+        <span
+            class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
             PASO 2 DE 2
         </span>
         <button (click)="cancelAndDelete()" [disabled]="deleting()"
@@ -58,13 +60,15 @@
                 {{ currentEvent()?.eventName }} — Modifica los tipos de entradas, precios y disponibilidad.
             </p>
             } @else {
-            <p class="text-[#b7ff00] text-xs font-bold uppercase tracking-widest mb-2">PASO 2 DE 2 - CONFIGURACION FINAL</p>
+            <p class="text-[#b7ff00] text-xs font-bold uppercase tracking-widest mb-2">PASO 2 DE 2 - CONFIGURACION FINAL
+            </p>
             <h1 class="text-2xl md:text-4xl font-extrabold text-white mb-2 uppercase tracking-wider">
                 CONFIGURACION DE
                 <span class="text-[#b7ff00] italic">TICKETS</span>
             </h1>
             <p class="text-white/60 text-sm md:text-base">
-                Define los tipos de entradas, precios y disponibilidad para tu evento. El primer ticket creado se activa automaticamente.
+                Define los tipos de entradas, precios y disponibilidad para tu evento. El primer ticket creado se activa
+                automaticamente.
             </p>
             }
         </div>
@@ -120,7 +124,8 @@
             <div>
                 <p class="text-blue-400 font-medium text-sm">SISTEMA DE COLA</p>
                 <p class="text-blue-400/80 text-sm">
-                    Solo un tipo de ticket puede estar activo a la vez. Cuando se agota, el siguiente en la cola se activa automaticamente. Podes cerrar manualmente el ticket activo para pasar al siguiente.
+                    Solo un tipo de ticket puede estar activo a la vez. Cuando se agota, el siguiente en la cola se
+                    activa automaticamente. Podes cerrar manualmente el ticket activo para pasar al siguiente.
                 </p>
             </div>
         </div>
@@ -142,7 +147,7 @@
 
             @if (allDisplayedTickets().length > 0) {
             <!-- Mobile: Cards -->
-            <div class="md:hidden space-y-3 mb-6">
+            <div class="md:hidden flex flex-col gap-3 mb-6">
                 @for (ticket of allDisplayedTickets(); track ticket.isPending ? ticket.tempId : ticket.id) {
                 <div [ngClass]="ticket.isPending 
                     ? 'bg-[#b7ff00]/5 rounded-xl p-4 border border-[#b7ff00]/20 border-dashed' 
@@ -156,9 +161,11 @@
                                 (blur)="ticket.isPending ? updatePendingTicketField(ticket.tempId!, 'ticketTypeName', $any($event.target).value) : updateTicketField(ticket.id, 'ticketTypeName', $any($event.target).value)"
                                 class="bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-medium text-sm py-0.5 px-1 outline-none transition-colors w-full min-w-0">
                             @if (ticket.isPending) {
-                            <span class="bg-[#b7ff00]/20 text-[#b7ff00] px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">NUEVO</span>
+                            <span
+                                class="bg-[#b7ff00]/20 text-[#b7ff00] px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">NUEVO</span>
                             } @else if (ticket.hasEdits) {
-                            <span class="bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">MODIFICADO</span>
+                            <span
+                                class="bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">MODIFICADO</span>
                             }
                         </div>
                         <div class="flex items-center gap-1 shrink-0 ml-2">
@@ -168,7 +175,8 @@
                                 CERRAR
                             </button>
                             }
-                            <button (click)="deleteTicketType(ticket.isPending ? ticket.tempId! : ticket.id, ticket.isPending)"
+                            <button
+                                (click)="deleteTicketType(ticket.isPending ? ticket.tempId! : ticket.id, ticket.isPending)"
                                 class="p-1.5 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer bg-transparent border-none text-xs">
                                 ELIMINAR
                             </button>
@@ -191,13 +199,16 @@
                             <span class="text-white/40 text-xs">Estado</span>
                             <div class="mt-1">
                                 @if (ticket.isPending) {
-                                <span class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-0.5 rounded text-xs font-bold">PENDIENTE</span>
+                                <span
+                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-0.5 rounded text-xs font-bold">PENDIENTE</span>
                                 } @else if (ticket.status === 'active') {
-                                <span class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-0.5 rounded text-xs font-bold">ACTIVO</span>
+                                <span
+                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-0.5 rounded text-xs font-bold">ACTIVO</span>
                                 } @else if (ticket.status === 'pending') {
                                 <span class="bg-white/10 text-white/60 px-2 py-0.5 rounded text-xs">EN COLA</span>
                                 } @else if (ticket.status === 'sold_out') {
-                                <span class="bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded text-xs">AGOTADO</span>
+                                <span
+                                    class="bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded text-xs">AGOTADO</span>
                                 } @else if (ticket.status === 'closed') {
                                 <span class="bg-red-500/20 text-red-400 px-2 py-0.5 rounded text-xs">CERRADO</span>
                                 }
@@ -239,9 +250,11 @@
                                         (blur)="ticket.isPending ? updatePendingTicketField(ticket.tempId!, 'ticketTypeName', $any($event.target).value) : updateTicketField(ticket.id, 'ticketTypeName', $any($event.target).value)"
                                         class="bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-medium text-sm py-0.5 px-1 outline-none transition-colors w-full max-w-[200px]">
                                     @if (ticket.isPending) {
-                                    <span class="bg-[#b7ff00]/20 text-[#b7ff00] px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">NUEVO</span>
+                                    <span
+                                        class="bg-[#b7ff00]/20 text-[#b7ff00] px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">NUEVO</span>
                                     } @else if (ticket.hasEdits) {
-                                    <span class="bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">MODIFICADO</span>
+                                    <span
+                                        class="bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">MODIFICADO</span>
                                     }
                                 </div>
                             </td>
@@ -257,9 +270,11 @@
                             </td>
                             <td class="py-4 px-2">
                                 @if (ticket.isPending) {
-                                <span class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-1 rounded text-xs font-bold">PENDIENTE</span>
+                                <span
+                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-1 rounded text-xs font-bold">PENDIENTE</span>
                                 } @else if (ticket.status === 'active') {
-                                <span class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-1 rounded text-xs font-bold">ACTIVO</span>
+                                <span
+                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-1 rounded text-xs font-bold">ACTIVO</span>
                                 } @else if (ticket.status === 'pending') {
                                 <span class="bg-white/10 text-white/60 px-2 py-1 rounded text-xs">EN COLA</span>
                                 } @else if (ticket.status === 'sold_out') {
@@ -276,7 +291,8 @@
                                         CERRAR
                                     </button>
                                     }
-                                    <button (click)="deleteTicketType(ticket.isPending ? ticket.tempId! : ticket.id, ticket.isPending)"
+                                    <button
+                                        (click)="deleteTicketType(ticket.isPending ? ticket.tempId! : ticket.id, ticket.isPending)"
                                         class="p-2 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer bg-transparent border-none text-xs">
                                         ELIMINAR
                                     </button>
@@ -299,9 +315,10 @@
             <!-- =========== CREACION: usa sortedTicketTypes (directo del servidor) =========== -->
             @if (sortedTicketTypes().length > 0) {
             <!-- Mobile: Cards -->
-            <div class="md:hidden space-y-3 mb-6">
+            <div class="md:hidden flex flex-col gap-3 mb-6">
                 @for (ticket of sortedTicketTypes(); track ticket.id) {
-                <div [ngClass]="ticket.status === 'active' ? 'bg-black/30 rounded-xl p-4 border border-[#b7ff00]/30' : 'bg-black/30 rounded-xl p-4 border border-white/10'">
+                <div
+                    [ngClass]="ticket.status === 'active' ? 'bg-black/30 rounded-xl p-4 border border-[#b7ff00]/30' : 'bg-black/30 rounded-xl p-4 border border-white/10'">
                     <div class="flex justify-between items-start mb-3">
                         <div class="flex items-center gap-2 flex-1 min-w-0">
                             <span class="text-white/40 text-xs font-mono shrink-0">#{{ ticket.sortOrder }}</span>
@@ -339,11 +356,13 @@
                             <span class="text-white/40 text-xs">Estado</span>
                             <div class="mt-1">
                                 @if (ticket.status === 'active') {
-                                <span class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-0.5 rounded text-xs font-bold">ACTIVO</span>
+                                <span
+                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-0.5 rounded text-xs font-bold">ACTIVO</span>
                                 } @else if (ticket.status === 'pending') {
                                 <span class="bg-white/10 text-white/60 px-2 py-0.5 rounded text-xs">EN COLA</span>
                                 } @else if (ticket.status === 'sold_out') {
-                                <span class="bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded text-xs">AGOTADO</span>
+                                <span
+                                    class="bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded text-xs">AGOTADO</span>
                                 } @else if (ticket.status === 'closed') {
                                 <span class="bg-red-500/20 text-red-400 px-2 py-0.5 rounded text-xs">CERRADO</span>
                                 }
@@ -353,7 +372,7 @@
                 </div>
                 }
             </div>
-            
+
             <!-- Desktop: Table -->
             <div class="hidden md:block overflow-x-auto mb-6">
                 <table class="w-full">
@@ -369,7 +388,8 @@
                     </thead>
                     <tbody>
                         @for (ticket of sortedTicketTypes(); track ticket.id) {
-                        <tr [ngClass]="ticket.status === 'active' ? 'border-b border-white/5 hover:bg-white/5 transition-colors bg-[#b7ff00]/5' : 'border-b border-white/5 hover:bg-white/5 transition-colors'">
+                        <tr
+                            [ngClass]="ticket.status === 'active' ? 'border-b border-white/5 hover:bg-white/5 transition-colors bg-[#b7ff00]/5' : 'border-b border-white/5 hover:bg-white/5 transition-colors'">
                             <td class="py-4 px-2">
                                 <span class="text-white/40 font-mono text-sm">#{{ ticket.sortOrder }}</span>
                             </td>
@@ -390,7 +410,8 @@
                             </td>
                             <td class="py-4 px-2">
                                 @if (ticket.status === 'active') {
-                                <span class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-1 rounded text-xs font-bold">ACTIVO</span>
+                                <span
+                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-1 rounded text-xs font-bold">ACTIVO</span>
                                 } @else if (ticket.status === 'pending') {
                                 <span class="bg-white/10 text-white/60 px-2 py-1 rounded text-xs">EN COLA</span>
                                 } @else if (ticket.status === 'sold_out') {
@@ -433,7 +454,7 @@
                 <h3 class="text-white font-medium mb-4 flex items-center gap-2">
                     <span class="text-[#b7ff00]">+</span> Nuevo Tipo de Ticket
                 </h3>
-                <form [formGroup]="ticketForm" (ngSubmit)="addTicketType()" class="space-y-4">
+                <form [formGroup]="ticketForm" (ngSubmit)="addTicketType()" class="flex flex-col gap-4">
                     <!-- Row 1: Name -->
                     <div>
                         <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-1">
@@ -504,7 +525,8 @@
                     </div>
                     <div class="text-center">
                         <p class="text-white/40 text-[10px] uppercase tracking-widest mb-1">Ganancia Estimada</p>
-                        <p class="text-[#b7ff00] text-2xl md:text-3xl font-bold">${{ estimatedRevenue().toLocaleString() }}</p>
+                        <p class="text-[#b7ff00] text-2xl md:text-3xl font-bold">${{ estimatedRevenue().toLocaleString()
+                            }}</p>
                     </div>
                 </div>
             </div>
@@ -596,10 +618,12 @@
         <div class="text-center mb-6">
             <h3 class="text-xl font-bold text-white mb-2">Cerrar tipo de ticket?</h3>
             <p class="text-white/60 text-sm mb-4">
-                Se cerrara "<span class="text-white font-medium">{{ ticketToClose()?.ticketTypeName }}</span>" y los tickets restantes ({{ ticketToClose()?.availableTickets }}) seran transferidos al siguiente en la cola.
+                Se cerrara "<span class="text-white font-medium">{{ ticketToClose()?.ticketTypeName }}</span>" y los
+                tickets restantes ({{ ticketToClose()?.availableTickets }}) seran transferidos al siguiente en la cola.
             </p>
             <div class="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3">
-                <p class="text-yellow-400 text-xs">Esta accion no se puede deshacer. El siguiente ticket type en la cola se activara automaticamente.</p>
+                <p class="text-yellow-400 text-xs">Esta accion no se puede deshacer. El siguiente ticket type en la cola
+                    se activara automaticamente.</p>
             </div>
         </div>
         <div class="flex flex-col sm:flex-row gap-3">
@@ -629,7 +653,7 @@
             <p class="text-white/60 text-sm mb-4">
                 Una vez publicado, el evento sera visible para todos los usuarios y podran comprar entradas.
             </p>
-            <div class="bg-white/5 rounded-xl p-4 text-left space-y-2">
+            <div class="bg-white/5 rounded-xl p-4 text-left flex flex-col gap-2">
                 <div class="flex justify-between text-sm">
                     <span class="text-white/50">Tipos de tickets:</span>
                     <span class="text-white font-medium">{{ ticketTypes().length }}</span>
