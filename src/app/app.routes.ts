@@ -17,6 +17,11 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'mis-entradas',
+        loadComponent: () => import('./mis-entradas/mis-entradas.component').then(m => m.MisEntradasComponent),
+        canActivate: [authGuard]
+    },
+    {
         path: 'admin',
         loadChildren: () => import('./admin/admin.routes').then(m => m.adminRoutes)
     },
