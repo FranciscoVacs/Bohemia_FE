@@ -14,6 +14,13 @@ export interface Purchase {
   ticket?: Ticket[];
 }
 
+export interface PurchaseDetails  {
+  ticketTypeName?: string;
+  ticketId?: number;
+  locationName?: string;
+  eventDate?: string;
+}
+
 export enum PaymentStatus {
   PENDING = "Pending",
   APPROVED = "Approved",

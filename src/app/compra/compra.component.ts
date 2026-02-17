@@ -1,11 +1,11 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { EventService } from '../services/event.service';
 import { PurchaseService } from '../services/purchase.service.js';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Event } from '../models/event';
-import { TicketType } from '../models/ticket-type';
+import { AdminTicketType, TicketType } from '../models/ticket-type';
 import { switchMap, of, catchError } from 'rxjs';
 import { AttendeesDataComponent } from './attendees-data/attendees-data.component.js';
 import { PaymentMethodComponent } from './payment-method/payment-method.component.js';
@@ -14,7 +14,7 @@ import {UserDropdownComponent} from '../user-dropdown/user-dropdown.component.js
 import { Router } from '@angular/router';
 import { SafeResourceUrl } from '@angular/platform-browser';
 declare let L: any;
-type TicketWithAmount = TicketType & { amountSelected: number };
+type TicketWithAmount = AdminTicketType & { amountSelected: number };
 
 @Component({
   selector: 'app-compra',
@@ -39,7 +39,7 @@ export class CompraComponent {
   ticketAdded = false;
   anySelected = true;
   loginRequired = false;
-  
+  actualTicketType = signal<TicketWithAmount | null>(null);
   @ViewChild(AttendeesDataComponent) child!: AttendeesDataComponent ;
 
 
@@ -52,7 +52,6 @@ export class CompraComponent {
         switchMap((event) => {
           this.event = event;
           this.locationName = event.location!.locationName
-          console.log('Loaded event', this.event);
           if (event && event.id) {
             return this.eventService.getTicketTypes(event.id);
           }
@@ -66,8 +65,7 @@ export class CompraComponent {
       .subscribe({
         next: (types) => {
           const arr = types || [];
-          this.ticketTypes = arr.map((t: TicketType) => ({ ...t, amountSelected: 0 }));
-          console.log('Loaded ticket types', this.ticketTypes);
+          this.ticketTypes = arr.map((t: AdminTicketType) => ({ ...t, amountSelected: 0 }));
           // Initialize map after event and template have rendered
           setTimeout(() => this.showMap(), 0);
         },
@@ -174,29 +172,28 @@ export class CompraComponent {
   }
 
   createPurchase(){
-  //  this.ticketTypes.forEach(tType => { 
-    if (this.ticketTypes[2].amountSelected === 0) return;
+    let tTypeAlreadySelected = false;
+    this.ticketTypes.forEach(tType => { 
+    if (tTypeAlreadySelected) return;
+    if (tType.amountSelected === 0) return; 
+    else tTypeAlreadySelected = true;
     const purchaseDTO: CreatePurchaseDTO = {
-    ticketQuantity: this.ticketTypes[2].amountSelected,
-    ticketTypeId: this.ticketTypes[2].id,
+    ticketQuantity: tType.amountSelected,
+    ticketTypeId: tType.id,
     }
-    console.log(purchaseDTO.ticketQuantity, " ", purchaseDTO.ticketTypeId);
 
     this.purchaseService.createPurchase(purchaseDTO).pipe(switchMap((purchaseResponse) => {
       const purchase = purchaseResponse.data;  
-      console.log('Purchase created', purchase);
       return this.purchaseService.createPreference(
       purchase.id)
       })).subscribe({
         next: (res) => {
-          console.log("preference res", res);
           window.location.href = res.init_point;
         },
         error: (err) => {
           console.log('Error creating preference', err);
       }});
-//    }
-  
+    })
   }
 
 
@@ -232,6 +229,12 @@ export class CompraComponent {
     }
     else 
       return true;
-    
-  }
+    }
+
+    checkTicketType(ticketType: TicketWithAmount): boolean {
+      const now = new Date();
+      return (ticketType.availableTickets <= 0) ||
+       (ticketType.saleMode === 'manual' && !ticketType.isManuallyActivated) ||
+       (now < new Date(ticketType.beginDatetime!) || now > new Date(ticketType.finishDatetime!));   
+    }
 }

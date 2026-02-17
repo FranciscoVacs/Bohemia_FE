@@ -9,7 +9,7 @@ export const routes: Routes = [
     { path: 'galeria', component: GaleriaComponent },
     { path: 'galeria/:eventId', component: GaleriaComponent },
     { path: 'compra', component: CompraComponent },
-    { path: 'success', component: PurchaseRedirectComponent },
+    { path: 'redirect', component: PurchaseRedirectComponent },
     {
         path: 'admin',
         loadChildren: () => import('./admin/admin.routes').then(m => m.adminRoutes)
