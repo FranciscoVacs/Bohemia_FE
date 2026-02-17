@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, OnInit, HostListener } from '@angular/core';
+import { Component, inject, signal, computed, effect, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -26,7 +26,7 @@ export class EventFormComponent implements OnInit {
     eventId = signal<number | null>(null);
     loading = signal(false);
     submitting = signal(false);
-    savingDraft = signal(false);
+    saving = signal(false);
     deleting = signal(false);
     error = signal<string | null>(null);
     successMessage = signal<string | null>(null);
@@ -37,13 +37,43 @@ export class EventFormComponent implements OnInit {
     // Datos del evento cargado
     currentEvent = signal<AdminEvent | null>(null);
 
+    // Computed: true si estamos editando un evento ya publicado (no un draft de creación)
+    isEditingPublished = computed(() => {
+        const event = this.currentEvent();
+        return this.isEditMode() && event !== null && event.isPublished;
+    });
+
     // Datos para selects
     locations = signal<Location[]>([]);
     djs = signal<Dj[]>([]);
 
+    // Filtro de ciudad para ubicaciones
+    selectedCityId = signal<number | null>(null);
+
+    // Computed: ciudades únicas extraídas de las ubicaciones
+    cities = computed(() => {
+        const cityMap = new Map<number, string>();
+        this.locations().forEach(loc => {
+            if (!cityMap.has(loc.city.id)) {
+                cityMap.set(loc.city.id, loc.city.cityName);
+            }
+        });
+        return Array.from(cityMap, ([id, cityName]) => ({ id, cityName })).sort((a, b) => a.cityName.localeCompare(b.cityName));
+    });
+
+    // Computed: ubicaciones filtradas por ciudad seleccionada
+    filteredLocations = computed(() => {
+        const cityId = this.selectedCityId();
+        if (!cityId) return [];
+        return this.locations().filter(loc => loc.city.id === cityId);
+    });
+
     // Preview de imagen
     imagePreview = signal<string | null>(null);
     selectedFile = signal<File | null>(null);
+
+    // Tracking de cambios para evento publicado
+    hasUnsavedChanges = signal(false);
 
     // Computed: fecha mínima = hoy (formato string para input date)
     minDateStr = computed(() => {
@@ -64,6 +94,18 @@ export class EventFormComponent implements OnInit {
         djId: ['', [Validators.required]],
     });
 
+    // Effect: pre-seleccionar la ciudad cuando se cargan tanto las ubicaciones como el evento
+    private cityPreselectionEffect = effect(() => {
+        const locations = this.locations();
+        const event = this.currentEvent();
+        if (locations.length > 0 && event && !this.selectedCityId()) {
+            const matchedLocation = locations.find(loc => loc.id === event.location.id);
+            if (matchedLocation) {
+                this.selectedCityId.set(matchedLocation.city.id);
+            }
+        }
+    });
+
     ngOnInit() {
         this.loadData();
         this.checkEditMode();
@@ -75,6 +117,12 @@ export class EventFormComponent implements OnInit {
         if (this.eventForm.dirty || this.selectedFile()) {
             $event.returnValue = true;
         }
+    }
+
+    onCityChange(cityId: string) {
+        const parsed = cityId ? Number(cityId) : null;
+        this.selectedCityId.set(parsed);
+        this.eventForm.patchValue({ locationId: '' });
     }
 
     private loadData() {
@@ -124,6 +172,19 @@ export class EventFormComponent implements OnInit {
                 }
 
                 this.loading.set(false);
+
+                // Reset dirty tracking after form is populated
+                this.eventForm.markAsPristine();
+                this.hasUnsavedChanges.set(false);
+
+                // Listen for form changes to track unsaved changes (only for published events)
+                if (event.isPublished) {
+                    this.eventForm.valueChanges.subscribe(() => {
+                        if (this.eventForm.dirty) {
+                            this.hasUnsavedChanges.set(true);
+                        }
+                    });
+                }
             },
             error: (err) => {
                 console.error('Error loading event:', err);
@@ -162,6 +223,7 @@ export class EventFormComponent implements OnInit {
 
             this.error.set(null);
             this.selectedFile.set(file);
+            this.hasUnsavedChanges.set(true);
 
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -174,11 +236,20 @@ export class EventFormComponent implements OnInit {
     removeImage() {
         this.selectedFile.set(null);
         this.imagePreview.set(null);
+        this.hasUnsavedChanges.set(true);
     }
 
-    // Cancel - show confirmation modal
+    // Cancel / go back - show confirmation modal if unsaved changes
     cancel() {
-        this.showCancelModal.set(true);
+        if (this.isEditingPublished() && this.hasUnsavedChanges()) {
+            this.showCancelModal.set(true);
+        } else if (this.isEditingPublished()) {
+            // No unsaved changes, go directly back
+            this.router.navigate(['/admin']);
+        } else {
+            // Creation flow: always show modal
+            this.showCancelModal.set(true);
+        }
     }
 
     closeCancelModal() {
@@ -186,8 +257,11 @@ export class EventFormComponent implements OnInit {
     }
 
     confirmCancel() {
-        if (this.isEditMode() && this.eventId()) {
-            // Eliminar el evento borrador
+        const event = this.currentEvent();
+        const isCreatingDraft = this.isEditMode() && this.eventId() && event && !event.isPublished;
+
+        if (isCreatingDraft) {
+            // Eliminar el evento borrador (flujo de creación)
             this.deleting.set(true);
             this.eventService.deleteEvent(this.eventId()!).subscribe({
                 next: () => {
@@ -201,7 +275,7 @@ export class EventFormComponent implements OnInit {
                 }
             });
         } else {
-            // No hay evento creado, solo navegar
+            // Evento publicado o sin crear aún, solo navegar
             this.router.navigate(['/admin']);
         }
     }
@@ -231,16 +305,11 @@ export class EventFormComponent implements OnInit {
         }, 4000);
     }
 
-    // Save as Draft and stay on page
-    saveDraft() {
+    // Save changes for published event (stay on page)
+    saveChanges() {
         if (this.eventForm.invalid) {
             this.eventForm.markAllAsTouched();
             this.error.set('Por favor completa todos los campos requeridos');
-            return;
-        }
-
-        if (!this.isEditMode() && !this.selectedFile()) {
-            this.error.set('Debes seleccionar una imagen de portada');
             return;
         }
 
@@ -248,42 +317,26 @@ export class EventFormComponent implements OnInit {
             return;
         }
 
-        this.savingDraft.set(true);
+        this.saving.set(true);
         this.error.set(null);
 
         const formData = this.buildEventFormData();
 
-        if (this.isEditMode()) {
-            this.eventService.updateEvent(this.eventId()!, formData).subscribe({
-                next: () => {
-                    this.successMessage.set('Borrador guardado correctamente');
-                    this.savingDraft.set(false);
-                    this.clearMessagesAfterTimeout();
-                },
-                error: (err) => {
-                    console.error('Error saving draft:', err);
-                    this.error.set(err.error?.message || 'Error al guardar el borrador');
-                    this.savingDraft.set(false);
-                }
-            });
-        } else {
-            this.eventService.createEvent(formData).subscribe({
-                next: (response) => {
-                    const newEventId = response.data.id;
-                    this.successMessage.set('Borrador creado correctamente');
-                    this.savingDraft.set(false);
-                    // Switch to edit mode
-                    this.isEditMode.set(true);
-                    this.eventId.set(newEventId);
-                    this.clearMessagesAfterTimeout();
-                },
-                error: (err) => {
-                    console.error('Error creating draft:', err);
-                    this.error.set(err.error?.message || 'Error al crear el borrador');
-                    this.savingDraft.set(false);
-                }
-            });
-        }
+        this.eventService.updateEvent(this.eventId()!, formData).subscribe({
+            next: () => {
+                this.saving.set(false);
+                this.hasUnsavedChanges.set(false);
+                this.eventForm.markAsPristine();
+                this.selectedFile.set(null); // File already uploaded
+                this.successMessage.set('Cambios guardados exitosamente');
+                this.clearMessagesAfterTimeout();
+            },
+            error: (err) => {
+                console.error('Error saving event:', err);
+                this.error.set(err.error?.message || 'Error al guardar los cambios');
+                this.saving.set(false);
+            }
+        });
     }
 
     // Next Step - Save and go to Step 2 (Ticket Configuration)

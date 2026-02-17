@@ -3,11 +3,9 @@ import { Event } from "./event";
 export interface TicketType {
   id: number;
   ticketTypeName: string;
-  beginDatetime: string;
-  finishDatetime: string;
   price: number;
-  maxQuantity: number;
   availableTickets: number;
+  isSaleActive: boolean;
   event?: Event;
 }
 
@@ -15,24 +13,21 @@ export interface TicketType {
 export interface AdminTicketType {
   id: number;
   ticketTypeName: string;
-  beginDatetime?: string;
-  finishDatetime?: string;
   price: number;
   maxQuantity: number;
   availableTickets: number;
-  event: number;
-  saleMode: 'manual' | 'scheduled';
-  isManuallyActivated: boolean;
+  sortOrder: number;
+  status: 'pending' | 'active' | 'sold_out' | 'closed';
+  activatedAt?: string;
+  closedAt?: string;
   isSaleActive: boolean;
+  event: number;
 }
 
 export interface AdminCreateTicketType {
   ticketTypeName: string;
-  beginDatetime: string | null;
-  finishDatetime: string | null;
   price: number;
   maxQuantity: number;
   event: number | null;
-  saleMode?: string;
-  isManuallyActivated?: boolean;
+  sortOrder: number;
 }

@@ -1,0 +1,226 @@
+<main class="flex-grow pt-32 pb-20 relative overflow-hidden min-h-screen">
+    <!-- Decorative blurs -->
+    <div
+        class="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/5 blur-[120px] rounded-full pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none">
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <!-- Profile Header -->
+        <div class="flex flex-col md:flex-row items-center gap-8 mb-12 animate-fade-in">
+            <!-- Initials Avatar -->
+            <div
+                class="w-32 h-32 rounded-full bg-linear-to-br from-secondary to-primary p-[2px] shadow-[0_0_30px_rgba(0,224,255,0.3)]">
+                <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                    <span class="text-4xl font-bold text-white uppercase tracking-wide">{{ userInitials() }}</span>
+                </div>
+            </div>
+            <!-- Name -->
+            <div class="text-center md:text-left">
+                <h1 class="font-display text-5xl md:text-6xl text-white tracking-wide uppercase mb-2">
+                    {{ userFullName() }}
+                </h1>
+                <span
+                    class="bg-white/5 border border-white/10 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-primary">
+                    {{ currentUser()?.email }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Tabbed Card -->
+        <div
+            class="profile-card bg-[#121212] rounded-3xl p-8 border border-white/5 shadow-2xl relative overflow-hidden animate-fade-in-up">
+            <!-- Card decorative blurs -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 blur-[50px] rounded-full"></div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-primary/5 blur-[50px] rounded-full"></div>
+
+            <!-- Tabs -->
+            <div class="mb-8 border-b border-white/10">
+                <div class="flex flex-wrap -mb-px text-sm font-medium text-center">
+                    <button type="button" (click)="setTab('detalles')"
+                        [class]="activeTab() === 'detalles'
+                            ? 'inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg mr-6 transition-colors duration-200 text-secondary border-secondary cursor-pointer'
+                            : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg mr-6 transition-colors duration-200 text-gray-500 hover:text-gray-400 hover:border-gray-500 cursor-pointer'">
+                        <span class="material-symbols-outlined text-xl mr-2">badge</span>
+                        Detalles Personales
+                    </button>
+
+                    <button type="button" (click)="setTab('password')"
+                        [class]="activeTab() === 'password'
+                            ? 'inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg mr-6 transition-colors duration-200 text-secondary border-secondary cursor-pointer'
+                            : 'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg mr-6 transition-colors duration-200 text-gray-500 hover:text-gray-400 hover:border-gray-500 cursor-pointer'">
+                        <span class="material-symbols-outlined text-xl mr-2">lock_reset</span>
+                        Gestión de Contraseña
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="relative z-10">
+
+                <!-- Detalles Personales Tab -->
+                @if (activeTab() === 'detalles') {
+                <div class="animate-fade-in">
+                    <h3 class="font-display text-xl text-white uppercase tracking-wide mb-6">Información Básica</h3>
+                    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="space-y-6">
+
+                        <!-- Nombre -->
+                        <div class="relative">
+                            <input formControlName="userName" type="text" id="userName" placeholder="Nombre"
+                                class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-secondary focus:outline-none placeholder-transparent transition-colors" />
+                            <label for="userName"
+                                class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-secondary font-medium tracking-wide">
+                                Nombre
+                            </label>
+                        </div>
+
+                        <!-- Apellido -->
+                        <div class="relative">
+                            <input formControlName="userSurname" type="text" id="userSurname" placeholder="Apellido"
+                                class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-secondary focus:outline-none placeholder-transparent transition-colors" />
+                            <label for="userSurname"
+                                class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-secondary font-medium tracking-wide">
+                                Apellido
+                            </label>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="relative">
+                            <input formControlName="email" type="email" id="email" placeholder="Email"
+                                class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-secondary focus:outline-none placeholder-transparent transition-colors" />
+                            <label for="email"
+                                class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-secondary font-medium tracking-wide">
+                                Email
+                            </label>
+                        </div>
+
+                        <!-- Fecha de Nacimiento -->
+                        <div class="relative">
+                            <input formControlName="birthDate" type="date" id="birthDate"
+                                placeholder="Fecha de Nacimiento"
+                                class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-secondary focus:outline-none placeholder-transparent transition-colors date-input" />
+                            <label for="birthDate"
+                                class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-secondary font-medium tracking-wide">
+                                Fecha de Nacimiento
+                            </label>
+                        </div>
+
+                        <!-- Success message -->
+                        @if (profileSuccess()) {
+                        <div class="flex items-center gap-2 text-primary text-sm animate-fade-in">
+                            <span class="material-symbols-outlined text-lg">check_circle</span>
+                            Cambios guardados exitosamente
+                        </div>
+                        }
+
+                        <!-- Error message -->
+                        @if (profileError()) {
+                        <div class="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
+                            <span class="material-symbols-outlined text-lg">error</span>
+                            {{ profileError() }}
+                        </div>
+                        }
+
+                        <!-- Submit -->
+                        <div class="pt-4">
+                            <button type="submit" [disabled]="profileForm.invalid || profileSaving()"
+                                class="bg-linear-to-r from-secondary to-primary text-black w-full hover:opacity-90 px-8 py-3.5 rounded-xl font-bold uppercase text-xs tracking-[0.2em] transition-all transform hover:scale-[1.02] shadow-[0_0_20px_rgba(204,255,0,0.2)] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer">
+                                @if (profileSaving()) {
+                                <span class="inline-flex items-center gap-2">
+                                    <span
+                                        class="animate-spin material-symbols-outlined text-sm">progress_activity</span>
+                                    Guardando...
+                                </span>
+                                } @else {
+                                Guardar Cambios
+                                }
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                }
+
+                <!-- Gestión de Contraseña Tab -->
+                @if (activeTab() === 'password') {
+                <div class="animate-fade-in">
+                    <h3 class="font-display text-xl text-white uppercase tracking-wide mb-6">Actualizar Contraseña</h3>
+                    <form [formGroup]="passwordForm" (ngSubmit)="savePassword()" class="space-y-6">
+
+                        <!-- Nueva Contraseña -->
+                        <div class="relative">
+                            <input formControlName="newPassword" [type]="showNewPassword() ? 'text' : 'password'"
+                                id="newPassword" placeholder="Nueva Contraseña"
+                                class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 pr-10 text-white focus:border-primary focus:outline-none placeholder-transparent transition-colors" />
+                            <label for="newPassword"
+                                class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary font-medium tracking-wide">
+                                Nueva Contraseña
+                            </label>
+                            <button type="button" (click)="showNewPassword.set(!showNewPassword())"
+                                class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors cursor-pointer p-1">
+                                <span class="material-symbols-outlined text-xl">{{ showNewPassword() ? 'visibility_off'
+                                    : 'visibility' }}</span>
+                            </button>
+                            @if (passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.errors) {
+                            <p class="text-red-400 text-xs mt-1">Mínimo 8 caracteres, con mayúscula, minúscula y número
+                            </p>
+                            }
+                        </div>
+
+                        <!-- Confirmar Contraseña -->
+                        <div class="relative">
+                            <input formControlName="confirmPassword"
+                                [type]="showConfirmPassword() ? 'text' : 'password'" id="confirmPassword"
+                                placeholder="Confirmar Nueva Contraseña"
+                                class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 pr-10 text-white focus:border-primary focus:outline-none placeholder-transparent transition-colors" />
+                            <label for="confirmPassword"
+                                class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary font-medium tracking-wide">
+                                Confirmar Nueva Contraseña
+                            </label>
+                            <button type="button" (click)="showConfirmPassword.set(!showConfirmPassword())"
+                                class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors cursor-pointer p-1">
+                                <span class="material-symbols-outlined text-xl">{{ showConfirmPassword() ?
+                                    'visibility_off' : 'visibility' }}</span>
+                            </button>
+                        </div>
+
+                        <!-- Success message -->
+                        @if (passwordSuccess()) {
+                        <div class="flex items-center gap-2 text-primary text-sm animate-fade-in">
+                            <span class="material-symbols-outlined text-lg">check_circle</span>
+                            Contraseña actualizada exitosamente
+                        </div>
+                        }
+
+                        <!-- Error message -->
+                        @if (passwordError()) {
+                        <div class="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
+                            <span class="material-symbols-outlined text-lg">error</span>
+                            {{ passwordError() }}
+                        </div>
+                        }
+
+                        <!-- Submit -->
+                        <div class="pt-4 flex items-center justify-end">
+                            <button type="submit" [disabled]="passwordForm.invalid || passwordSaving()"
+                                class="border border-white/20 hover:border-primary hover:text-primary text-white px-8 py-3.5 rounded-xl font-bold uppercase text-xs tracking-[0.2em] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+                                @if (passwordSaving()) {
+                                <span class="inline-flex items-center gap-2">
+                                    <span
+                                        class="animate-spin material-symbols-outlined text-sm">progress_activity</span>
+                                    Actualizando...
+                                </span>
+                                } @else {
+                                Actualizar
+                                }
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</main>

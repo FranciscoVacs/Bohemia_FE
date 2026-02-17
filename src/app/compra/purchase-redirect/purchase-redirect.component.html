@@ -262,7 +262,8 @@
           <div class="flex items-center justify-center gap-3 mt-5">
             <div
               class="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg flex items-center gap-2 text-xs font-bold text-secondary uppercase tracking-widest">
-              <span class="material-symbols-outlined text-sm">calendar_month</span> {{ purchaseDetails?.eventDate | date:'dd MMM YYYY, HH:mm' }}
+              <span class="material-symbols-outlined text-sm">calendar_month</span> {{ purchaseDetails?.eventDate |
+              date:'dd MMM YYYY, HH:mm' }}
             </div>
             <div
               class="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg flex items-center gap-2 text-xs font-bold text-gray-300 uppercase tracking-widest">
@@ -286,7 +287,8 @@
           </div>
           <div class="space-y-1 mb-6">
             <p class="text-white font-bold text-xl uppercase tracking-wide">{{ purchaseDetails?.ticketTypeName }}</p>
-            <p class="text-gray-500 text-xs uppercase tracking-[0.2em] font-medium">Juan Pérez • ID: #{{ purchaseDetails?.ticketId }}</p>
+            <p class="text-gray-500 text-xs uppercase tracking-[0.2em] font-medium">Juan Pérez • ID: #{{
+              purchaseDetails?.ticketId }}</p>
           </div>
           <div
             class="flex items-center gap-2 text-[10px] text-primary/80 uppercase tracking-widest border border-primary/20 rounded-full px-3 py-1 bg-primary/5">

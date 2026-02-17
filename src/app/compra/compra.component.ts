@@ -235,9 +235,6 @@ export class CompraComponent {
     }
 
     checkTicketType(ticketType: TicketWithAmount): boolean {
-      const now = new Date();
-      return (ticketType.availableTickets <= 0) ||
-       (ticketType.saleMode === 'manual' && !ticketType.isManuallyActivated) ||
-       (now < new Date(ticketType.beginDatetime!) || now > new Date(ticketType.finishDatetime!));   
+      return ticketType.availableTickets <= 0;
     }
 }

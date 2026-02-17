@@ -35,6 +35,13 @@ export class TicketTypeService {
     }
 
     /**
+     * Cierra un tipo de ticket activo (transfiere tickets restantes al siguiente en cola)
+     */
+    closeTicketType(eventId: number, ticketTypeId: number): Observable<ApiResponse<AdminTicketType>> {
+        return this.http.patch<ApiResponse<AdminTicketType>>(`${this.apiUrl}/event/${eventId}/ticketType/${ticketTypeId}/close`, {});
+    }
+
+    /**
      * Elimina un tipo de ticket
      */
     deleteTicketType(eventId: number, ticketTypeId: number): Observable<ApiResponse<void>> {

@@ -1,27 +1,26 @@
 <div class="min-h-screen bg-linear-to-b from-[#0a0a0a] to-[#111111]">
     <!-- Header - Fixed navbar -->
     <nav
-        class="fixed top-0 left-0 right-0 flex justify-between items-center px-4 md:px-8 py-4 bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
-        <div class="flex-1">
-            <button (click)="goBack()"
-                class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-[#b7ff00]/10 hover:text-[#b7ff00] cursor-pointer bg-transparent border-none">
-                <span class="text-xl">←</span>
-                <span class="hidden md:inline">Volver al Listado</span>
-            </button>
-        </div>
-        <div class="flex-none">
-            <span
-                class="bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
-                GALERIAS
-            </span>
-        </div>
-        <div class="flex-1"></div>
+        class="fixed top-0 left-0 right-0 h-14 flex items-center px-4 md:px-8 bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
+        <button (click)="goBack()"
+            class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-[#b7ff00]/10 hover:text-[#b7ff00] cursor-pointer bg-transparent border-none">
+            <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+            <span class="hidden md:inline">Volver al Listado</span>
+        </button>
+        <span class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
+            GALERIAS
+        </span>
     </nav>
 
-    <!-- Spacer for fixed navbar -->
-    <div class="h-16"></div>
+    <main class="px-4 md:px-8 pt-20 pb-8 max-w-6xl mx-auto">
+        <!-- Info: subir fotos antes de publicar -->
+        @if (!isPublished() && !canPublish()) {
+        <div class="mb-6 bg-white/5 border border-white/10 rounded-xl p-4 flex items-center gap-3">
+            <span class="text-[#b7ff00]">ℹ️</span>
+            <p class="text-sm text-white/50">Subí fotos para poder publicar la galería.</p>
+        </div>
+        }
 
-    <main class="px-4 md:px-8 py-8 max-w-6xl mx-auto">
         <!-- Title + Status Toggle -->
         <div class="mb-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
             <div>
@@ -49,10 +48,10 @@
                     <span class="text-white/50 font-medium text-sm uppercase">Archivada</span>
                     }
                 </div>
-                <button (click)="toggleGalleryStatus()" [disabled]="updatingStatus()"
+<button (click)="toggleGalleryStatus()" [disabled]="updatingStatus() || (!isPublished() && !canPublish())"
                     [class]="isPublished() 
-                        ? 'w-full px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer border-none bg-white/10 text-white/70 hover:bg-white/20'
-                        : 'w-full px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer border-none bg-[#b7ff00] text-black hover:bg-[#c8ff33]'">
+                        ? 'w-full px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer border-none bg-white/10 text-white/70 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed'
+                        : 'w-full px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer border-none bg-[#b7ff00] text-black hover:bg-[#c8ff33] disabled:opacity-50 disabled:cursor-not-allowed'">
                     @if (updatingStatus()) {
                     <span>Actualizando...</span>
                     } @else if (isPublished()) {
