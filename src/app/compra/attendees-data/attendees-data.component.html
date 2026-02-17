@@ -22,36 +22,37 @@
       </h3>
     </div>
     <div [formGroup]="attendeeForm" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+
+      <div>
+        <label class="label-minimal">Nombre</label>
+        <input formControlName="name"
+          class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
+          placeholder="Ej. Juan Pérez" type="text" />
+        @if (attendeeForm.get('name')?.touched && attendeeForm.get('name')?.errors) {
+        <p class="text-red-400 text-xs mt-1">El nombre es requerido (5-20 caracteres)</p>
+        }
+      
+      </div>
+      
+      <div>
+        <label class="label-minimal">Apellido</label>
+        <input formControlName="surname"
+          class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
+          placeholder="Ej. Pérez" type="text" />
+        @if (attendeeForm.get('surname')?.touched && attendeeForm.get('surname')?.errors) {
+        <p class="text-red-400 text-xs mt-1">El apellido es requerido (5-20 caracteres)</p>
+        }
+      </div>
+
       <div class="col-span-1 md:col-span-2">
-        <label class="label-minimal">DNI / Pasaporte</label>
-        <input formControlName="dniOrPassport"
-          class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
-          placeholder="Sin puntos ni guiones" type="text" />
-        @if (attendeeForm.get('dniOrPassport')?.touched && attendeeForm.get('dniOrPassport')?.errors) {
-        <p class="text-red-400 text-xs mt-1">El DNI/Pasaporte es requerido (5-20 caracteres)</p>
+        <label class="label-minimal">Email </label>
+        <input formControlName="email" class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base" placeholder="juanperez@gmail.com" type="text" />
+        @if (attendeeForm.get('email')?.touched && attendeeForm.get('email')?.errors) {
+        <p class="text-red-400 text-xs mt-1">El email es requerido (5-100 caracteres)</p>
         }
       </div>
 
-      <div>
-        <label class="label-minimal">Dirección</label>
-        <input formControlName="direccion"
-          class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
-          placeholder="Ej. Calle Falsa 123" type="text" />
-        @if (attendeeForm.get('direccion')?.touched && attendeeForm.get('direccion')?.errors) {
-        <p class="text-red-400 text-xs mt-1">La dirección es requerida (3-100 caracteres)</p>
-        }
 
-      </div>
-
-      <div>
-        <label class="label-minimal">Teléfono</label>
-        <input formControlName="telefono"
-          class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
-          placeholder="Ej. +54 9 11 1234-5678" type="tel" />
-        @if (attendeeForm.get('telefono')?.touched && attendeeForm.get('telefono')?.errors) {
-        <p class="text-red-400 text-xs mt-1">El teléfono es requerido (7-20 caracteres)</p>
-        }
-      </div>
 
       @if (!authService.isAuthenticated()) {
       <div class="col-span-1 md:col-span-2">

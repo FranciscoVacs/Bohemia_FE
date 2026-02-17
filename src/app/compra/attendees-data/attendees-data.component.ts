@@ -16,13 +16,28 @@ export class AttendeesDataComponent {
   public authService = inject(AuthService);
   public modalService = inject(ModalService);
     attendeeForm = this.fb.group({
-    direccion: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-    dniOrPassport: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
-    telefono: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(20)]]
-    })
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+    surname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+    email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]]
+  })
 
+    ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.autoCompleteAttendeeData();
+    }
+    }
     checkInputs(): boolean {
       this.attendeeForm.markAllAsTouched();
       return this.attendeeForm.valid;
       }
+
+    autoCompleteAttendeeData(): void {
+      const currentUser = this.authService.currentUser()
+      if (!currentUser) return;
+      this.attendeeForm.patchValue({
+        name: currentUser.userName || '',
+        surname: currentUser.userSurname || '',
+        email: currentUser.email || ''
+      });
+    };      
 }

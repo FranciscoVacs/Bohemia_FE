@@ -2,6 +2,7 @@ import { Component, inject, signal, ViewChild } from '@angular/core';
 import { EventService } from '../services/event.service';
 import { PurchaseService } from '../services/purchase.service.js';
 import { AuthService } from '../services/auth.service';
+import { ModalService } from '../services/modal.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Event } from '../models/event';
@@ -29,6 +30,7 @@ export class CompraComponent {
   private eventService = inject(EventService);
   private purchaseService = inject(PurchaseService);
   private authService = inject(AuthService);
+  private modalService = inject(ModalService);
   mapUrl: SafeResourceUrl = '';
   event!: Event | null;
   locationName: string  = '';
@@ -202,8 +204,9 @@ export class CompraComponent {
     this.loginRequired = false;
     const valid = this.checkFormState();
     if (!valid) return;
-    if (this.state === 2 && !this.authService.isAuthenticated()) {
+    if (this.state === 1 && !this.authService.isAuthenticated()) {
       this.loginRequired = true;
+      this.modalService.openLogin();
       return;
     }
     this.addState();
