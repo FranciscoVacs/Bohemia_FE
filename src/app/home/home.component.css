@@ -1,0 +1,31 @@
+/* Solo la animación - el resto está en Tailwind */
+@keyframes tape-scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-tape-scroll {
+    animation: tape-scroll 12s linear infinite;
+}
+
+/* ── Kaleidoscope Animation ── */
+@keyframes kaleidoscope-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-kaleidoscope {
+    animation: kaleidoscope-spin 25s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-kaleidoscope {
+        animation: none;
+    }
+}

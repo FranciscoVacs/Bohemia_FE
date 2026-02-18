@@ -1,12 +1,71 @@
 <app-hero></app-hero>
-<section id="eventos" class="py-24">
-    <div class="max-w-7xl mx-auto px-4">
-        <h2 class="font-display text-5xl text-white uppercase mb-12">Próximo Evento</h2>
-        <!-- Event Card con datos de la API -->
-        @if (nextEvent) {
-            <app-event-card [event]="nextEvent"></app-event-card>
-        } @else {
-            <p class="text-gray-500">Cargando evento...</p>
-        }
+<!-- Kaleidoscope Background — abarca desde debajo del hero hasta el final -->
+<section class="relative w-full min-h-[60vh] overflow-hidden z-[1]">
+    <div
+        class="absolute -inset-1/2 w-[200%] h-[200%] bg-[conic-gradient(from_0deg,#050508,#0A0A0A,#111118,#CCFF00,#0A0A0A,#00E0FF,#050508,#111118,#CCFF00,#050508)] animate-kaleidoscope blur-[80px] saturate-[130%] z-0">
+    </div>
+
+    <div class="relative z-[2]">
+        <section id="eventos" class="py-24">
+            <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
+                <div class="flex justify-between items-center mb-12">
+                    <h2 class="font-display text-4xl md:text-5xl lg:text-6xl text-white uppercase">Próximo</h2>
+                    <h2 class="font-display text-4xl md:text-5xl lg:text-6xl text-white uppercase">Evento</h2>
+                </div>
+                <!-- Event Card con datos de la API -->
+                @if (nextEvent) {
+                <app-event-card [event]="nextEvent"></app-event-card>
+                } @else {
+                <p class="text-gray-500">Cargando evento...</p>
+                }
+            </div>
+        </section>
+
+        <!-- Barra horizontal con scroll infinito (tape style) -->
+        <div
+            class="relative w-[120%] -left-[10%] bg-primary text-black -rotate-2 py-5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden z-10 -mt-8">
+            <div class="font-display text-4xl font-medium tracking-[0.25em] whitespace-nowrap animate-tape-scroll">
+                BOHEMIA ✦ SOCIALCLUB ✦ FIESTA ✦ MUSICA ✦ ROSARIO ✦ BOHEMIA ✦ SOCIALCLUB ✦ FIESTA ✦ MUSICA ✦ ROSARIO ✦
+                BOHEMIA ✦
+                SOCIALCLUB ✦ FIESTA ✦ MUSICA ✦ ROSARIO ✦ BOHEMIA ✦ SOCIALCLUB ✦ FIESTA ✦ MUSICA ✦ ROSARIO ✦
+            </div>
+        </div>
+
+        <!-- Sección Galería -->
+        <section class="py-24 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
+            <!-- Header: título + link -->
+            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
+                <h2 class="font-display text-5xl md:text-6xl uppercase leading-tight">
+                    <span class="text-white">Hit tras hit.</span><br>
+                    <span class="text-primary">Revive la fiesta.</span>
+                </h2>
+                <a href="/galeria"
+                    class="text-white/70 hover:text-white text-sm uppercase tracking-[0.2em] flex items-center gap-2 transition-colors shrink-0">
+                    Ver galería <span class="text-lg">→</span>
+                </a>
+            </div>
+
+            <!-- Grid de imágenes -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+                <div class="relative overflow-hidden rounded-xl group">
+                    <img src="image-gallery1.jpg" alt="Galería Bohemia 1"
+                        class="w-full h-[400px] sm:h-[450px] lg:h-[500px] object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-linear-to-t from-black/50 to-transparent pointer-events-none">
+                    </div>
+                </div>
+                <div class="relative overflow-hidden rounded-xl group lg:-translate-y-6">
+                    <img src="image-gallery2.jpg" alt="Galería Bohemia 2"
+                        class="w-full h-[400px] sm:h-[450px] lg:h-[500px] object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-linear-to-t from-black/50 to-transparent pointer-events-none">
+                    </div>
+                </div>
+                <div class="relative overflow-hidden rounded-xl group sm:col-span-2 lg:col-span-1">
+                    <img src="image-gallery3.jpg" alt="Galería Bohemia 3"
+                        class="w-full h-[400px] sm:h-[450px] lg:h-[500px] object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-linear-to-t from-black/50 to-transparent pointer-events-none">
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </section>
