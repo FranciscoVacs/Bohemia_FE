@@ -53,7 +53,7 @@
     <div class="nav-right">
         @if (navbarState.purchaseStep() === 0) {
         @if (authService.isAdmin()) {
-        <a routerLink="/admin" class="cta-btn cta-admin">
+        <a routerLink="/admin" class="cta-btn cta-admin" data-cy="admin-panel-link">
             <span class="material-symbols-outlined" style="font-size: 16px;">admin_panel_settings</span>
             <span>Admin</span>
         </a>

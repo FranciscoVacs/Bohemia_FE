@@ -1,4 +1,4 @@
-import { Purchase } from "./purchase.js";
+import { Purchase } from "./purchase";
 
 export interface Ticket {
   id: number;

@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Event } from '../models/event.js';
-import { CapitalizePipe } from '../pipes/capitalize.pipe.js';
+import { Event } from '../models/event';
+import { CapitalizePipe } from '../pipes/capitalize.pipe';
 
 @Component({
   selector: 'app-event-card',

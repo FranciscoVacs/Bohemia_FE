@@ -1,10 +1,10 @@
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Purchase } from '../models/purchase.js';
-import { ApiResponse } from '../models/api-response.js';
+import { Purchase } from '../models/purchase';
+import { ApiResponse } from '../models/api-response';
 import { Observable } from 'rxjs';
-import { CreatePurchaseDTO } from '../dto/purchase.dto.js';
+import { CreatePurchaseDTO } from '../dto/purchase.dto';
 
 @Injectable({
   providedIn: 'root'

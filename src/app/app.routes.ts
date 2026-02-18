@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { GaleriaComponent } from './galeria/galeria.component';
 import { CompraComponent } from './compra/compra.component';
-import { PurchaseFailComponent } from './compra/purchase-fail/purchase-fail.component.js';
+import { PurchaseFailComponent } from './compra/purchase-fail/purchase-fail.component';
 import { PurchaseRedirectComponent } from './compra/purchase-redirect/purchase-redirect.component';
 import { authGuard } from './guards/auth.guard';
 
