@@ -1,4 +1,4 @@
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, inject, signal, computed, ViewChild } from '@angular/core';
 import { EventService } from '../services/event.service';
 import { PurchaseService } from '../services/purchase.service.js';
 import { AuthService } from '../services/auth.service';
@@ -16,6 +16,12 @@ import { Router } from '@angular/router';
 import { SafeResourceUrl } from '@angular/platform-browser';
 declare let L: any;
 type TicketWithAmount = AdminTicketType & { amountSelected: number };
+// 1: seleccionar tickets, 2: datos, 3: pago
+enum PurchaseStep {
+  Tickets = 1,
+  AttendeeData = 2,
+  Payment = 3,
+}
 
 @Component({
   selector: 'app-compra',
@@ -24,6 +30,8 @@ type TicketWithAmount = AdminTicketType & { amountSelected: number };
   templateUrl: './compra.component.html',
   styleUrl: './compra.component.css'
 })
+
+
 
 export class CompraComponent {
   router = inject(Router);
@@ -35,13 +43,18 @@ export class CompraComponent {
   event!: Event | null;
   locationName: string  = '';
   // UI ticket type that includes a quantity selected by the user
-  ticketTypes: TicketWithAmount[] = [];
+  ticketTypes = signal<TicketWithAmount[]>([]);
+  subtotal = computed(() => {
+  return this.ticketTypes().reduce((sum, tType) => {
+    return sum + tType.amountSelected * tType.price;
+    }, 0);
+  });
   eventID!: number;
-  state: number = 1; // 1: seleccionar tickets, 2: datos, 3: pago
+  PurchaseStep = PurchaseStep; // Exponer enum al template  
+  state: PurchaseStep = PurchaseStep.Tickets;
   ticketAdded = false;
   anySelected = true;
   loginRequired = false;
-  actualTicketType = signal<TicketWithAmount | null>(null);
   @ViewChild(AttendeesDataComponent) child!: AttendeesDataComponent ;
 
 
@@ -67,7 +80,7 @@ export class CompraComponent {
       .subscribe({
         next: (types) => {
           const arr = types || [];
-          this.ticketTypes = arr.map((t: AdminTicketType) => ({ ...t, amountSelected: 0 }));
+          this.ticketTypes.set(arr.map((t: AdminTicketType) => ({ ...t, amountSelected: 0 })));
           // Initialize map after event and template have rendered
           setTimeout(() => this.showMap(), 0);
         },
@@ -147,35 +160,37 @@ export class CompraComponent {
     });
   }
 
-  removeTicket(ticketType: TicketWithAmount) {
-    if (ticketType.amountSelected > 0) {
-    ticketType.amountSelected--;}
-  }
+removeTicket(ticketType: TicketWithAmount) {
+  this.ticketTypes.update(list =>
+    list.map(t =>
+      t.id === ticketType.id && t.amountSelected > 0
+        ? { ...t, amountSelected: t.amountSelected - 1 }
+        : t
+    )
+  );
+}
 
-  addTicket(ticketType: TicketWithAmount) {
-    ticketType.amountSelected++;
-    this.ticketAdded = true;
-  }  
+addTicket(ticketType: TicketWithAmount) {
+  this.ticketTypes.update(list =>
+    list.map(t =>
+      t.id === ticketType.id
+        ? { ...t, amountSelected: t.amountSelected + 1 }
+        : t
+    )
+  );
+  this.ticketAdded = true;
+}
 
   calculateServiceFee(): number {
-     return this.calculateSubtotal() * 0.1
+     return this.subtotal() * 0.1
   }
-
-  calculateSubtotal(): number {
-    let subtotal = 0;
-    this.ticketTypes.forEach(tType => {
-      subtotal += tType.amountSelected * tType.price;
-    });
-    return subtotal;
-  }
-
   calculateTotal(): number {
-    return this.calculateSubtotal() + this.calculateServiceFee();
+    return this.subtotal() + this.calculateServiceFee();
   }
 
   createPurchase(){
     let tTypeAlreadySelected = false;
-    this.ticketTypes.forEach(tType => { 
+    this.ticketTypes().forEach(tType => { 
     if (tTypeAlreadySelected) return;
     if (tType.amountSelected === 0) return; 
     else tTypeAlreadySelected = true;
@@ -204,7 +219,7 @@ export class CompraComponent {
     this.loginRequired = false;
     const valid = this.checkFormState();
     if (!valid) return;
-    if (this.state === 1 && !this.authService.isAuthenticated()) {
+    if (this.state === PurchaseStep.Tickets && !this.authService.isAuthenticated()) {
       this.loginRequired = true;
       this.modalService.openLogin();
       return;
@@ -213,21 +228,21 @@ export class CompraComponent {
   }
 
   addState(): void {
-    if (this.state < 3) this.state++;
+    if (this.state < PurchaseStep.Payment) this.state++;
     else this.createPurchase();
   }
 
   removeState(): void {
-    if (this.state > 1)
+    if (this.state > PurchaseStep.Tickets)
     this.state--;
   }
 
   checkFormState(): boolean {
-    if (this.state === 1) {
-      this.anySelected = this.ticketTypes.some(t => t.amountSelected > 0);
+    if (this.state === PurchaseStep.Tickets) {
+      this.anySelected = this.ticketTypes().some(t => t.amountSelected > 0);
       return this.anySelected;
     }
-    else if (this.state === 2) {
+    else if (this.state === PurchaseStep.AttendeeData) {
     return this.child.checkInputs()
     }
     else 
