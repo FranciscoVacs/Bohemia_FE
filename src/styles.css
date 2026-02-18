@@ -37,4 +37,8 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, #00E0FF 0%, #CCFF00 100%);
+  }
 }

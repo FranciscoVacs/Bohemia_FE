@@ -3,7 +3,7 @@
     @if (isEditingPublished()) {
     <!-- Navbar para edicion de evento publicado -->
     <nav
-        class="fixed top-0 left-0 right-0 h-14 flex items-center justify-between px-4 md:px-8 bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
+        class="fixed top-0 left-0 right-0 min-h-14 flex items-center justify-between px-4 md:px-8 pt-[env(safe-area-inset-top)] bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
         <button (click)="cancel()"
             class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-[#b7ff00]/10 hover:text-[#b7ff00] cursor-pointer bg-transparent border-none">
             <span class="material-symbols-outlined text-[20px]">arrow_back</span>
@@ -30,7 +30,7 @@
     } @else {
     <!-- Navbar para creacion (paso 1 de 2) -->
     <nav
-        class="fixed top-0 left-0 right-0 h-14 flex items-center px-4 md:px-8 bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
+        class="fixed top-0 left-0 right-0 min-h-14 flex items-center px-4 md:px-8 pt-[env(safe-area-inset-top)] bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
         <button (click)="cancel()"
             class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-[#b7ff00]/10 hover:text-[#b7ff00] cursor-pointer bg-transparent border-none">
             <span class="material-symbols-outlined text-[20px]">arrow_back</span>

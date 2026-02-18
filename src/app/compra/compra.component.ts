@@ -44,6 +44,9 @@ export class CompraComponent implements OnDestroy {
   anySelected = true;
   loginRequired = false;
   actualTicketType = signal<TicketWithAmount | null>(null);
+  timerDisplay: string = '10:00';
+  private timerSeconds: number = 600;
+  private timerInterval: any = null;
   @ViewChild(AttendeesDataComponent) child!: AttendeesDataComponent;
 
 
@@ -221,19 +224,53 @@ export class CompraComponent implements OnDestroy {
     if (this.state < 3) {
       this.state++;
       this.navbarState.setPurchaseStep(this.state);
+      if (this.state === 3) {
+        this.startTimer();
+      }
     }
     else this.createPurchase();
   }
 
   removeState(): void {
     if (this.state > 1) {
+      if (this.state === 3) {
+        this.stopTimer();
+      }
       this.state--;
       this.navbarState.setPurchaseStep(this.state);
     }
   }
 
   ngOnDestroy(): void {
+    this.stopTimer();
     this.navbarState.clearPurchaseStep();
+  }
+
+  startTimer(): void {
+    this.timerSeconds = 600;
+    this.updateTimerDisplay();
+    this.timerInterval = setInterval(() => {
+      this.timerSeconds--;
+      this.updateTimerDisplay();
+      if (this.timerSeconds <= 0) {
+        this.stopTimer();
+        alert('El tiempo de reserva ha expirado. Serás redirigido al inicio.');
+        this.router.navigate(['/']);
+      }
+    }, 1000);
+  }
+
+  stopTimer(): void {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  }
+
+  private updateTimerDisplay(): void {
+    const minutes = Math.floor(this.timerSeconds / 60);
+    const seconds = this.timerSeconds % 60;
+    this.timerDisplay = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 
   checkFormState(): boolean {
@@ -248,7 +285,4 @@ export class CompraComponent implements OnDestroy {
       return true;
   }
 
-  checkTicketType(ticketType: TicketWithAmount): boolean {
-    return ticketType.availableTickets <= 0;
-  }
 }

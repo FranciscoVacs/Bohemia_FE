@@ -1,5 +1,5 @@
 @if (modalService.isOpen()) {
-<div class="fixed inset-0 bg-black/75 backdrop-blur-lg z-[200] flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease-out]"
+<div class="fixed inset-0 bg-black/75 backdrop-blur-lg z-[200] flex items-center justify-center p-4 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))] animate-[fadeIn_0.2s_ease-out]"
     (mousedown)="onBackdropMouseDown($event)" (mouseup)="onBackdropMouseUp($event)">
 
     <!-- Modal Container -->

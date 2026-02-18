@@ -46,9 +46,7 @@
     @if (!loading() && events().length > 0) {
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       @for (event of events(); track event.id) {
-      <article
-        (click)="openAlbum(event)"
-        class="group relative rounded-2xl overflow-hidden cursor-pointer
+      <article (click)="openAlbum(event)" class="group relative rounded-2xl overflow-hidden cursor-pointer
                border border-white/5 bg-white/5 backdrop-blur-sm
                hover:border-primary/20 transition-all duration-300
                hover:shadow-[0_0_30px_rgba(204,255,0,0.1)]">
@@ -57,15 +55,15 @@
         <div class="relative aspect-[4/3] overflow-hidden">
           <img [src]="event.coverPhoto || 'https://placehold.co/800x600/1a1a1a/333?text=Bohemia'"
             [alt]="event.eventName"
-            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy" />
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
 
           <!-- Overlay oscuro -->
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
           <!-- Badge: requiere login -->
           @if (!isAuthenticated()) {
-          <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full flex items-center gap-1.5">
+          <div
+            class="absolute top-3 right-3 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full flex items-center gap-1.5">
             <span class="material-symbols-outlined text-sm text-white/70">lock</span>
             <span class="text-white/70 text-xs font-medium">Iniciar sesión</span>
           </div>
@@ -92,7 +90,8 @@
         <!-- Footer con icono -->
         <div class="px-4 py-3 flex items-center justify-between border-t border-white/5">
           <span class="text-white/40 text-xs uppercase tracking-wider">Ver álbum</span>
-          <span class="material-symbols-outlined text-primary/60 text-xl group-hover:text-primary group-hover:translate-x-1 transition-all">
+          <span
+            class="material-symbols-outlined text-primary/60 text-xl group-hover:text-primary group-hover:translate-x-1 transition-all">
             arrow_forward
           </span>
         </div>
@@ -116,7 +115,8 @@
     <div class="mb-8 sm:mb-12">
       <button (click)="goBack()"
         class="flex items-center gap-2 text-white/50 hover:text-primary transition-colors mb-4 cursor-pointer group">
-        <span class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
+        <span
+          class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
         <span class="text-sm uppercase tracking-wider">Volver a galerías</span>
       </button>
 
@@ -175,13 +175,9 @@
     <div class="columns-1 sm:columns-2 lg:columns-3 gap-3 sm:gap-4">
       @for (photo of photos(); track photo.id; let i = $index) {
       <div class="break-inside-avoid mb-3 sm:mb-4">
-        <figure
-          (click)="openLightbox(photo, i)"
-          class="relative rounded-xl overflow-hidden cursor-pointer group m-0">
-          <img [src]="photo.cloudinaryUrl"
-            [alt]="photo.originalName"
-            class="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
-            loading="lazy" />
+        <figure (click)="openLightbox(photo, i)" class="relative rounded-xl overflow-hidden cursor-pointer group m-0">
+          <img [src]="photo.cloudinaryUrl" [alt]="photo.originalName"
+            class="w-full h-auto block transition-transform duration-500 group-hover:scale-105" loading="lazy" />
           <!-- Overlay al hover -->
           <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300
                       flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -205,15 +201,12 @@
 <!-- LIGHTBOX - Vista completa      -->
 <!-- ============================== -->
 @if (lightboxOpen() && lightboxPhoto()) {
-<div
-  class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center"
-  (click)="closeLightbox()"
-  (keydown)="onLightboxKeydown($event)"
-  tabindex="0"
-  #lightboxOverlay>
+<div class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center"
+  (click)="closeLightbox()" (keydown)="onLightboxKeydown($event)" tabindex="0" #lightboxOverlay>
 
   <!-- Barra superior -->
-  <div class="absolute top-0 left-0 right-0 flex items-center justify-between px-4 sm:px-6 py-4 z-10"
+  <div
+    class="absolute top-0 left-0 right-0 flex items-center justify-between px-4 sm:px-6 py-4 pt-[max(1rem,env(safe-area-inset-top))] z-10"
     (click)="$event.stopPropagation()">
     <!-- Contador -->
     <span class="text-white/50 text-sm">
@@ -236,22 +229,19 @@
 
   <!-- Imagen -->
   <div class="max-w-[90vw] max-h-[80vh] flex items-center justify-center" (click)="$event.stopPropagation()">
-    <img [src]="lightboxPhoto()!.cloudinaryUrl"
-      [alt]="lightboxPhoto()!.originalName"
+    <img [src]="lightboxPhoto()!.cloudinaryUrl" [alt]="lightboxPhoto()!.originalName"
       class="max-w-full max-h-[80vh] object-contain rounded-lg select-none" />
   </div>
 
   <!-- Navegación: Anterior -->
   @if (photos().length > 1) {
-  <button
-    (click)="$event.stopPropagation(); prevPhoto()"
+  <button (click)="$event.stopPropagation(); prevPhoto()"
     class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer">
     <span class="material-symbols-outlined text-white text-2xl">chevron_left</span>
   </button>
 
   <!-- Navegación: Siguiente -->
-  <button
-    (click)="$event.stopPropagation(); nextPhoto()"
+  <button (click)="$event.stopPropagation(); nextPhoto()"
     class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer">
     <span class="material-symbols-outlined text-white text-2xl">chevron_right</span>
   </button>
