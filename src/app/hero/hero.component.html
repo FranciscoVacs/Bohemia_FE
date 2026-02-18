@@ -1,21 +1,11 @@
 <!-- Hero Section - Minimalista -->
 <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
-    
-    <!-- Imagen de fondo -->
-    <div class="absolute inset-0 z-0">
-        <img 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu3W9lhc5gbPg14kAP_5QJOQVidigfvBkUcbuEZ_xKz86dJaVg6Hnq9t2PoIiyDzgcvc6eZNJkqyW1U0KUUjZMXxixSA1mJPauJwTdN6Ch6yJ3P_O3omHExlC24uwTgoUiPwgtFiEdxNGkxjQyOVVDFpL6b49eIQKmGhXppHnKjToiAR-x8F8MMdZvebI1mB8NVYcnN3KsmpLTlvcpHbHUfa_QG6xsHLKjtyHdctE-TbK4EM3H2rXBO2EM87wXW8B7bjfoaAgs26L1"
-            alt="Fiesta Bohemia" 
-            class="w-full h-full object-cover opacity-60"
-        />
-        <div class="absolute inset-0 bg-linear-to-b from-black/80 via-black/50 to-[#050505]"></div>
-    </div>
 
-    <!-- Solo el título -->
-    <div class="relative z-10 text-center">
-        <h1 class="font-display text-8xl md:text-9xl text-gradient uppercase tracking-tighter leading-none">
-            Bohemia
-        </h1>
+    <!-- Video de fondo -->
+    <div class="absolute inset-0 z-0">
+        <video #heroVideo autoplay muted loop playsinline class="w-full h-full object-cover">
+            <source src="hero-video.mp4" type="video/mp4" />
+        </video>
     </div>
 
     <!-- Flecha indicando scroll -->
