@@ -185,7 +185,7 @@
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Hora</label>
                                 <input type="time" formControlName="beginTime"
                                     [class.border-red-500]="eventForm.get('beginTime')?.invalid && eventForm.get('beginTime')?.touched"
-                                    class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
+                                    class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base [color-scheme:dark]">
                             </div>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Hora</label>
                                 <input type="time" formControlName="finishTime"
                                     [class.border-red-500]="eventForm.get('finishTime')?.invalid && eventForm.get('finishTime')?.touched"
-                                    class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
+                                    class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base [color-scheme:dark]">
                             </div>
                         </div>
                     </div>
@@ -292,7 +292,8 @@
                         </div>
                         <p class="text-white font-medium mb-1 text-sm md:text-base">Haz click o arrastra una imagen aquí
                         </p>
-                        <p class="text-xs text-white/40">Recomendado: 1000x800px JPG o PNG (Max 5MB)</p>
+                        <p class="text-xs text-white/40">Recomendado: Imagen cuadrada (Ej: 1000x1000px) JPG o PNG (Max
+                            5MB)</p>
                         <input type="file" accept="image/*" (change)="onFileSelected($event)" class="hidden">
                     </label>
                     }

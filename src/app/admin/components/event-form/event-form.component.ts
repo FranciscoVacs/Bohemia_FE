@@ -221,13 +221,23 @@ export class EventFormComponent implements OnInit {
                 return;
             }
 
-            this.error.set(null);
-            this.selectedFile.set(file);
-            this.hasUnsavedChanges.set(true);
-
+            // Validate square dimensions
             const reader = new FileReader();
             reader.onload = (e) => {
-                this.imagePreview.set(e.target?.result as string);
+                const dataUrl = e.target?.result as string;
+                const img = new Image();
+                img.onload = () => {
+                    if (img.naturalWidth !== img.naturalHeight) {
+                        this.error.set('La imagen debe ser cuadrada (ancho igual a alto). Ej: 500x500, 1000x1000.');
+                        input.value = '';
+                        return;
+                    }
+                    this.error.set(null);
+                    this.selectedFile.set(file);
+                    this.hasUnsavedChanges.set(true);
+                    this.imagePreview.set(dataUrl);
+                };
+                img.src = dataUrl;
             };
             reader.readAsDataURL(file);
         }
