@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AuthService } from '../../services/auth.service.js';
+import { AuthService } from '../../services/auth.service';
 import { AttendeesDataComponent } from './attendees-data.component';
 
 describe('AttendeesDataComponent', () => {
@@ -9,6 +9,7 @@ describe('AttendeesDataComponent', () => {
 
   beforeEach(async () => {
     authServiceMock = {
+      isAuthenticated: jasmine.createSpy(),
       currentUser: jasmine.createSpy()
     };
 
@@ -21,31 +22,24 @@ describe('AttendeesDataComponent', () => {
 
     fixture = TestBed.createComponent(AttendeesDataComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should autocomplete form with user data', () => {
-    // Arrange
-    const mockUser = {
-      id: -1,
-      userName: 'Name',
-      userSurname: 'Surname',
-      email: 'nameSurname@gmail.com',
-      birthDate: '01012000',
-      isAdmin: false
-    };
+  it('should autocomplete form on init when user is authenticated', () => {
+    authServiceMock.isAuthenticated.and.returnValue(true);
+    authServiceMock.currentUser.and.returnValue({
+        userName: 'Name',
+        userSurname: 'Surname',
+        email: 'nameSurname@gmail.com',
+    });
 
-    authServiceMock.currentUser.and.returnValue(mockUser);
     spyOn(component.attendeeForm, 'patchValue');
 
-    // Act
-    component.autoCompleteAttendeeData();
+    fixture.detectChanges(); // runs ngOnInit
 
-    // Assert
     expect(component.attendeeForm.patchValue).toHaveBeenCalledWith({
       name: 'Name',
       surname: 'Surname',
@@ -53,15 +47,26 @@ describe('AttendeesDataComponent', () => {
     });
   });
 
-  it('should not patch form if there is no current user', () => {
-    // Arrange
+  it('should NOT autocomplete form when user is not authenticated', () => {
+    authServiceMock.isAuthenticated.and.returnValue(false);
     authServiceMock.currentUser.and.returnValue(null);
+
     spyOn(component.attendeeForm, 'patchValue');
 
-    // Act
-    component.autoCompleteAttendeeData();
+    fixture.detectChanges();
 
-    // Assert
     expect(component.attendeeForm.patchValue).not.toHaveBeenCalled();
   });
+
+  it('should not crash if authenticated but currentUser is null', () => {
+    authServiceMock.isAuthenticated.and.returnValue(true);
+    authServiceMock.currentUser.and.returnValue(null);
+
+    spyOn(component.attendeeForm, 'patchValue');
+
+    fixture.detectChanges();
+
+    expect(component.attendeeForm.patchValue).not.toHaveBeenCalled();
+  });
+
 });

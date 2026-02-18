@@ -1,4 +1,4 @@
-import { City } from "./city.js";
+import { City } from "./city";
 
 export interface Location {
     id?: number;

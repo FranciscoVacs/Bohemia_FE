@@ -1,6 +1,6 @@
-import { User } from "./user.js";
-import { TicketType } from "./ticket-type.js";
-import { Ticket } from "./ticket.js";
+import { User } from "./user";
+import { TicketType } from "./ticket-type";
+import { Ticket } from "./ticket";
 
 export interface Purchase {
   id: number;

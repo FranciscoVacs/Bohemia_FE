@@ -1,6 +1,6 @@
 import { Component, inject, signal, computed, ViewChild } from '@angular/core';
 import { EventService } from '../services/event.service';
-import { PurchaseService } from '../services/purchase.service.js';
+import { PurchaseService } from '../services/purchase.service';
 import { AuthService } from '../services/auth.service';
 import { ModalService } from '../services/modal.service';
 import { CommonModule } from '@angular/common';
@@ -8,10 +8,10 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Event } from '../models/event';
 import { AdminTicketType, TicketType } from '../models/ticket-type';
 import { switchMap, of, catchError } from 'rxjs';
-import { AttendeesDataComponent } from './attendees-data/attendees-data.component.js';
-import { PaymentMethodComponent } from './payment-method/payment-method.component.js';
-import { CreatePurchaseDTO } from '../dto/purchase.dto.js';
-import {UserDropdownComponent} from '../user-dropdown/user-dropdown.component.js'
+import { AttendeesDataComponent } from './attendees-data/attendees-data.component';
+import { PaymentMethodComponent } from './payment-method/payment-method.component';
+import { CreatePurchaseDTO } from '../dto/purchase.dto';
+import {UserDropdownComponent} from '../user-dropdown/user-dropdown.component'
 import { Router } from '@angular/router';
 import { SafeResourceUrl } from '@angular/platform-browser';
 declare let L: any;
