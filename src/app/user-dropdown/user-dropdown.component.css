@@ -1,0 +1,135 @@
+/* ============================
+   USER DROPDOWN — BRUTALIST
+   ============================ */
+
+/* Avatar Button */
+.avatar-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 2px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+}
+
+.avatar-btn:hover {
+    border-color: rgba(204, 255, 0, 0.5);
+    box-shadow: 0 0 15px rgba(204, 255, 0, 0.2);
+}
+
+.avatar-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(10, 10, 10, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 0.6rem;
+    width: 200px;
+    background: rgba(10, 10, 10, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.6),
+        0 0 30px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    animation: dropdownFadeIn 0.15s ease-out;
+    z-index: 200;
+}
+
+/* When island mode: open centered/right-shifted so it stays visible */
+.dropdown-menu.dropdown-island {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Island variant fade-in keeps the centering transform */
+.dropdown-menu.dropdown-island {
+    animation: dropdownFadeInIsland 0.15s ease-out;
+}
+
+@keyframes dropdownFadeInIsland {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.dropdown-item:hover .material-symbols-outlined {
+    color: #CCFF00;
+}
+
+.dropdown-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dropdown-logout {
+    color: #ff6b6b;
+}
+
+.dropdown-logout:hover {
+    background: rgba(255, 59, 59, 0.08);
+    color: #ff4444;
+}
+
+.dropdown-logout:hover .material-symbols-outlined {
+    color: #ff4444;
+}

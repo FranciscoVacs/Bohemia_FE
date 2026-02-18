@@ -1,8 +1,9 @@
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, inject, signal, ViewChild, OnDestroy } from '@angular/core';
 import { EventService } from '../services/event.service';
 import { PurchaseService } from '../services/purchase.service.js';
 import { AuthService } from '../services/auth.service';
 import { ModalService } from '../services/modal.service';
+import { NavbarStateService } from '../services/navbar-state.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Event } from '../models/event';
@@ -11,7 +12,7 @@ import { switchMap, of, catchError } from 'rxjs';
 import { AttendeesDataComponent } from './attendees-data/attendees-data.component.js';
 import { PaymentMethodComponent } from './payment-method/payment-method.component.js';
 import { CreatePurchaseDTO } from '../dto/purchase.dto.js';
-import {UserDropdownComponent} from '../user-dropdown/user-dropdown.component.js'
+import { UserDropdownComponent } from '../user-dropdown/user-dropdown.component.js'
 import { Router } from '@angular/router';
 import { SafeResourceUrl } from '@angular/platform-browser';
 declare let L: any;
@@ -20,20 +21,21 @@ type TicketWithAmount = AdminTicketType & { amountSelected: number };
 @Component({
   selector: 'app-compra',
   standalone: true,
-  imports: [CommonModule, RouterLink, AttendeesDataComponent, PaymentMethodComponent, UserDropdownComponent],
+  imports: [CommonModule, AttendeesDataComponent, PaymentMethodComponent],
   templateUrl: './compra.component.html',
   styleUrl: './compra.component.css'
 })
 
-export class CompraComponent {
+export class CompraComponent implements OnDestroy {
   router = inject(Router);
   private eventService = inject(EventService);
   private purchaseService = inject(PurchaseService);
   private authService = inject(AuthService);
   private modalService = inject(ModalService);
+  private navbarState = inject(NavbarStateService);
   mapUrl: SafeResourceUrl = '';
   event!: Event | null;
-  locationName: string  = '';
+  locationName: string = '';
   // UI ticket type that includes a quantity selected by the user
   ticketTypes: TicketWithAmount[] = [];
   eventID!: number;
@@ -42,10 +44,11 @@ export class CompraComponent {
   anySelected = true;
   loginRequired = false;
   actualTicketType = signal<TicketWithAmount | null>(null);
-  @ViewChild(AttendeesDataComponent) child!: AttendeesDataComponent ;
+  @ViewChild(AttendeesDataComponent) child!: AttendeesDataComponent;
 
 
-  ngOnInit(){
+  ngOnInit() {
+    this.navbarState.setPurchaseStep(this.state);
 
     // Get the future event, then fetch its ticket types.
     // Using `switchMap` avoids nested subscriptions and keeps a single stream.
@@ -73,7 +76,7 @@ export class CompraComponent {
         },
         error: (err) => console.error(err)
       });
-      
+
   }
 
   // Leaflet map instance
@@ -108,7 +111,7 @@ export class CompraComponent {
         const redIcon = L.icon({
           iconUrl: 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2_hdpi.png',
           iconSize: [27, 43],
-          iconAnchor: [13, 43],  
+          iconAnchor: [13, 43],
         });
         this.map = L.map('map', { scrollWheelZoom: false }).setView([lat, lng], 15);
 
@@ -116,19 +119,19 @@ export class CompraComponent {
           attribution: '&copy; OpenStreetMap contributors'
         }).addTo(this.map);
 
-        L.marker([lat, lng], { icon: redIcon}).addTo(this.map);
-        this.map.getContainer().addEventListener('wheel', (e:any) => {
+        L.marker([lat, lng], { icon: redIcon }).addTo(this.map);
+        this.map.getContainer().addEventListener('wheel', (e: any) => {
           if (e.ctrlKey) {
-            e.preventDefault();    
+            e.preventDefault();
             this.map.scrollWheelZoom.enable();
           } else {
             this.map.scrollWheelZoom.disable();
           }
-        },{ passive: false });
+        }, { passive: false });
       })
       .catch(err => console.error('Error fetching geocoding data', err));
   }
-  
+
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -149,16 +152,17 @@ export class CompraComponent {
 
   removeTicket(ticketType: TicketWithAmount) {
     if (ticketType.amountSelected > 0) {
-    ticketType.amountSelected--;}
+      ticketType.amountSelected--;
+    }
   }
 
   addTicket(ticketType: TicketWithAmount) {
     ticketType.amountSelected++;
     this.ticketAdded = true;
-  }  
+  }
 
   calculateServiceFee(): number {
-     return this.calculateSubtotal() * 0.1
+    return this.calculateSubtotal() * 0.1
   }
 
   calculateSubtotal(): number {
@@ -173,28 +177,29 @@ export class CompraComponent {
     return this.calculateSubtotal() + this.calculateServiceFee();
   }
 
-  createPurchase(){
+  createPurchase() {
     let tTypeAlreadySelected = false;
-    this.ticketTypes.forEach(tType => { 
-    if (tTypeAlreadySelected) return;
-    if (tType.amountSelected === 0) return; 
-    else tTypeAlreadySelected = true;
-    const purchaseDTO: CreatePurchaseDTO = {
-    ticketQuantity: tType.amountSelected,
-    ticketTypeId: tType.id,
-    }
+    this.ticketTypes.forEach(tType => {
+      if (tTypeAlreadySelected) return;
+      if (tType.amountSelected === 0) return;
+      else tTypeAlreadySelected = true;
+      const purchaseDTO: CreatePurchaseDTO = {
+        ticketQuantity: tType.amountSelected,
+        ticketTypeId: tType.id,
+      }
 
-    this.purchaseService.createPurchase(purchaseDTO).pipe(switchMap((purchaseResponse) => {
-      const purchase = purchaseResponse.data;  
-      return this.purchaseService.createPreference(
-      purchase.id)
+      this.purchaseService.createPurchase(purchaseDTO).pipe(switchMap((purchaseResponse) => {
+        const purchase = purchaseResponse.data;
+        return this.purchaseService.createPreference(
+          purchase.id)
       })).subscribe({
         next: (res) => {
           window.location.href = res.init_point;
         },
         error: (err) => {
           console.log('Error creating preference', err);
-      }});
+        }
+      });
     })
   }
 
@@ -213,13 +218,22 @@ export class CompraComponent {
   }
 
   addState(): void {
-    if (this.state < 3) this.state++;
+    if (this.state < 3) {
+      this.state++;
+      this.navbarState.setPurchaseStep(this.state);
+    }
     else this.createPurchase();
   }
 
   removeState(): void {
-    if (this.state > 1)
-    this.state--;
+    if (this.state > 1) {
+      this.state--;
+      this.navbarState.setPurchaseStep(this.state);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.navbarState.clearPurchaseStep();
   }
 
   checkFormState(): boolean {
@@ -228,13 +242,13 @@ export class CompraComponent {
       return this.anySelected;
     }
     else if (this.state === 2) {
-    return this.child.checkInputs()
+      return this.child.checkInputs()
     }
-    else 
+    else
       return true;
-    }
+  }
 
-    checkTicketType(ticketType: TicketWithAmount): boolean {
-      return ticketType.availableTickets <= 0;
-    }
+  checkTicketType(ticketType: TicketWithAmount): boolean {
+    return ticketType.availableTickets <= 0;
+  }
 }

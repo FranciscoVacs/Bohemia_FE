@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, HostListener } from '@angular/core';
+import { Component, inject, signal, computed, HostListener, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
@@ -14,6 +14,9 @@ import { ModalService } from '../services/modal.service';
 export class UserDropdownComponent {
   public authService = inject(AuthService);
   public modalService = inject(ModalService);
+
+  /** Whether the parent navbar is in scrolled/island mode */
+  @Input() isNavScrolled = false;
 
   // Dropdown state
   isDropdownOpen = signal(false);
