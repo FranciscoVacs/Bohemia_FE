@@ -128,7 +128,7 @@
                         <label class="block text-xs font-bold text-white/50 uppercase tracking-widest mb-2">
                             Nombre del Evento *
                         </label>
-                        <input type="text" formControlName="eventName"
+                        <input type="text" formControlName="eventName" data-cy="event-name-input"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
                             placeholder="Ej: Bohemia Rosario - Edición Verano">
                         @if (eventForm.get('eventName')?.touched && eventForm.get('eventName')?.errors) {
@@ -141,7 +141,7 @@
                         <label class="block text-xs font-bold text-white/50 uppercase tracking-widest mb-2">
                             Descripción
                         </label>
-                        <textarea formControlName="eventDescription" rows="3"
+                        <textarea formControlName="eventDescription" rows="3" data-cy="event-description-textarea"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all resize-none text-base"
                             placeholder="Describe la temática, dress code, o detalles importantes..."></textarea>
                     </div>
@@ -151,7 +151,7 @@
                         <label class="block text-xs font-bold text-white/50 uppercase tracking-widest mb-2">
                             Edad Mínima *
                         </label>
-                        <select formControlName="minAge"
+                        <select formControlName="minAge" data-cy="event-min-age-select"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white cursor-pointer focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                             <option [value]="18">+18 Años</option>
                             <option [value]="21">+21 Años</option>
@@ -179,11 +179,12 @@
                             <div>
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Fecha</label>
                                 <input type="date" formControlName="beginDate" [min]="minDateStr()"
+                                    data-cy="event-begin-date-input"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base [color-scheme:dark]">
                             </div>
                             <div>
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Hora</label>
-                                <input type="time" formControlName="beginTime"
+                                <input type="time" formControlName="beginTime" data-cy="event-begin-time-input"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                             </div>
                         </div>
@@ -198,11 +199,12 @@
                             <div>
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Fecha</label>
                                 <input type="date" formControlName="finishDate" [min]="minDateStr()"
+                                    data-cy="event-finish-date-input"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base [color-scheme:dark]">
                             </div>
                             <div>
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Hora</label>
-                                <input type="time" formControlName="finishTime"
+                                <input type="time" formControlName="finishTime" data-cy="event-finish-time-input"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                             </div>
                         </div>
@@ -225,6 +227,7 @@
                             Ciudad *
                         </label>
                         <select [value]="selectedCityId() ?? ''" (change)="onCityChange($any($event.target).value)"
+                            data-cy="event-city-select"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white cursor-pointer focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                             <option value="">Seleccionar Ciudad...</option>
                             @for (city of cities(); track city.id) {
@@ -238,6 +241,7 @@
                             Locación *
                         </label>
                         <select formControlName="locationId" [attr.disabled]="!selectedCityId() ? '' : null"
+                            data-cy="event-location-select"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white cursor-pointer focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base disabled:opacity-40 disabled:cursor-not-allowed">
                             <option value="">{{ selectedCityId() ? 'Seleccionar Locación...' : 'Primero selecciona una
                                 ciudad' }}</option>
@@ -282,7 +286,8 @@
                         <p class="text-white font-medium mb-1 text-sm md:text-base">Haz click o arrastra una imagen aquí
                         </p>
                         <p class="text-xs text-white/40">Recomendado: 1000x800px JPG o PNG (Max 5MB)</p>
-                        <input type="file" accept="image/*" (change)="onFileSelected($event)" class="hidden">
+                        <input type="file" accept="image/*" (change)="onFileSelected($event)" class="hidden"
+                            data-cy="event-cover-image-input">
                     </label>
                     }
                 </div>
@@ -299,7 +304,7 @@
                     <label class="block text-xs font-bold text-white/50 uppercase tracking-widest mb-2">
                         DJ Principal *
                     </label>
-                    <select formControlName="djId"
+                    <select formControlName="djId" data-cy="event-dj-select"
                         class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white cursor-pointer focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                         <option value="">Seleccionar DJ...</option>
                         @for (dj of djs(); track dj.id) {
@@ -321,7 +326,7 @@
 
             <!-- Next Step Button (solo creacion) -->
             <div class="pt-2 pb-8 flex justify-center">
-                <button type="button" (click)="goToStep2()" [disabled]="submitting()"
+                <button type="button" (click)="goToStep2()" [disabled]="submitting()" data-cy="event-next-step-button"
                     class="w-full md:w-auto bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black font-bold text-lg md:text-xl uppercase py-4 px-8 md:px-12 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(183,255,0,0.3)] hover:shadow-[0_0_50px_rgba(183,255,0,0.5)] flex items-center justify-center gap-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
                     @if (submitting()) {
                     <span class="animate-spin">⏳</span>
