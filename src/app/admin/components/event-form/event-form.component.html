@@ -90,21 +90,7 @@
         </div>
         }
 
-        <!-- Success Message -->
-        @if (successMessage()) {
-        <div class="mb-6 bg-green-500/10 border border-green-500/30 rounded-xl p-4 flex items-center gap-3">
-            <span class="text-green-400">✓</span>
-            <p class="text-sm text-green-400">{{ successMessage() }}</p>
-        </div>
-        }
 
-        <!-- Error Message -->
-        @if (error()) {
-        <div class="mb-6 bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-center gap-3">
-            <span class="text-red-400">⚠️</span>
-            <p class="text-sm text-red-400">{{ error() }}</p>
-        </div>
-        }
 
         <!-- Loading -->
         @if (loading()) {
@@ -129,10 +115,14 @@
                             Nombre del Evento *
                         </label>
                         <input type="text" formControlName="eventName"
+                            [class.border-red-500]="eventForm.get('eventName')?.invalid && eventForm.get('eventName')?.touched"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
                             placeholder="Ej: Bohemia Rosario - Edición Verano">
-                        @if (eventForm.get('eventName')?.touched && eventForm.get('eventName')?.errors) {
-                        <p class="text-red-400 text-xs mt-1">El nombre es requerido (3-100 caracteres)</p>
+                        @if (eventForm.get('eventName')?.touched && eventForm.get('eventName')?.errors?.['required']) {
+                        <p class="text-red-400 text-xs mt-1">El nombre es requerido</p>
+                        }
+                        @if (eventForm.get('eventName')?.touched && eventForm.get('eventName')?.errors?.['minlength']) {
+                        <p class="text-red-400 text-xs mt-1">Mínimo 3 caracteres</p>
                         }
                     </div>
 
@@ -142,8 +132,13 @@
                             Descripción
                         </label>
                         <textarea formControlName="eventDescription" rows="3"
+                            [class.border-red-500]="eventForm.get('eventDescription')?.invalid && eventForm.get('eventDescription')?.touched"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all resize-none text-base"
                             placeholder="Describe la temática, dress code, o detalles importantes..."></textarea>
+                        @if (eventForm.get('eventDescription')?.touched &&
+                        eventForm.get('eventDescription')?.errors?.['maxlength']) {
+                        <p class="text-red-400 text-xs mt-1">Máximo 1000 caracteres</p>
+                        }
                     </div>
 
                     <!-- Edad Mínima -->
@@ -152,12 +147,16 @@
                             Edad Mínima *
                         </label>
                         <select formControlName="minAge"
+                            [class.border-red-500]="eventForm.get('minAge')?.invalid && eventForm.get('minAge')?.touched"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white cursor-pointer focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                             <option [value]="18">+18 Años</option>
                             <option [value]="21">+21 Años</option>
                             <option [value]="25">+25 Años</option>
                             <option [value]="0">Apto todo público</option>
                         </select>
+                        @if (eventForm.get('minAge')?.touched && eventForm.get('minAge')?.errors) {
+                        <p class="text-red-400 text-xs mt-1">Requerido</p>
+                        }
                     </div>
                 </div>
             </section>
@@ -179,11 +178,13 @@
                             <div>
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Fecha</label>
                                 <input type="date" formControlName="beginDate" [min]="minDateStr()"
+                                    [class.border-red-500]="eventForm.get('beginDate')?.invalid && eventForm.get('beginDate')?.touched"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base [color-scheme:dark]">
                             </div>
                             <div>
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Hora</label>
                                 <input type="time" formControlName="beginTime"
+                                    [class.border-red-500]="eventForm.get('beginTime')?.invalid && eventForm.get('beginTime')?.touched"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                             </div>
                         </div>
@@ -198,11 +199,13 @@
                             <div>
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Fecha</label>
                                 <input type="date" formControlName="finishDate" [min]="minDateStr()"
+                                    [class.border-red-500]="eventForm.get('finishDate')?.invalid && eventForm.get('finishDate')?.touched"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base [color-scheme:dark]">
                             </div>
                             <div>
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Hora</label>
                                 <input type="time" formControlName="finishTime"
+                                    [class.border-red-500]="eventForm.get('finishTime')?.invalid && eventForm.get('finishTime')?.touched"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                             </div>
                         </div>
@@ -225,12 +228,16 @@
                             Ciudad *
                         </label>
                         <select [value]="selectedCityId() ?? ''" (change)="onCityChange($any($event.target).value)"
+                            [class.border-red-500]="!selectedCityId() && eventForm.touched"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white cursor-pointer focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                             <option value="">Seleccionar Ciudad...</option>
                             @for (city of cities(); track city.id) {
                             <option [value]="city.id">{{ city.cityName }}</option>
                             }
                         </select>
+                        @if (!selectedCityId() && eventForm.touched) {
+                        <p class="text-red-400 text-xs mt-1">Debes seleccionar una ciudad</p>
+                        }
                     </div>
                     <!-- Locación -->
                     <div>
@@ -238,6 +245,7 @@
                             Locación *
                         </label>
                         <select formControlName="locationId" [attr.disabled]="!selectedCityId() ? '' : null"
+                            [class.border-red-500]="eventForm.get('locationId')?.invalid && eventForm.get('locationId')?.touched"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white cursor-pointer focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base disabled:opacity-40 disabled:cursor-not-allowed">
                             <option value="">{{ selectedCityId() ? 'Seleccionar Locación...' : 'Primero selecciona una
                                 ciudad' }}</option>
@@ -247,6 +255,9 @@
                             </option>
                             }
                         </select>
+                        @if (eventForm.get('locationId')?.touched && eventForm.get('locationId')?.errors) {
+                        <p class="text-red-400 text-xs mt-1">Debes seleccionar una locación</p>
+                        }
                     </div>
                 </div>
             </section>
@@ -300,14 +311,34 @@
                         DJ Principal *
                     </label>
                     <select formControlName="djId"
+                        [class.border-red-500]="eventForm.get('djId')?.invalid && eventForm.get('djId')?.touched"
                         class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white cursor-pointer focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                         <option value="">Seleccionar DJ...</option>
                         @for (dj of djs(); track dj.id) {
                         <option [value]="dj.id">{{ dj.djApodo }}</option>
                         }
                     </select>
+                    @if (eventForm.get('djId')?.touched && eventForm.get('djId')?.errors) {
+                    <p class="text-red-400 text-xs mt-1">Debes seleccionar un DJ</p>
+                    }
                 </div>
             </section>
+
+            <!-- Success Message -->
+            @if (successMessage()) {
+            <div class="mb-6 bg-green-500/10 border border-green-500/30 rounded-xl p-4 flex items-center gap-3">
+                <span class="text-green-400">✓</span>
+                <p class="text-sm text-green-400">{{ successMessage() }}</p>
+            </div>
+            }
+
+            <!-- Error Message -->
+            @if (error()) {
+            <div class="mb-6 bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-center gap-3">
+                <span class="text-red-400">⚠️</span>
+                <p class="text-sm text-red-400">{{ error() }}</p>
+            </div>
+            }
 
             <!-- Info: Next Step (solo creacion) -->
             @if (!isEditingPublished()) {

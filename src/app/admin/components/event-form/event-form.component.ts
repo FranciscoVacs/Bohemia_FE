@@ -290,7 +290,7 @@ export class EventFormComponent implements OnInit {
         const values = this.eventForm.value;
         const beginDatetime = this.combineDateAndTime(values.beginDate, values.beginTime);
         const finishDatetime = this.combineDateAndTime(values.finishDate, values.finishTime);
-        
+
         if (finishDatetime <= beginDatetime) {
             this.error.set('La fecha de fin debe ser posterior a la fecha de inicio');
             return false;
@@ -307,9 +307,9 @@ export class EventFormComponent implements OnInit {
 
     // Save changes for published event (stay on page)
     saveChanges() {
-        if (this.eventForm.invalid) {
+        if (this.eventForm.invalid || !this.selectedCityId()) {
             this.eventForm.markAllAsTouched();
-            this.error.set('Por favor completa todos los campos requeridos');
+            this.error.set(this.buildValidationErrorMessage());
             return;
         }
 
@@ -341,9 +341,9 @@ export class EventFormComponent implements OnInit {
 
     // Next Step - Save and go to Step 2 (Ticket Configuration)
     goToStep2() {
-        if (this.eventForm.invalid) {
+        if (this.eventForm.invalid || !this.selectedCityId()) {
             this.eventForm.markAllAsTouched();
-            this.error.set('Por favor completa todos los campos requeridos');
+            this.error.set(this.buildValidationErrorMessage());
             return;
         }
 
@@ -387,6 +387,23 @@ export class EventFormComponent implements OnInit {
                 }
             });
         }
+    }
+
+    private buildValidationErrorMessage(): string {
+        const missing: string[] = [];
+        const c = this.eventForm.controls;
+        if (c['eventName'].invalid) missing.push('Nombre del Evento');
+        if (c['beginDate'].invalid) missing.push('Fecha de inicio');
+        if (c['beginTime'].invalid) missing.push('Hora de inicio');
+        if (c['finishDate'].invalid) missing.push('Fecha de fin');
+        if (c['finishTime'].invalid) missing.push('Hora de fin');
+        if (!this.selectedCityId()) missing.push('Ciudad');
+        if (c['locationId'].invalid) missing.push('Locación');
+        if (c['djId'].invalid) missing.push('DJ Principal');
+        if (missing.length > 0) {
+            return 'Faltan los siguientes campos: ' + missing.join(', ');
+        }
+        return 'Por favor completa todos los campos requeridos';
     }
 
     private buildEventFormData(): FormData {

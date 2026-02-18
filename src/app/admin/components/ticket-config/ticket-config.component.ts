@@ -268,6 +268,7 @@ export class TicketConfigComponent implements OnInit {
     addTicketType() {
         if (this.ticketForm.invalid || !this.eventId()) {
             this.ticketForm.markAllAsTouched();
+            this.error.set('Por favor completa todos los campos del ticket correctamente');
             return;
         }
 

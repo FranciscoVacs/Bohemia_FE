@@ -98,19 +98,7 @@
         </div>
         }
 
-        <!-- Success Message -->
-        @if (successMessage()) {
-        <div class="mb-6 bg-green-500/10 border border-green-500/30 rounded-xl p-4 flex items-center gap-3">
-            <p class="text-sm text-green-400">{{ successMessage() }}</p>
-        </div>
-        }
 
-        <!-- Error Message -->
-        @if (error()) {
-        <div class="mb-6 bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-center gap-3">
-            <p class="text-sm text-red-400">{{ error() }}</p>
-        </div>
-        }
 
         <!-- Loading -->
         @if (loading()) {
@@ -461,8 +449,12 @@
                             Nombre del Ticket *
                         </label>
                         <input type="text" formControlName="ticketTypeName"
+                            [class.border-red-500]="ticketForm.get('ticketTypeName')?.invalid && ticketForm.get('ticketTypeName')?.touched"
                             class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all"
                             placeholder="Ej: General Early Bird">
+                        @if (ticketForm.get('ticketTypeName')?.touched && ticketForm.get('ticketTypeName')?.errors) {
+                        <p class="text-red-400 text-xs mt-1">El nombre es requerido</p>
+                        }
                     </div>
 
                     <!-- Row 2: Price, Stock, and Sort Order -->
@@ -472,21 +464,33 @@
                                 Precio ($)
                             </label>
                             <input type="number" formControlName="price" min="0"
+                                [class.border-red-500]="ticketForm.get('price')?.invalid && ticketForm.get('price')?.touched"
                                 class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
+                            @if (ticketForm.get('price')?.touched && ticketForm.get('price')?.errors) {
+                            <p class="text-red-400 text-xs mt-1">Requerido (min 0)</p>
+                            }
                         </div>
                         <div>
                             <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-1">
                                 Stock
                             </label>
                             <input type="number" formControlName="maxQuantity" min="1"
+                                [class.border-red-500]="ticketForm.get('maxQuantity')?.invalid && ticketForm.get('maxQuantity')?.touched"
                                 class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
+                            @if (ticketForm.get('maxQuantity')?.touched && ticketForm.get('maxQuantity')?.errors) {
+                            <p class="text-red-400 text-xs mt-1">Requerido (min 1)</p>
+                            }
                         </div>
                         <div>
                             <label class="block text-[10px] text-white/40 uppercase tracking-widest mb-1">
                                 Orden en Cola
                             </label>
                             <input type="number" formControlName="sortOrder" min="1"
+                                [class.border-red-500]="ticketForm.get('sortOrder')?.invalid && ticketForm.get('sortOrder')?.touched"
                                 class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
+                            @if (ticketForm.get('sortOrder')?.touched && ticketForm.get('sortOrder')?.errors) {
+                            <p class="text-red-400 text-xs mt-1">Requerido (min 1)</p>
+                            }
                         </div>
                     </div>
 
@@ -508,6 +512,20 @@
             </div>
             }
         </section>
+
+        <!-- Success Message -->
+        @if (successMessage()) {
+        <div class="mb-6 bg-green-500/10 border border-green-500/30 rounded-xl p-4 flex items-center gap-3">
+            <p class="text-sm text-green-400">{{ successMessage() }}</p>
+        </div>
+        }
+
+        <!-- Error Message -->
+        @if (error()) {
+        <div class="mb-6 bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-center gap-3">
+            <p class="text-sm text-red-400">{{ error() }}</p>
+        </div>
+        }
 
         <!-- Summary Section -->
         <section class="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-8 mb-6 md:mb-8">
