@@ -8,4 +8,6 @@ export interface Location {
     latitude?: number;
     longitude?: number;
     city: City;
+    latitude: number;
+    longitude: number;
 }

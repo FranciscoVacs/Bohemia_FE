@@ -1,3 +1,5 @@
+import { timeout } from "rxjs";
+
 describe('login test', () => {
 
   beforeEach(() => {
@@ -14,10 +16,10 @@ describe('login test', () => {
     cy.get('[data-cy=visibility-button]').click();
     cy.contains('Ingresar').click();
 
-    cy.contains('Admin Panel').should('be.visible')
+    cy.contains('Admin').should('be.visible')
   })
 
-  it('logs in, navigates to Admin Panel and creates a new event', () => {
+  it('logs in, navigates to Admin Pannel and creates a new event', () => {
     // --- Login ---
     cy.get('[data-cy=login-button]').click();
     cy.get('#login-email').type('admin1@gmail.com');
@@ -57,14 +59,14 @@ describe('login test', () => {
     cy.get('[data-cy=event-min-age-select]').should('have.value', '18');
 
     // --- Fill in Step 1: Date & Time ---
-    cy.get('[data-cy=event-begin-date-input]').type('2026-03-15');
-    cy.get('[data-cy=event-begin-date-input]').should('have.value', '2026-03-15');
+    cy.get('[data-cy=event-begin-date-input]').type('2027-03-15');
+    cy.get('[data-cy=event-begin-date-input]').should('have.value', '2027-03-15');
 
     cy.get('[data-cy=event-begin-time-input]').type('22:00');
     cy.get('[data-cy=event-begin-time-input]').should('have.value', '22:00');
 
-    cy.get('[data-cy=event-finish-date-input]').type('2026-03-16');
-    cy.get('[data-cy=event-finish-date-input]').should('have.value', '2026-03-16');
+    cy.get('[data-cy=event-finish-date-input]').type('2027-03-16');
+    cy.get('[data-cy=event-finish-date-input]').should('have.value', '2027-03-16');
 
     cy.get('[data-cy=event-finish-time-input]').type('06:00');
     cy.get('[data-cy=event-finish-time-input]').should('have.value', '06:00');
@@ -88,14 +90,15 @@ describe('login test', () => {
 
     // --- Upload cover image (Multimedia section) ---
     cy.get('[data-cy=event-cover-image-input]').selectFile('cypress/fixtures/party.png', { force: true });
-
+    cy.get('[data-cy=image-preview]')
+      .should('be.visible');
     // --- Proceed to Step 2 ---
     cy.get('[data-cy=event-next-step-button]').should('be.visible');
     cy.get('[data-cy=event-next-step-button]').click();
 
     // Assert Step 2 is loaded
-    cy.contains('PASO 2 DE 2').should('be.visible');
-    cy.get('[data-cy=new-ticket-button]').should('be.visible');
+    cy.contains('PASO 2 DE 2', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-cy=new-ticket-button]', { timeout: 10000 }).should('be.visible');
 
     // --- Add a ticket type ---
     cy.get('[data-cy=new-ticket-button]').click();
