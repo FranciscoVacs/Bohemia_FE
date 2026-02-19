@@ -206,7 +206,7 @@ export class EventFormComponent implements OnInit {
         if (input.files && input.files[0]) {
             const file = input.files[0];
 
-            const maxSizeMB = 5;
+            const maxSizeMB = 10;
             const maxSizeBytes = maxSizeMB * 1024 * 1024;
             if (file.size > maxSizeBytes) {
                 this.error.set(`La imagen supera el tamaño máximo de ${maxSizeMB}MB.`);
