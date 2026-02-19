@@ -3,7 +3,7 @@
 
     <!-- Video de fondo -->
     <div class="absolute inset-0 z-0">
-        <video #heroVideo autoplay muted loop playsinline class="w-full h-full object-cover">
+        <video #heroVideo autoplay muted loop playsinline [muted]="true" class="w-full h-full object-cover">
             <source src="hero-video.mp4" type="video/mp4" />
         </video>
         <!-- Overlay gradiente para fundir con el contenido de abajo -->
