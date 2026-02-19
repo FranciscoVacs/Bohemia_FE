@@ -15,8 +15,8 @@ import { CreatePurchaseDTO } from '../dto/purchase.dto';
 import { UserDropdownComponent } from '../user-dropdown/user-dropdown.component';
 import { Router } from '@angular/router';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import * as L from 'leaflet';
 
-declare let L: any;
 type TicketWithAmount = AdminTicketType & { amountSelected: number };
 
 export enum PurchaseStep {
@@ -26,10 +26,10 @@ export enum PurchaseStep {
 }
 
 @Component({
-    selector: 'app-compra',
-    imports: [CommonModule, AttendeesDataComponent, PaymentMethodComponent],
-    templateUrl: './compra.component.html',
-    styleUrl: './compra.component.css'
+  selector: 'app-compra',
+  imports: [CommonModule, AttendeesDataComponent, PaymentMethodComponent],
+  templateUrl: './compra.component.html',
+  styleUrl: './compra.component.css'
 })
 
 export class CompraComponent implements OnDestroy {
@@ -98,57 +98,60 @@ export class CompraComponent implements OnDestroy {
   }
 
   // Leaflet map instance
-  private map: any = null;
+  private map: L.Map | null = null;
 
   showMap() {
-    if (!this.event || !this.event.location) {
-      console.warn('showMap: event or location not available yet');
+    console.log(this.event?.location);
+
+    if (!this.event?.location?.latitude || !this.event?.location?.longitude) {
+      console.warn('Coordinates not available');
+      return;
+    }
+    const lat = Number(this.event.location.latitude);
+    const lng = Number(this.event.location.longitude);
+
+    // Validate coordinates
+    if (isNaN(lat) || isNaN(lng)) {
+      console.warn('Invalid coordinates:', lat, lng);
       return;
     }
 
-    const query = `${this.event.location.address} ${this.event.location.city.cityName}`;
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
-      .then(res => res.json())
-      .then(data => {
-        if (!data || !data.length) { console.warn('No location found for query', query); return; }
+    // Remove existing map safely
+    if (this.map) {
+      this.map.remove();
+      this.map = null;
+    }
 
-        const lat = Number(data[0].lat);
-        const lng = Number(data[0].lon);
+    const redIcon = L.icon({
+      iconUrl: 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2_hdpi.png',
+      iconSize: [27, 43],
+      iconAnchor: [13, 43],
+    });
 
-        // Remove existing map instance if present
-        try {
-          if (this.map) {
-            this.map.remove();
-            this.map = null;
-          }
-        } catch (e) {
-          console.warn('Error removing existing map', e);
+    this.map = L.map('map', {
+      scrollWheelZoom: false,
+    }).setView([lat, lng], 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    L.marker([lat, lng], { icon: redIcon }).addTo(this.map);
+
+    // Zoom only when CTRL is pressed
+    this.map?.getContainer().addEventListener(
+      'wheel',
+      (e: WheelEvent) => {
+        if (e.ctrlKey) {
+          e.preventDefault();
+          this.map?.scrollWheelZoom.enable();
+        } else {
+          this.map?.scrollWheelZoom.disable();
         }
-
-        const redIcon = L.icon({
-          iconUrl: 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2_hdpi.png',
-          iconSize: [27, 43],
-          iconAnchor: [13, 43],
-        });
-        this.map = L.map('map', { scrollWheelZoom: false }).setView([lat, lng], 15);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(this.map);
-
-        L.marker([lat, lng], { icon: redIcon }).addTo(this.map);
-        this.map.getContainer().addEventListener('wheel', (e: any) => {
-          if (e.ctrlKey) {
-            e.preventDefault();
-            this.map.scrollWheelZoom.enable();
-          } else {
-            this.map.scrollWheelZoom.disable();
-          }
-        }, { passive: false });
-      })
-      .catch(err => console.error('Error fetching geocoding data', err));
+      },
+      { passive: false }
+    );
   }
-
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);

@@ -6,4 +6,6 @@ export interface Location {
     address: string;
     maxCapacity: number;
     city: City;
+    latitude: number;
+    longitude: number;
 }
