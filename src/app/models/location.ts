@@ -5,9 +5,7 @@ export interface Location {
     locationName: string;
     address: string;
     maxCapacity: number;
-    latitude?: number;
-    longitude?: number;
-    city: City;
     latitude: number;
     longitude: number;
+    city: City;
 }
