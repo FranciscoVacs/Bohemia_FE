@@ -6,9 +6,8 @@ import { EventListComponent } from '../../components/event-list/event-list.compo
 
 @Component({
     selector: 'app-event-management',
-    standalone: true,
     imports: [CommonModule, RouterLink, AdminNavbarComponent, EventListComponent],
-    templateUrl: './event-management.component.html',
+    templateUrl: './event-management.component.html'
 })
 export class EventManagementComponent {
 

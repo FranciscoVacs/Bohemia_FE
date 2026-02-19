@@ -7,11 +7,10 @@ import { AuthModalComponent } from './auth-modal/auth-modal.component';
 import { FooterComponent } from './footer/footer.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, NavbarComponent, AuthModalComponent, FooterComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    imports: [RouterOutlet, NavbarComponent, AuthModalComponent, FooterComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit, OnDestroy {
   private router = inject(Router);

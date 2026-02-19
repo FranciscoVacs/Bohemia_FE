@@ -17,11 +17,10 @@ import { UserDropdownComponent } from '../user-dropdown/user-dropdown.component'
 import { filter, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule, UserDropdownComponent],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+    selector: 'app-navbar',
+    imports: [RouterLink, RouterLinkActive, CommonModule, UserDropdownComponent],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public modalService = inject(ModalService);

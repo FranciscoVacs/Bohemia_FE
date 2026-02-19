@@ -26,7 +26,6 @@ interface TicketGroup {
 
 @Component({
     selector: 'app-mis-entradas',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './mis-entradas.component.html',
     styleUrl: './mis-entradas.component.css'

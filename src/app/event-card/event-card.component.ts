@@ -5,11 +5,10 @@ import { Event } from '../models/event';
 import { CapitalizePipe } from '../pipes/capitalize.pipe';
 
 @Component({
-  selector: 'app-event-card',
-  standalone: true,
-  imports: [CommonModule, CapitalizePipe, RouterModule],
-  templateUrl: './event-card.component.html',
-  styleUrl: './event-card.component.css'
+    selector: 'app-event-card',
+    imports: [CommonModule, CapitalizePipe, RouterModule],
+    templateUrl: './event-card.component.html',
+    styleUrl: './event-card.component.css'
 })
 export class EventCardComponent {
   // El evento viene del componente padre

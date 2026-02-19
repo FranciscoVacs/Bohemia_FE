@@ -6,11 +6,10 @@ import { EventService } from '../services/event.service';
 import { Event } from '../models/event';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule, HeroComponent, EventCardComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+    selector: 'app-home',
+    imports: [CommonModule, HeroComponent, EventCardComponent],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
   nextEvent: Event | null = null;

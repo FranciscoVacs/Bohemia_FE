@@ -9,9 +9,8 @@ import { DjService, Dj } from '../../services/dj.service';
 
 @Component({
     selector: 'app-event-form',
-    standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
-    templateUrl: './event-form.component.html',
+    templateUrl: './event-form.component.html'
 })
 export class EventFormComponent implements OnInit {
     private fb = inject(FormBuilder);

@@ -5,7 +5,6 @@ import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-mi-perfil',
-    standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
     templateUrl: './mi-perfil.component.html',
     styleUrl: './mi-perfil.component.css'
