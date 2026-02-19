@@ -5,11 +5,10 @@ import { AuthService } from '../services/auth.service';
 import { ModalService } from '../services/modal.service';
 
 @Component({
-  selector: 'user-dropdown',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './user-dropdown.component.html',
-  styleUrl: './user-dropdown.component.css'
+    selector: 'user-dropdown',
+    imports: [CommonModule, RouterLink],
+    templateUrl: './user-dropdown.component.html',
+    styleUrl: './user-dropdown.component.css'
 })
 export class UserDropdownComponent {
   public authService = inject(AuthService);

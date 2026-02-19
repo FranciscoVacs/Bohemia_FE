@@ -4,10 +4,9 @@ import { RouterLink } from '@angular/router';
 
 
 @Component({
-  selector: 'app-admin-navbar',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
-  template: `
+    selector: 'app-admin-navbar',
+    imports: [CommonModule, RouterLink],
+    template: `
     <nav class="fixed top-0 w-full z-50 bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20">
       <div class="flex items-center justify-between h-14 px-4 md:px-8">
         <a routerLink="/" class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-[#b7ff00]/10 hover:text-[#b7ff00] cursor-pointer">

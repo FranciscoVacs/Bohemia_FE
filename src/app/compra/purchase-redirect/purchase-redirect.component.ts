@@ -7,11 +7,10 @@ import { filter } from 'rxjs/operators';
 import { PurchaseDetails } from '../../models/purchase';
 
 @Component({
-  selector: 'purchase-redirect',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './purchase-redirect.component.html',
-  styleUrl: './purchase-redirect.component.css'
+    selector: 'purchase-redirect',
+    imports: [CommonModule],
+    templateUrl: './purchase-redirect.component.html',
+    styleUrl: './purchase-redirect.component.css'
 })
 export class PurchaseRedirectComponent {
   constructor(private route: ActivatedRoute, private purchaseService: PurchaseService) {}

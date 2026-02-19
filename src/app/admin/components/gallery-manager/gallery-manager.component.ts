@@ -7,7 +7,6 @@ import { AdminEventService } from '../../services/admin-event.service';
 
 @Component({
     selector: 'app-gallery-manager',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './gallery-manager.component.html'
 })

@@ -7,11 +7,10 @@ import { AdminEventService } from '../../services/admin-event.service';
 import { EventStats, EventStatsState } from '../../../models/event-stats';
 
 @Component({
-  selector: 'app-event-stats',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './event-stats.component.html',
-  styleUrls: ['./event-stats.component.css']
+    selector: 'app-event-stats',
+    imports: [CommonModule, RouterModule],
+    templateUrl: './event-stats.component.html',
+    styleUrls: ['./event-stats.component.css']
 })
 export class EventStatsComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);

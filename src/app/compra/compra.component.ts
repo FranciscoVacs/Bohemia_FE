@@ -26,11 +26,10 @@ export enum PurchaseStep {
 }
 
 @Component({
-  selector: 'app-compra',
-  standalone: true,
-  imports: [CommonModule, AttendeesDataComponent, PaymentMethodComponent],
-  templateUrl: './compra.component.html',
-  styleUrl: './compra.component.css'
+    selector: 'app-compra',
+    imports: [CommonModule, AttendeesDataComponent, PaymentMethodComponent],
+    templateUrl: './compra.component.html',
+    styleUrl: './compra.component.css'
 })
 
 export class CompraComponent implements OnDestroy {

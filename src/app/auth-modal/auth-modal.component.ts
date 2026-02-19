@@ -6,10 +6,9 @@ import { AuthService } from '../services/auth.service';
 import { LoginData, RegisterData } from '../models/auth';
 
 @Component({
-  selector: 'app-auth-modal',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './auth-modal.component.html'
+    selector: 'app-auth-modal',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './auth-modal.component.html'
 })
 export class AuthModalComponent {
   private fb = inject(FormBuilder);

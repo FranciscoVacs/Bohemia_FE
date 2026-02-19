@@ -7,11 +7,10 @@ import { ModalService } from '../services/modal.service';
 import { GalleryEvent, EventPhoto } from '../models/gallery';
 
 @Component({
-  selector: 'app-galeria',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './galeria.component.html',
-  styleUrls: ['./galeria.component.css']
+    selector: 'app-galeria',
+    imports: [CommonModule],
+    templateUrl: './galeria.component.html',
+    styleUrls: ['./galeria.component.css']
 })
 export class GaleriaComponent implements OnInit {
   private galleryService = inject(GalleryService);

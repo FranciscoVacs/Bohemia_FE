@@ -10,9 +10,8 @@ type SortDirection = 'asc' | 'desc';
 
 @Component({
     selector: 'app-event-list',
-    standalone: true,
     imports: [CommonModule, FormsModule],
-    templateUrl: './event-list.component.html',
+    templateUrl: './event-list.component.html'
 })
 export class EventListComponent implements OnInit {
     private eventService = inject(AdminEventService);

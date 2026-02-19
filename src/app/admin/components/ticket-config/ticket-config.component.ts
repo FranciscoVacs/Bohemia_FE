@@ -26,9 +26,8 @@ interface PendingEdit {
 
 @Component({
     selector: 'app-ticket-config',
-    standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
-    templateUrl: './ticket-config.component.html',
+    templateUrl: './ticket-config.component.html'
 })
 export class TicketConfigComponent implements OnInit {
     private fb = inject(FormBuilder);

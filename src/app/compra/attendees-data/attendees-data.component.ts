@@ -5,11 +5,10 @@ import { AuthService } from '../../services/auth.service';
 import { ModalService } from '../../services/modal.service';
 
 @Component({
-  selector: 'attendees-data',
-  standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
-  templateUrl: './attendees-data.component.html',
-  styleUrl: './attendees-data.component.css'
+    selector: 'attendees-data',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './attendees-data.component.html',
+    styleUrl: './attendees-data.component.css'
 })
 export class AttendeesDataComponent {
   private fb = inject(FormBuilder);
