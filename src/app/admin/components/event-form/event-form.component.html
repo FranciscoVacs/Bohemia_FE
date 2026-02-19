@@ -279,7 +279,7 @@
 
                     @if (imagePreview()) {
                     <div class="relative w-full max-w-md">
-                        <img [src]="imagePreview()" alt="Preview"
+                        <img [src]="imagePreview()" alt="Preview" data-cy="image-preview"
                             class="w-full h-48 object-cover rounded-xl border border-white/10">
                         <button type="button" (click)="removeImage()"
                             class="absolute top-2 right-2 bg-red-500/80 hover:bg-red-500 text-white p-2 rounded-lg transition-colors cursor-pointer">
