@@ -7,34 +7,46 @@
     <!-- Purchase Stepper -->
     <div class="purchase-stepper">
         @if (navbarState.purchaseStep() === 1) {
-        <span class="step-active">1. Entradas</span>
+        <span class="step-active">
+            <span class="hidden sm:inline">1. Entradas</span><span class="sm:hidden">1</span>
+        </span>
         <span class="material-symbols-outlined step-chevron">chevron_right</span>
-        <span class="step-inactive">2. Datos</span>
+        <span class="step-inactive">
+            <span class="hidden sm:inline">2. Datos</span><span class="sm:hidden">2</span>
+        </span>
         <span class="material-symbols-outlined step-chevron">chevron_right</span>
-        <span class="step-inactive">3. Pago</span>
+        <span class="step-inactive">
+            <span class="hidden sm:inline">3. Pago</span><span class="sm:hidden">3</span>
+        </span>
         }
         @else if (navbarState.purchaseStep() === 2) {
         <span class="step-done">
-            <span class="material-symbols-outlined step-check">check_circle</span>
-            1. Entradas
+            <span class="material-symbols-outlined step-check hidden sm:inline">check_circle</span>
+            <span class="hidden sm:inline">1. Entradas</span><span class="sm:hidden">1</span>
         </span>
         <span class="material-symbols-outlined step-chevron">chevron_right</span>
-        <span class="step-active">2. Datos</span>
+        <span class="step-active">
+            <span class="hidden sm:inline">2. Datos</span><span class="sm:hidden">2</span>
+        </span>
         <span class="material-symbols-outlined step-chevron">chevron_right</span>
-        <span class="step-inactive">3. Pago</span>
+        <span class="step-inactive">
+            <span class="hidden sm:inline">3. Pago</span><span class="sm:hidden">3</span>
+        </span>
         }
         @else if (navbarState.purchaseStep() === 3) {
         <span class="step-done">
-            <span class="material-symbols-outlined step-check">check_circle</span>
-            1. Entradas
+            <span class="material-symbols-outlined step-check hidden sm:inline">check_circle</span>
+            <span class="hidden sm:inline">1. Entradas</span><span class="sm:hidden">1</span>
         </span>
         <span class="material-symbols-outlined step-chevron">chevron_right</span>
         <span class="step-done">
-            <span class="material-symbols-outlined step-check">check_circle</span>
-            2. Datos
+            <span class="material-symbols-outlined step-check hidden sm:inline">check_circle</span>
+            <span class="hidden sm:inline">2. Datos</span><span class="sm:hidden">2</span>
         </span>
         <span class="material-symbols-outlined step-chevron">chevron_right</span>
-        <span class="step-active">3. Pago</span>
+        <span class="step-active">
+            <span class="hidden sm:inline">3. Pago</span><span class="sm:hidden">3</span>
+        </span>
         }
     </div>
     } @else {
@@ -50,17 +62,26 @@
     }
 
     <!-- Right Section -->
-    <div class="nav-right">
+    <div class="nav-right flex items-center gap-3 md:gap-4">
         @if (navbarState.purchaseStep() === 0) {
+
+        <!-- Mobile Gallery Link -->
+        <a routerLink="/galeria"
+            class="sm:hidden text-white hover:text-[#CCFF00] flex items-center justify-center transition-colors"
+            title="Galería">
+            <span class="material-symbols-outlined" style="font-size: 1.5rem;">photo_library</span>
+        </a>
+
         @if (authService.isAdmin()) {
         <a routerLink="/admin" class="cta-btn cta-admin" data-cy="admin-panel-link">
             <span class="material-symbols-outlined" style="font-size: 16px;">admin_panel_settings</span>
-            <span>Admin</span>
+            <span class="hidden sm:inline">Admin</span>
         </a>
         } @else {
-        <a routerLink="/compra" class="cta-btn">
+        <a routerLink="/compra" class="cta-btn" title="Comprar Entradas">
             <span class="hidden sm:inline">COMPRAR ENTRADAS</span>
-            <span class="sm:hidden">COMPRAR</span>
+            <span class="material-symbols-outlined sm:!hidden"
+                style="font-size: 1.2rem; transform: translateY(1px);">shopping_cart</span>
         </a>
         }
         }
