@@ -3,3 +3,20 @@
 :host {
   display: block;
 }
+
+/* ── Kaleidoscope Animation ── */
+@keyframes kaleidoscope-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-kaleidoscope {
+  animation: kaleidoscope-spin 25s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-kaleidoscope {
+    animation: none;
+  }
+}

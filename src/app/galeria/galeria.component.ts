@@ -36,6 +36,19 @@ export class GaleriaComponent implements OnInit {
   isAuthenticated = this.authService.isAuthenticated;
   currentView = computed(() => this.selectedEvent() ? 'album' : 'events');
 
+  recentEvent = computed(() => {
+    const evs = this.events();
+    if (evs.length === 0) return null;
+    const sorted = [...evs].sort((a, b) => new Date(b.beginDatetime).getTime() - new Date(a.beginDatetime).getTime());
+    return sorted[0];
+  });
+
+  otherEvents = computed(() => {
+    const evs = this.events();
+    if (evs.length <= 1) return [];
+    const sorted = [...evs].sort((a, b) => new Date(b.beginDatetime).getTime() - new Date(a.beginDatetime).getTime());
+    return sorted.slice(1);
+  });
   ngOnInit(): void {
     this.loadEvents();
 

@@ -181,6 +181,8 @@ export class CompraComponent implements OnDestroy {
   }
 
   addTicket(ticketType: TicketWithAmount) {
+    if (ticketType.amountSelected >= 10) return;
+
     this.ticketTypes.update(list =>
       list.map(t =>
         t.id === ticketType.id

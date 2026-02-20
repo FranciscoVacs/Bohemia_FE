@@ -20,21 +20,41 @@ export function mapZodErrorsToForm(error: any, form: FormGroup): boolean {
         const fieldParts = detail.field.split('.');
 
         // Get the actual field name by taking the last part (e.g., "eventName" from "body.eventName")
-        const formControlName = fieldParts[fieldParts.length - 1];
+        let formControlName = fieldParts[fieldParts.length - 1];
 
-        const control = form.get(formControlName);
+        // Specific mappings for fields that are combined in backend but split in frontend
+        if (formControlName === 'beginDatetime') {
+            applyErrorToControl(form, 'beginDate', detail.message);
+            applyErrorToControl(form, 'beginTime', detail.message);
+            errorsMapped = true;
+            return;
+        }
 
-        if (control) {
-            // Set the 'serverError' validation error on the control
-            control.setErrors({
-                ...control.errors, // Keep existing errors
-                serverError: detail.message
-            });
-            // Mark as touched so validation UI shows up immediately
-            control.markAsTouched();
+        if (formControlName === 'finishDatetime') {
+            applyErrorToControl(form, 'finishDate', detail.message);
+            applyErrorToControl(form, 'finishTime', detail.message);
+            errorsMapped = true;
+            return;
+        }
+
+        if (applyErrorToControl(form, formControlName, detail.message)) {
             errorsMapped = true;
         }
     });
 
     return errorsMapped;
 }
+
+function applyErrorToControl(form: FormGroup, controlName: string, errorMessage: string): boolean {
+    const control = form.get(controlName);
+    if (control) {
+        control.setErrors({
+            ...control.errors,
+            serverError: errorMessage
+        });
+        control.markAsTouched();
+        return true;
+    }
+    return false;
+}
+

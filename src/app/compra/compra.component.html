@@ -74,9 +74,14 @@
               <span class="material-symbols-outlined text-lg">remove</span>
             </button>
             <span class="w-10 text-center font-display text-xl pt-1">{{ ticketType.amountSelected }}</span>
-            <button (click)="addTicket(ticketType)"
-              class="w-10 h-10 flex items-center justify-center text-white hover:text-primary transition-colors hover:bg-white/5 rounded-md">
+            <button (click)="addTicket(ticketType)" [disabled]="ticketType.amountSelected >= 10"
+              class="w-10 h-10 flex items-center justify-center text-white transition-colors rounded-md group/add"
+              [ngClass]="ticketType.amountSelected >= 10 ? 'opacity-30 cursor-not-allowed' : 'hover:text-primary hover:bg-white/5'">
               <span class="material-symbols-outlined text-lg">add</span>
+              <span *ngIf="ticketType.amountSelected >= 10"
+                class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black border border-white/20 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/add:opacity-100 whitespace-nowrap pointer-events-none transition-opacity">
+                Máx. 10
+              </span>
             </button>
           </div>
         </div>
@@ -255,7 +260,7 @@
       <span class="material-symbols-outlined text-secondary">explore</span>
       Ubicación
     </h2>
-    <div class="bg-[#121212] rounded-[32px] p-1 border border-white/10 overflow-hidden relative group">
+    <div class="bg-[#121212] rounded-[32px] p-1 border border-white/10 overflow-hidden relative group z-[199]">
       <div class="relative h-[450px] w-full rounded-[28px] overflow-hidden shadow-2xl shadow-primary/5">
         <div id="map" class="w-full h-full"></div>
       </div>

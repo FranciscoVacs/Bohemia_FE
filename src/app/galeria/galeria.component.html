@@ -1,3 +1,8 @@
+<!-- Kaleidoscope Background -->
+<div
+  class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vw] sm:w-[150vw] sm:h-[150vw] bg-[conic-gradient(from_0deg,#050508,#0A0A0A,#111118,#CCFF00,#0A0A0A,#00E0FF,#050508,#111118,#CCFF00,#050508)] animate-kaleidoscope blur-[80px] saturate-[130%] z-[-1] pointer-events-none">
+</div>
+
 <!-- ============================== -->
 <!-- VISTA: LISTADO DE EVENTOS      -->
 <!-- ============================== -->
@@ -6,12 +11,13 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <!-- Header -->
-    <div class="mb-10 sm:mb-14">
-      <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-wide">
-        Galería
+    <div class="mb-10 sm:mb-14 max-w-5xl mx-auto">
+      <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl uppercase leading-tight mb-4">
+        <span class="text-white">NUESTRO</span>
+        <span class="text-primary">ALBUM.</span>
       </h1>
-      <p class="text-white/50 mt-3 text-sm sm:text-base max-w-xl">
-        Reviví los mejores momentos de nuestros eventos. Seleccioná un evento para ver las fotos.
+      <p class="text-white/60 text-sm sm:text-base max-w-xl font-medium tracking-wide">
+        Las fotos que esperabas ya están disponibles. Buscate y reviví los mejores momentos de la noche.
       </p>
     </div>
 
@@ -42,62 +48,150 @@
     </div>
     }
 
-    <!-- Grid de eventos -->
+    <!-- Eventos -->
     @if (!loading() && events().length > 0) {
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-      @for (event of events(); track event.id) {
-      <article (click)="openAlbum(event)" class="group relative rounded-2xl overflow-hidden cursor-pointer
-               border border-white/5 bg-white/5 backdrop-blur-sm
-               hover:border-primary/20 transition-all duration-300
-               hover:shadow-[0_0_30px_rgba(204,255,0,0.1)]">
 
-        <!-- Imagen del evento -->
-        <div class="relative aspect-square overflow-hidden">
-          <img [src]="event.coverPhoto || 'https://placehold.co/800x600/1a1a1a/333?text=Bohemia'"
-            [alt]="event.eventName"
-            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+    <!-- Evento Destacado (Más reciente) -->
+    @if (recentEvent(); as mainEvent) {
+    <article (click)="openAlbum(mainEvent)" class="group relative max-w-5xl mx-auto rounded-3xl overflow-hidden cursor-pointer
+             border border-white/10 bg-white/5 backdrop-blur-xl
+             shadow-[0_0_50px_rgba(0,0,0,0.5)]
+             hover:border-primary/20 transition-all duration-300
+             hover:shadow-[0_0_30px_rgba(204,255,0,0.1)] mb-8 sm:mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 h-full">
+        <!-- Imagen -->
+        <div class="md:col-span-2 relative aspect-square overflow-hidden bg-white/5">
+          <img [src]="mainEvent.coverPhoto || 'https://placehold.co/800x800/1a1a1a/333?text=Bohemia'"
+            [alt]="mainEvent.eventName"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
 
           <!-- Overlay oscuro -->
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/90 via-black/40 to-transparent">
+          </div>
 
           <!-- Badge: requiere login -->
           @if (!isAuthenticated()) {
           <div
-            class="absolute top-3 right-3 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full flex items-center gap-1.5">
+            class="absolute top-4 left-4 sm:top-6 sm:left-6 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full flex items-center gap-1.5 z-10">
             <span class="material-symbols-outlined text-sm text-white/70">lock</span>
-            <span class="text-white/70 text-xs font-medium">Iniciar sesión</span>
+            <span class="hidden sm:inline-block text-white/70 text-xs font-medium uppercase tracking-wider">Iniciar
+              sesión</span>
           </div>
           }
 
-          <!-- Info del evento sobre la imagen -->
-          <div class="absolute bottom-0 left-0 right-0 p-4">
-            <h3 class="text-white font-bold text-lg sm:text-xl uppercase tracking-wide leading-tight mb-1">
-              {{ event.eventName }}
-            </h3>
-            <div class="flex flex-wrap items-center gap-3 text-white/60 text-xs sm:text-sm">
-              <div class="flex items-center gap-1">
-                <span class="material-symbols-outlined text-sm">calendar_month</span>
-                <span>{{ formatDate(event.beginDatetime) }}</span>
+          <!-- Badge: Último Evento -->
+          <div
+            class="absolute top-4 right-4 sm:top-6 sm:right-6 bg-primary/20 backdrop-blur-md border border-primary/30 text-primary px-3 py-1.5 rounded-full flex items-center gap-1.5 z-10 transition-colors group-hover:bg-primary/30">
+            <span class="material-symbols-outlined text-sm">new_releases</span>
+            <span class="hidden sm:inline-block text-xs font-bold uppercase tracking-wider"
+              style="white-space: nowrap;">Nuevo</span>
+          </div>
+        </div>
+
+        <!-- Info Principal -->
+        <div
+          class="md:col-span-3 p-4 sm:p-5 lg:p-8 flex flex-col justify-center relative bg-black/40 backdrop-blur-sm border-t md:border-t-0 md:border-l border-white/5">
+          <span class="text-primary/80 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] mb-2 sm:mb-3 block">Galería
+            Destacada</span>
+          <h3
+            class="text-white font-display text-2xl sm:text-3xl lg:text-5xl uppercase tracking-wide leading-tight mb-3 sm:mb-4 group-hover:text-primary transition-colors duration-300">
+            {{ mainEvent.eventName }}
+          </h3>
+
+          <div class="flex flex-col gap-2 sm:gap-3 text-white/70 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-8">
+            <div class="flex items-center gap-2 group/item">
+              <div
+                class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 transition-colors group-hover/item:bg-white/10">
+                <span class="material-symbols-outlined text-sm sm:text-base">calendar_month</span>
               </div>
-              <div class="flex items-center gap-1">
-                <span class="material-symbols-outlined text-sm">location_on</span>
-                <span>{{ event.location.locationName }}</span>
+              <span class="font-medium tracking-wide">{{ formatDate(mainEvent.beginDatetime) }}</span>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-3 group/item">
+              <div
+                class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 transition-colors group-hover/item:bg-white/10">
+                <span class="material-symbols-outlined text-sm sm:text-base">location_on</span>
               </div>
+              <span class="truncate font-medium tracking-wide">{{ mainEvent.location.locationName }}</span>
+            </div>
+          </div>
+
+          <!-- Botón / CTA -->
+          <div class="mt-2 hidden sm:flex items-center justify-between border-t border-white/10 pt-6">
+            <span
+              class="text-white/40 text-xs uppercase tracking-[0.15em] group-hover:text-white/80 transition-colors">Explorar
+              fotos</span>
+            <div
+              class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-primary group-hover:border-primary group-hover:text-black transition-all duration-300">
+              <span
+                class="material-symbols-outlined text-xl -rotate-45 group-hover:rotate-0 transition-transform duration-300">arrow_forward</span>
+            </div>
+          </div>
+
+          <!-- CTA Mobile -->
+          <div
+            class="mt-2 sm:hidden flex items-center gap-2 text-primary sm:text-xs text-[10px] uppercase tracking-[0.15em] font-bold">
+            Ver álbum completo <span
+              class="material-symbols-outlined text-sm sm:text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+        </div>
+      </div>
+    </article>
+    }
+
+    <!-- Resto de eventos -->
+    @if (otherEvents().length > 0) {
+    <div class="flex flex-col gap-3 sm:gap-4 mt-8 sm:mt-12 w-full max-w-4xl mx-auto">
+      <h4 class="text-white/60 uppercase tracking-[0.2em] font-bold text-xs mb-2 pl-2">Eventos Anteriores</h4>
+      @for (event of otherEvents(); track event.id) {
+      <article (click)="openAlbum(event)"
+        class="group rounded-2xl cursor-pointer bg-white/5 border border-white/10 hover:border-primary/30 hover:bg-white/10 transition-all duration-300 flex items-center p-3 sm:p-4 gap-4 sm:gap-6 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_0_20px_rgba(204,255,0,0.1)]">
+
+        <!-- Thumbnail -->
+        <div
+          class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 bg-white/5 border border-white/10">
+          <img [src]="event.coverPhoto || 'https://placehold.co/150x150/1a1a1a/333?text=Bohemia'"
+            [alt]="event.eventName"
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
+
+          <!-- Overlay oscuro -->
+          <div class="absolute inset-0 bg-black/30 group-hover:bg-transparent transition-colors duration-300"></div>
+
+          <!-- Badge Lock Mini -->
+          @if (!isAuthenticated()) {
+          <div
+            class="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 bg-black/60 backdrop-blur-md rounded-full w-5 h-5 flex items-center justify-center border border-white/10">
+            <span class="material-symbols-outlined text-[10px] text-white/70">lock</span>
+          </div>
+          }
+        </div>
+
+        <!-- Info Principal -->
+        <div class="flex-1 min-w-0">
+          <h3
+            class="text-white font-display text-xl sm:text-2xl uppercase tracking-wide leading-tight mb-1 truncate group-hover:text-primary transition-colors">
+            {{ event.eventName }}
+          </h3>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-white/50 text-xs sm:text-sm">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">calendar_month</span>
+              <span class="font-medium tracking-wide">{{ formatDate(event.beginDatetime) }}</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">location_on</span>
+              <span class="truncate font-medium tracking-wide">{{ event.location.locationName }}</span>
             </div>
           </div>
         </div>
 
-        <!-- Footer con icono -->
-        <div class="px-4 py-3 flex items-center justify-between border-t border-white/5">
-          <span class="text-white/40 text-xs uppercase tracking-wider">Ver álbum</span>
-          <span
-            class="material-symbols-outlined text-primary/60 text-xl group-hover:text-primary group-hover:translate-x-1 transition-all">
-            arrow_forward
-          </span>
+        <!-- Accion -->
+        <div
+          class="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 group-hover:bg-primary group-hover:text-black group-hover:border-primary transition-colors duration-300 shrink-0 select-none">
+          <span class="material-symbols-outlined text-lg">image</span>
         </div>
       </article>
       }
     </div>
+    }
     }
   </div>
 </section>
