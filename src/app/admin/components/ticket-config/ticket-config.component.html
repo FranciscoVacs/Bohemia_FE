@@ -449,11 +449,18 @@
                             Nombre del Ticket *
                         </label>
                         <input type="text" formControlName="ticketTypeName" data-cy="ticket-name-input"
-                            [class.border-red-500]="ticketForm.get('ticketTypeName')?.invalid && ticketForm.get('ticketTypeName')?.touched"
+                            [class.border-red-500]="(ticketForm.get('ticketTypeName')?.invalid && ticketForm.get('ticketTypeName')?.touched) || ticketForm.get('ticketTypeName')?.hasError('serverError')"
+                            [class.bg-red-500]="ticketForm.get('ticketTypeName')?.hasError('serverError')"
+                            [ngStyle]="{'background-color': ticketForm.get('ticketTypeName')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                             class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all"
                             placeholder="Ej: General Early Bird">
-                        @if (ticketForm.get('ticketTypeName')?.touched && ticketForm.get('ticketTypeName')?.errors) {
-                        <p class="text-red-400 text-xs mt-1">El nombre es requerido</p>
+                        @if (ticketForm.get('ticketTypeName')?.touched && ticketForm.get('ticketTypeName')?.invalid) {
+                        @if (ticketForm.get('ticketTypeName')?.hasError('serverError')) {
+                        <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                            ticketForm.get('ticketTypeName')?.getError('serverError') }}</p>
+                        } @else {
+                        <p class="text-red-400 text-[10px] mt-1">El nombre es requerido</p>
+                        }
                         }
                     </div>
 
@@ -464,10 +471,17 @@
                                 Precio ($)
                             </label>
                             <input type="number" formControlName="price" min="0" data-cy="ticket-price-input"
-                                [class.border-red-500]="ticketForm.get('price')?.invalid && ticketForm.get('price')?.touched"
+                                [class.border-red-500]="(ticketForm.get('price')?.invalid && ticketForm.get('price')?.touched) || ticketForm.get('price')?.hasError('serverError')"
+                                [class.bg-red-500]="ticketForm.get('price')?.hasError('serverError')"
+                                [ngStyle]="{'background-color': ticketForm.get('price')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                                 class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
-                            @if (ticketForm.get('price')?.touched && ticketForm.get('price')?.errors) {
-                            <p class="text-red-400 text-xs mt-1">Requerido (min 0)</p>
+                            @if (ticketForm.get('price')?.touched && ticketForm.get('price')?.invalid) {
+                            @if (ticketForm.get('price')?.hasError('serverError')) {
+                            <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                ticketForm.get('price')?.getError('serverError') }}</p>
+                            } @else {
+                            <p class="text-red-400 text-[10px] mt-1">Requerido (min 0)</p>
+                            }
                             }
                         </div>
                         <div>
@@ -475,10 +489,17 @@
                                 Stock
                             </label>
                             <input type="number" formControlName="maxQuantity" min="1" data-cy="ticket-stock-input"
-                                [class.border-red-500]="ticketForm.get('maxQuantity')?.invalid && ticketForm.get('maxQuantity')?.touched"
+                                [class.border-red-500]="(ticketForm.get('maxQuantity')?.invalid && ticketForm.get('maxQuantity')?.touched) || ticketForm.get('maxQuantity')?.hasError('serverError')"
+                                [class.bg-red-500]="ticketForm.get('maxQuantity')?.hasError('serverError')"
+                                [ngStyle]="{'background-color': ticketForm.get('maxQuantity')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                                 class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
-                            @if (ticketForm.get('maxQuantity')?.touched && ticketForm.get('maxQuantity')?.errors) {
-                            <p class="text-red-400 text-xs mt-1">Requerido (min 1)</p>
+                            @if (ticketForm.get('maxQuantity')?.touched && ticketForm.get('maxQuantity')?.invalid) {
+                            @if (ticketForm.get('maxQuantity')?.hasError('serverError')) {
+                            <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                ticketForm.get('maxQuantity')?.getError('serverError') }}</p>
+                            } @else {
+                            <p class="text-red-400 text-[10px] mt-1">Requerido (min 1)</p>
+                            }
                             }
                         </div>
                         <div>
@@ -486,10 +507,17 @@
                                 Orden en Cola
                             </label>
                             <input type="number" formControlName="sortOrder" min="1" data-cy="ticket-sort-order-input"
-                                [class.border-red-500]="ticketForm.get('sortOrder')?.invalid && ticketForm.get('sortOrder')?.touched"
+                                [class.border-red-500]="(ticketForm.get('sortOrder')?.invalid && ticketForm.get('sortOrder')?.touched) || ticketForm.get('sortOrder')?.hasError('serverError')"
+                                [class.bg-red-500]="ticketForm.get('sortOrder')?.hasError('serverError')"
+                                [ngStyle]="{'background-color': ticketForm.get('sortOrder')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                                 class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
-                            @if (ticketForm.get('sortOrder')?.touched && ticketForm.get('sortOrder')?.errors) {
-                            <p class="text-red-400 text-xs mt-1">Requerido (min 1)</p>
+                            @if (ticketForm.get('sortOrder')?.touched && ticketForm.get('sortOrder')?.invalid) {
+                            @if (ticketForm.get('sortOrder')?.hasError('serverError')) {
+                            <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                ticketForm.get('sortOrder')?.getError('serverError') }}</p>
+                            } @else {
+                            <p class="text-red-400 text-[10px] mt-1">Requerido (min 1)</p>
+                            }
                             }
                         </div>
                     </div>

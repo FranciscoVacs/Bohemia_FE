@@ -6,6 +6,7 @@ import { AdminEvent } from '../../../models/event';
 import { AdminEventService } from '../../services/admin-event.service';
 import { LocationService, Location } from '../../services/location.service';
 import { DjService, Dj } from '../../services/dj.service';
+import { mapZodErrorsToForm } from '../../../utils/form-error-mapper';
 
 @Component({
     selector: 'app-event-form',
@@ -83,7 +84,7 @@ export class EventFormComponent implements OnInit {
     // Formulario principal del evento con campos de fecha separados
     eventForm: FormGroup = this.fb.group({
         eventName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-        eventDescription: ['', [Validators.maxLength(1000)]],
+        eventDescription: ['', [Validators.maxLength(300)]],
         minAge: [18, [Validators.required, Validators.min(0), Validators.max(99)]],
         beginDate: ['', [Validators.required]],
         beginTime: ['', [Validators.required]],
@@ -342,7 +343,11 @@ export class EventFormComponent implements OnInit {
             },
             error: (err) => {
                 console.error('Error saving event:', err);
-                this.error.set(err.error?.message || 'Error al guardar los cambios');
+                if (mapZodErrorsToForm(err, this.eventForm)) {
+                    this.error.set('Por favor, revisa los errores en el formulario.');
+                } else {
+                    this.error.set(err.error?.message || 'Error al guardar los cambios');
+                }
                 this.saving.set(false);
             }
         });
@@ -378,7 +383,11 @@ export class EventFormComponent implements OnInit {
                 },
                 error: (err) => {
                     console.error('Error updating event:', err);
-                    this.error.set(err.error?.message || 'Error al actualizar el evento');
+                    if (mapZodErrorsToForm(err, this.eventForm)) {
+                        this.error.set('Por favor, revisa los errores en el formulario.');
+                    } else {
+                        this.error.set(err.error?.message || 'Error al actualizar el evento');
+                    }
                     this.submitting.set(false);
                 }
             });
@@ -391,7 +400,11 @@ export class EventFormComponent implements OnInit {
                 },
                 error: (err) => {
                     console.error('Error creating event:', err);
-                    this.error.set(err.error?.message || 'Error al crear el evento');
+                    if (mapZodErrorsToForm(err, this.eventForm)) {
+                        this.error.set('Por favor, revisa los errores en el formulario.');
+                    } else {
+                        this.error.set(err.error?.message || 'Error al crear el evento');
+                    }
                     this.submitting.set(false);
                 }
             });

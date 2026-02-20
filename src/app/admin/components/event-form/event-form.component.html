@@ -115,14 +115,20 @@
                             Nombre del Evento *
                         </label>
                         <input type="text" formControlName="eventName" data-cy="event-name-input"
-                            [class.border-red-500]="eventForm.get('eventName')?.invalid && eventForm.get('eventName')?.touched"
+                            [class.border-red-500]="(eventForm.get('eventName')?.invalid && eventForm.get('eventName')?.touched) || eventForm.get('eventName')?.hasError('serverError')"
+                            [class.bg-red-500]="eventForm.get('eventName')?.hasError('serverError')"
+                            [ngStyle]="{'background-color': eventForm.get('eventName')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all text-base"
                             placeholder="Ej: Bohemia Rosario - Edición Verano">
-                        @if (eventForm.get('eventName')?.touched && eventForm.get('eventName')?.errors?.['required']) {
+                        @if (eventForm.get('eventName')?.touched && eventForm.get('eventName')?.invalid) {
+                        @if (eventForm.get('eventName')?.hasError('serverError')) {
+                        <p class="text-red-500 font-medium text-xs mt-1">{{
+                            eventForm.get('eventName')?.getError('serverError') }}</p>
+                        } @else if (eventForm.get('eventName')?.errors?.['required']) {
                         <p class="text-red-400 text-xs mt-1">El nombre es requerido</p>
-                        }
-                        @if (eventForm.get('eventName')?.touched && eventForm.get('eventName')?.errors?.['minlength']) {
+                        } @else if (eventForm.get('eventName')?.errors?.['minlength']) {
                         <p class="text-red-400 text-xs mt-1">Mínimo 3 caracteres</p>
+                        }
                         }
                     </div>
 
@@ -132,12 +138,18 @@
                             Descripción
                         </label>
                         <textarea formControlName="eventDescription" rows="3" data-cy="event-description-textarea"
-                            [class.border-red-500]="eventForm.get('eventDescription')?.invalid && eventForm.get('eventDescription')?.touched"
+                            [class.border-red-500]="(eventForm.get('eventDescription')?.invalid && eventForm.get('eventDescription')?.touched) || eventForm.get('eventDescription')?.hasError('serverError')"
+                            [class.bg-red-500]="eventForm.get('eventDescription')?.hasError('serverError')"
+                            [ngStyle]="{'background-color': eventForm.get('eventDescription')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-white/30 focus:outline-none focus:border-[#b7ff00]/50 focus:ring-1 focus:ring-[#b7ff00]/50 transition-all resize-none text-base"
                             placeholder="Describe la temática, dress code, o detalles importantes..."></textarea>
-                        @if (eventForm.get('eventDescription')?.touched &&
-                        eventForm.get('eventDescription')?.errors?.['maxlength']) {
-                        <p class="text-red-400 text-xs mt-1">Máximo 1000 caracteres</p>
+                        @if (eventForm.get('eventDescription')?.touched && eventForm.get('eventDescription')?.invalid) {
+                        @if (eventForm.get('eventDescription')?.hasError('serverError')) {
+                        <p class="text-red-500 font-medium text-xs mt-1">{{
+                            eventForm.get('eventDescription')?.getError('serverError') }}</p>
+                        } @else if (eventForm.get('eventDescription')?.errors?.['maxlength']) {
+                        <p class="text-red-400 text-xs mt-1">Máximo 300 caracteres</p>
+                        }
                         }
                     </div>
 
@@ -147,15 +159,22 @@
                             Edad Mínima *
                         </label>
                         <select formControlName="minAge" data-cy="event-min-age-select"
-                            [class.border-red-500]="eventForm.get('minAge')?.invalid && eventForm.get('minAge')?.touched"
+                            [class.border-red-500]="(eventForm.get('minAge')?.invalid && eventForm.get('minAge')?.touched) || eventForm.get('minAge')?.hasError('serverError')"
+                            [class.bg-red-500]="eventForm.get('minAge')?.hasError('serverError')"
+                            [ngStyle]="{'background-color': eventForm.get('minAge')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white cursor-pointer focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                             <option [value]="18">+18 Años</option>
                             <option [value]="21">+21 Años</option>
                             <option [value]="25">+25 Años</option>
                             <option [value]="0">Apto todo público</option>
                         </select>
-                        @if (eventForm.get('minAge')?.touched && eventForm.get('minAge')?.errors) {
+                        @if (eventForm.get('minAge')?.touched && eventForm.get('minAge')?.invalid) {
+                        @if (eventForm.get('minAge')?.hasError('serverError')) {
+                        <p class="text-red-500 font-medium text-xs mt-1">{{
+                            eventForm.get('minAge')?.getError('serverError') }}</p>
+                        } @else {
                         <p class="text-red-400 text-xs mt-1">Requerido</p>
+                        }
                         }
                     </div>
                 </div>
@@ -179,14 +198,26 @@
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Fecha</label>
                                 <input type="date" formControlName="beginDate" [min]="minDateStr()"
                                     data-cy="event-begin-date-input"
-                                    [class.border-red-500]="eventForm.get('beginDate')?.invalid && eventForm.get('beginDate')?.touched"
+                                    [class.border-red-500]="(eventForm.get('beginDate')?.invalid && eventForm.get('beginDate')?.touched) || eventForm.get('beginDate')?.hasError('serverError')"
+                                    [class.bg-red-500]="eventForm.get('beginDate')?.hasError('serverError')"
+                                    [ngStyle]="{'background-color': eventForm.get('beginDate')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base [color-scheme:dark]">
+                                @if (eventForm.get('beginDate')?.hasError('serverError')) {
+                                <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                    eventForm.get('beginDate')?.getError('serverError') }}</p>
+                                }
                             </div>
                             <div>
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Hora</label>
                                 <input type="time" formControlName="beginTime" data-cy="event-begin-time-input"
-                                    [class.border-red-500]="eventForm.get('beginTime')?.invalid && eventForm.get('beginTime')?.touched"
+                                    [class.border-red-500]="(eventForm.get('beginTime')?.invalid && eventForm.get('beginTime')?.touched) || eventForm.get('beginTime')?.hasError('serverError')"
+                                    [class.bg-red-500]="eventForm.get('beginTime')?.hasError('serverError')"
+                                    [ngStyle]="{'background-color': eventForm.get('beginTime')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base [color-scheme:dark]">
+                                @if (eventForm.get('beginTime')?.hasError('serverError')) {
+                                <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                    eventForm.get('beginTime')?.getError('serverError') }}</p>
+                                }
                             </div>
                         </div>
                     </div>
@@ -201,14 +232,26 @@
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Fecha</label>
                                 <input type="date" formControlName="finishDate" [min]="minDateStr()"
                                     data-cy="event-finish-date-input"
-                                    [class.border-red-500]="eventForm.get('finishDate')?.invalid && eventForm.get('finishDate')?.touched"
+                                    [class.border-red-500]="(eventForm.get('finishDate')?.invalid && eventForm.get('finishDate')?.touched) || eventForm.get('finishDate')?.hasError('serverError')"
+                                    [class.bg-red-500]="eventForm.get('finishDate')?.hasError('serverError')"
+                                    [ngStyle]="{'background-color': eventForm.get('finishDate')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base [color-scheme:dark]">
+                                @if (eventForm.get('finishDate')?.hasError('serverError')) {
+                                <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                    eventForm.get('finishDate')?.getError('serverError') }}</p>
+                                }
                             </div>
                             <div>
                                 <label class="block text-[10px] text-white/40 uppercase mb-1">Hora</label>
                                 <input type="time" formControlName="finishTime" data-cy="event-finish-time-input"
-                                    [class.border-red-500]="eventForm.get('finishTime')?.invalid && eventForm.get('finishTime')?.touched"
+                                    [class.border-red-500]="(eventForm.get('finishTime')?.invalid && eventForm.get('finishTime')?.touched) || eventForm.get('finishTime')?.hasError('serverError')"
+                                    [class.bg-red-500]="eventForm.get('finishTime')?.hasError('serverError')"
+                                    [ngStyle]="{'background-color': eventForm.get('finishTime')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                                     class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base [color-scheme:dark]">
+                                @if (eventForm.get('finishTime')?.hasError('serverError')) {
+                                <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                    eventForm.get('finishTime')?.getError('serverError') }}</p>
+                                }
                             </div>
                         </div>
                     </div>
@@ -248,7 +291,9 @@
                         </label>
                         <select formControlName="locationId" [attr.disabled]="!selectedCityId() ? '' : null"
                             data-cy="event-location-select"
-                            [class.border-red-500]="eventForm.get('locationId')?.invalid && eventForm.get('locationId')?.touched"
+                            [class.border-red-500]="(eventForm.get('locationId')?.invalid && eventForm.get('locationId')?.touched) || eventForm.get('locationId')?.hasError('serverError')"
+                            [class.bg-red-500]="eventForm.get('locationId')?.hasError('serverError')"
+                            [ngStyle]="{'background-color': eventForm.get('locationId')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white cursor-pointer focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base disabled:opacity-40 disabled:cursor-not-allowed">
                             <option value="">{{ selectedCityId() ? 'Seleccionar Locación...' : 'Primero selecciona una
                                 ciudad' }}</option>
@@ -258,8 +303,13 @@
                             </option>
                             }
                         </select>
-                        @if (eventForm.get('locationId')?.touched && eventForm.get('locationId')?.errors) {
+                        @if (eventForm.get('locationId')?.touched && eventForm.get('locationId')?.invalid) {
+                        @if (eventForm.get('locationId')?.hasError('serverError')) {
+                        <p class="text-red-500 font-medium text-xs mt-1">{{
+                            eventForm.get('locationId')?.getError('serverError') }}</p>
+                        } @else {
                         <p class="text-red-400 text-xs mt-1">Debes seleccionar una locación</p>
+                        }
                         }
                     </div>
                 </div>
@@ -316,15 +366,22 @@
                         DJ Principal *
                     </label>
                     <select formControlName="djId" data-cy="event-dj-select"
-                        [class.border-red-500]="eventForm.get('djId')?.invalid && eventForm.get('djId')?.touched"
+                        [class.border-red-500]="(eventForm.get('djId')?.invalid && eventForm.get('djId')?.touched) || eventForm.get('djId')?.hasError('serverError')"
+                        [class.bg-red-500]="eventForm.get('djId')?.hasError('serverError')"
+                        [ngStyle]="{'background-color': eventForm.get('djId')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
                         class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white cursor-pointer focus:outline-none focus:border-[#b7ff00]/50 transition-all text-base">
                         <option value="">Seleccionar DJ...</option>
                         @for (dj of djs(); track dj.id) {
                         <option [value]="dj.id">{{ dj.djApodo }}</option>
                         }
                     </select>
-                    @if (eventForm.get('djId')?.touched && eventForm.get('djId')?.errors) {
+                    @if (eventForm.get('djId')?.touched && eventForm.get('djId')?.invalid) {
+                    @if (eventForm.get('djId')?.hasError('serverError')) {
+                    <p class="text-red-500 font-medium text-xs mt-1">{{ eventForm.get('djId')?.getError('serverError')
+                        }}</p>
+                    } @else {
                     <p class="text-red-400 text-xs mt-1">Debes seleccionar un DJ</p>
+                    }
                     }
                 </div>
             </section>

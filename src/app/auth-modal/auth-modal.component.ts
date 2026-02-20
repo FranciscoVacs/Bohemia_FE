@@ -4,11 +4,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ModalService } from '../services/modal.service';
 import { AuthService } from '../services/auth.service';
 import { LoginData, RegisterData } from '../models/auth';
+import { mapZodErrorsToForm } from '../utils/form-error-mapper';
 
 @Component({
-    selector: 'app-auth-modal',
-    imports: [CommonModule, ReactiveFormsModule],
-    templateUrl: './auth-modal.component.html'
+  selector: 'app-auth-modal',
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './auth-modal.component.html'
 })
 export class AuthModalComponent {
   private fb = inject(FormBuilder);
@@ -79,7 +80,10 @@ export class AuthModalComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        if (error.status === 401 || error.status === 400) {
+        if (mapZodErrorsToForm(error, this.loginForm)) {
+          // If errors were successfully mapped to specific fields, we don't necessarily need a global error
+          this.errorMessage = 'Por favor, corrige los errores en el formulario.';
+        } else if (error.status === 401 || error.status === 400) {
           this.errorMessage = 'Verifica tu email y contraseña.';
         } else {
           this.errorMessage = 'Ocurrió un error inesperado al iniciar sesión.';
@@ -119,6 +123,9 @@ export class AuthModalComponent {
           // Conflict: User already exists
           this.registerForm.get('email')?.setErrors({ emailTaken: true });
           this.errorMessage = 'El correo electrónico ya está registrado.';
+        } else if (mapZodErrorsToForm(error, this.registerForm)) {
+          // Zod errors were mapped to fields
+          this.errorMessage = 'Por favor, corrige los errores en el formulario.';
         } else {
           this.errorMessage = error.error?.message || 'Error al registrarse. Intenta nuevamente.';
         }

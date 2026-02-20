@@ -7,6 +7,7 @@ import { AdminEvent } from '../../../models/event';
 import { AdminTicketType, AdminCreateTicketType } from '../../../models/ticket-type';
 import { AdminEventService } from '../../services/admin-event.service';
 import { TicketTypeService } from '../../services/ticket-type.service';
+import { mapZodErrorsToForm } from '../../../utils/form-error-mapper';
 
 /** Ticket pendiente de guardar (solo existe en memoria) */
 interface PendingTicket {
@@ -311,7 +312,11 @@ export class TicketConfigComponent implements OnInit {
                 },
                 error: (err: any) => {
                     console.error('Error creating ticket type:', err);
-                    this.error.set(err.error?.message || 'Error al crear tipo de ticket');
+                    if (mapZodErrorsToForm(err, this.ticketForm)) {
+                        this.error.set('Por favor, revisa los errores en el formulario.');
+                    } else {
+                        this.error.set(err.error?.message || 'Error al crear tipo de ticket');
+                    }
                     this.submitting.set(false);
                 }
             });

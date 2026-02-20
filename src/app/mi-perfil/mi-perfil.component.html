@@ -69,42 +69,85 @@
                         <!-- Nombre -->
                         <div class="relative">
                             <input formControlName="userName" type="text" id="userName" placeholder="Nombre"
+                                [class.border-red-500]="(profileForm.get('userName')?.invalid && profileForm.get('userName')?.touched) || profileForm.get('userName')?.hasError('serverError')"
+                                [class.text-red-500]="profileForm.get('userName')?.hasError('serverError')"
                                 class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-secondary focus:outline-none placeholder-transparent transition-colors" />
                             <label for="userName"
+                                [class.text-red-500]="profileForm.get('userName')?.hasError('serverError')"
                                 class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-secondary font-medium tracking-wide">
                                 Nombre
                             </label>
+                            @if (profileForm.get('userName')?.touched && profileForm.get('userName')?.invalid) {
+                            @if (profileForm.get('userName')?.hasError('serverError')) {
+                            <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                profileForm.get('userName')?.getError('serverError') }}</p>
+                            } @else {
+                            <p class="text-red-400 text-[10px] mt-1">Requerido</p>
+                            }
+                            }
                         </div>
 
                         <!-- Apellido -->
                         <div class="relative">
                             <input formControlName="userSurname" type="text" id="userSurname" placeholder="Apellido"
+                                [class.border-red-500]="(profileForm.get('userSurname')?.invalid && profileForm.get('userSurname')?.touched) || profileForm.get('userSurname')?.hasError('serverError')"
+                                [class.text-red-500]="profileForm.get('userSurname')?.hasError('serverError')"
                                 class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-secondary focus:outline-none placeholder-transparent transition-colors" />
                             <label for="userSurname"
+                                [class.text-red-500]="profileForm.get('userSurname')?.hasError('serverError')"
                                 class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-secondary font-medium tracking-wide">
                                 Apellido
                             </label>
+                            @if (profileForm.get('userSurname')?.touched && profileForm.get('userSurname')?.invalid) {
+                            @if (profileForm.get('userSurname')?.hasError('serverError')) {
+                            <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                profileForm.get('userSurname')?.getError('serverError') }}</p>
+                            } @else {
+                            <p class="text-red-400 text-[10px] mt-1">Requerido</p>
+                            }
+                            }
                         </div>
 
                         <!-- Email -->
                         <div class="relative">
                             <input formControlName="email" type="email" id="email" placeholder="Email"
+                                [class.border-red-500]="(profileForm.get('email')?.invalid && profileForm.get('email')?.touched) || profileForm.get('email')?.hasError('serverError')"
+                                [class.text-red-500]="profileForm.get('email')?.hasError('serverError')"
                                 class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-secondary focus:outline-none placeholder-transparent transition-colors" />
-                            <label for="email"
+                            <label for="email" [class.text-red-500]="profileForm.get('email')?.hasError('serverError')"
                                 class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-secondary font-medium tracking-wide">
                                 Email
                             </label>
+                            @if (profileForm.get('email')?.touched && profileForm.get('email')?.invalid) {
+                            @if (profileForm.get('email')?.hasError('serverError')) {
+                            <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                profileForm.get('email')?.getError('serverError') }}</p>
+                            } @else {
+                            <p class="text-red-400 text-[10px] mt-1">Email inválido</p>
+                            }
+                            }
                         </div>
 
                         <!-- Fecha de Nacimiento -->
                         <div class="relative">
                             <input formControlName="birthDate" type="date" id="birthDate"
                                 placeholder="Fecha de Nacimiento"
+                                [class.border-red-500]="(profileForm.get('birthDate')?.invalid && profileForm.get('birthDate')?.touched) || profileForm.get('birthDate')?.hasError('serverError')"
+                                [class.text-red-500]="profileForm.get('birthDate')?.hasError('serverError')"
                                 class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 text-white focus:border-secondary focus:outline-none placeholder-transparent transition-colors date-input" />
                             <label for="birthDate"
+                                [class.text-red-500]="profileForm.get('birthDate')?.hasError('serverError')"
                                 class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-secondary font-medium tracking-wide">
                                 Fecha de Nacimiento
                             </label>
+                            @if (profileForm.get('birthDate')?.touched && profileForm.get('birthDate')?.invalid) {
+                            @if (profileForm.get('birthDate')?.hasError('serverError')) {
+                            <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                profileForm.get('birthDate')?.getError('serverError') }}</p>
+                            } @else {
+                            <p class="text-red-400 text-[10px] mt-1">Requerido</p>
+                            }
+                            }
                         </div>
 
                         <!-- Success message -->
@@ -152,8 +195,11 @@
                         <div class="relative">
                             <input formControlName="newPassword" [type]="showNewPassword() ? 'text' : 'password'"
                                 id="newPassword" placeholder="Nueva Contraseña"
+                                [class.border-red-500]="(passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched) || passwordForm.get('newPassword')?.hasError('serverError')"
+                                [class.text-red-500]="passwordForm.get('newPassword')?.hasError('serverError')"
                                 class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 pr-10 text-white focus:border-primary focus:outline-none placeholder-transparent transition-colors" />
                             <label for="newPassword"
+                                [class.text-red-500]="passwordForm.get('newPassword')?.hasError('serverError')"
                                 class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary font-medium tracking-wide">
                                 Nueva Contraseña
                             </label>
@@ -162,9 +208,14 @@
                                 <span class="material-symbols-outlined text-xl">{{ showNewPassword() ? 'visibility_off'
                                     : 'visibility' }}</span>
                             </button>
-                            @if (passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.errors) {
+                            @if (passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.invalid) {
+                            @if (passwordForm.get('newPassword')?.hasError('serverError')) {
+                            <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                passwordForm.get('newPassword')?.getError('serverError') }}</p>
+                            } @else {
                             <p class="text-red-400 text-xs mt-1">Mínimo 8 caracteres, con mayúscula, minúscula y número
                             </p>
+                            }
                             }
                         </div>
 
@@ -173,8 +224,11 @@
                             <input formControlName="confirmPassword"
                                 [type]="showConfirmPassword() ? 'text' : 'password'" id="confirmPassword"
                                 placeholder="Confirmar Nueva Contraseña"
+                                [class.border-red-500]="(passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched) || passwordForm.get('confirmPassword')?.hasError('serverError')"
+                                [class.text-red-500]="passwordForm.get('confirmPassword')?.hasError('serverError')"
                                 class="peer block w-full border-0 border-b border-gray-700 bg-transparent py-2.5 px-0 pr-10 text-white focus:border-primary focus:outline-none placeholder-transparent transition-colors" />
                             <label for="confirmPassword"
+                                [class.text-red-500]="passwordForm.get('confirmPassword')?.hasError('serverError')"
                                 class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary font-medium tracking-wide">
                                 Confirmar Nueva Contraseña
                             </label>
@@ -183,6 +237,15 @@
                                 <span class="material-symbols-outlined text-xl">{{ showConfirmPassword() ?
                                     'visibility_off' : 'visibility' }}</span>
                             </button>
+                            @if (passwordForm.get('confirmPassword')?.touched &&
+                            passwordForm.get('confirmPassword')?.invalid) {
+                            @if (passwordForm.get('confirmPassword')?.hasError('serverError')) {
+                            <p class="text-red-500 font-medium text-[10px] mt-1">{{
+                                passwordForm.get('confirmPassword')?.getError('serverError') }}</p>
+                            } @else {
+                            <p class="text-red-400 text-xs mt-1">Requerido</p>
+                            }
+                            }
                         </div>
 
                         <!-- Success message -->

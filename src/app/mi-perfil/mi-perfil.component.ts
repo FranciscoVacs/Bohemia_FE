@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 
+import { mapZodErrorsToForm } from '../utils/form-error-mapper';
+
 @Component({
     selector: 'app-mi-perfil',
     imports: [CommonModule, ReactiveFormsModule],
@@ -106,7 +108,11 @@ export class MiPerfilComponent implements OnInit {
             },
             error: (err: any) => {
                 this.profileSaving.set(false);
-                this.profileError.set(err?.error?.message || 'Error al guardar los cambios');
+                if (mapZodErrorsToForm(err, this.profileForm)) {
+                    this.profileError.set('Por favor, revisa los errores en el formulario.');
+                } else {
+                    this.profileError.set(err?.error?.message || 'Error al guardar los cambios');
+                }
                 setTimeout(() => this.profileError.set(null), 5000);
             }
         });
@@ -136,7 +142,13 @@ export class MiPerfilComponent implements OnInit {
             },
             error: (err: any) => {
                 this.passwordSaving.set(false);
-                this.passwordError.set(err?.error?.message || 'Error al actualizar la contraseña');
+                if (mapZodErrorsToForm(err, this.passwordForm)) {
+                    this.passwordError.set('Por favor, revisa los errores en el formulario.');
+                } else if (err?.error?.message === 'La contraseña actual es incorrecta') {
+                    this.passwordError.set('La contraseña actual es incorrecta');
+                } else {
+                    this.passwordError.set(err?.error?.message || 'Error al actualizar la contraseña');
+                }
                 setTimeout(() => this.passwordError.set(null), 5000);
             }
         });

@@ -25,9 +25,15 @@
                     <label for="login-email"
                         class="text-xs font-medium text-white/80 uppercase tracking-widest pl-1">Email</label>
                     <input id="login-email" type="email" formControlName="email" placeholder="tu@email.com"
-                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300" />
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300"
+                        [ngClass]="{'!border-red-500 !bg-red-500/10': loginForm.get('email')?.hasError('serverError')}" />
                     @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                    @if (loginForm.get('email')?.hasError('serverError')) {
+                    <span class="text-xs text-red-500 font-medium pl-1">{{
+                        loginForm.get('email')?.getError('serverError') }}</span>
+                    } @else {
                     <span class="text-xs text-red-400 pl-1">Email inválido</span>
+                    }
                     }
                 </div>
 
@@ -43,7 +49,8 @@
                     <div class="relative">
                         <input id="login-password" [type]="showPassword ? 'text' : 'password'"
                             formControlName="password" placeholder="••••••••"
-                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 pr-12 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300" />
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 pr-12 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300"
+                            [ngClass]="{'!border-red-500 !bg-red-500/10': loginForm.get('password')?.hasError('serverError')}" />
                         <button data-cy="visibility-button" type="button" (click)="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 
                                 flex items-center justify-center
                                 text-white/50 hover:text-white 
@@ -55,7 +62,12 @@
                         </button>
                     </div>
                     @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+                    @if (loginForm.get('password')?.hasError('serverError')) {
+                    <span class="text-xs text-red-500 font-medium pl-1">{{
+                        loginForm.get('password')?.getError('serverError') }}</span>
+                    } @else {
                     <span class="text-xs text-red-400 pl-1">La contraseña es requerida</span>
+                    }
                     }
                 </div>
 
@@ -102,9 +114,15 @@
                         <label for="register-name"
                             class="text-xs font-medium text-white/80 uppercase tracking-widest pl-1">Nombre</label>
                         <input id="register-name" type="text" formControlName="userName" placeholder="Juan"
-                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300" />
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300"
+                            [ngClass]="{'!border-red-500 !bg-red-500/10': registerForm.get('userName')?.hasError('serverError')}" />
                         @if (registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched) {
+                        @if (registerForm.get('userName')?.hasError('serverError')) {
+                        <span class="text-xs text-red-500 font-medium pl-1">{{
+                            registerForm.get('userName')?.getError('serverError') }}</span>
+                        } @else {
                         <span class="text-xs text-red-400 pl-1">Requerido</span>
+                        }
                         }
                     </div>
 
@@ -112,9 +130,15 @@
                         <label for="register-surname"
                             class="text-xs font-medium text-white/80 uppercase tracking-widest pl-1">Apellido</label>
                         <input id="register-surname" type="text" formControlName="userSurname" placeholder="Pérez"
-                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300" />
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300"
+                            [ngClass]="{'!border-red-500 !bg-red-500/10': registerForm.get('userSurname')?.hasError('serverError')}" />
                         @if (registerForm.get('userSurname')?.invalid && registerForm.get('userSurname')?.touched) {
+                        @if (registerForm.get('userSurname')?.hasError('serverError')) {
+                        <span class="text-xs text-red-500 font-medium pl-1">{{
+                            registerForm.get('userSurname')?.getError('serverError') }}</span>
+                        } @else {
                         <span class="text-xs text-red-400 pl-1">Requerido</span>
+                        }
                         }
                     </div>
                 </div>
@@ -123,15 +147,21 @@
                     <label for="register-email"
                         class="text-xs font-medium text-white/80 uppercase tracking-widest pl-1">Email</label>
                     <input id="register-email" type="email" formControlName="email" placeholder="tu@email.com"
-                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300" />
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300"
+                        [ngClass]="{'!border-red-500 !bg-red-500/10': registerForm.get('email')?.hasError('serverError') || registerForm.get('email')?.hasError('emailTaken')}" />
                     @if (registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched) {
                     <span class="text-xs text-red-400 pl-1">Email requerido</span>
                     }
-                    @if (registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched) {
+                    @if (registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched &&
+                    !registerForm.get('email')?.hasError('serverError')) {
                     <span class="text-xs text-red-400 pl-1">Email inválido</span>
                     }
                     @if (registerForm.get('email')?.hasError('emailTaken')) {
                     <span class="text-xs text-red-400 pl-1 font-bold">Este email ya está registrado</span>
+                    }
+                    @if (registerForm.get('email')?.hasError('serverError')) {
+                    <span class="text-xs text-red-500 font-medium pl-1">{{
+                        registerForm.get('email')?.getError('serverError') }}</span>
                     }
                 </div>
 
@@ -140,9 +170,15 @@
                         class="text-xs font-medium text-white/80 uppercase tracking-widest pl-1">Fecha de
                         Nacimiento</label>
                     <input id="register-birthdate" type="date" formControlName="birthDate"
-                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300 appearance-none [&::-webkit-calendar-picker-indicator]:invert" />
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300 appearance-none [&::-webkit-calendar-picker-indicator]:invert"
+                        [ngClass]="{'!border-red-500 !bg-red-500/10': registerForm.get('birthDate')?.hasError('serverError')}" />
                     @if (registerForm.get('birthDate')?.invalid && registerForm.get('birthDate')?.touched) {
+                    @if (registerForm.get('birthDate')?.hasError('serverError')) {
+                    <span class="text-xs text-red-500 font-medium pl-1">{{
+                        registerForm.get('birthDate')?.getError('serverError') }}</span>
+                    } @else {
                     <span class="text-xs text-red-400 pl-1">Fecha requerida</span>
+                    }
                     }
                 </div>
 
@@ -152,7 +188,8 @@
                     <div class="relative">
                         <input id="register-password" [type]="showPassword ? 'text' : 'password'"
                             formControlName="password" placeholder="••••••••"
-                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 pr-12 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300" />
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 pr-12 text-white placeholder-white/30 focus:outline-none focus:border-secondary focus:bg-white/10 transition-all duration-300"
+                            [ngClass]="{'!border-red-500 !bg-red-500/10': registerForm.get('password')?.hasError('serverError')}" />
                         <button type="button" (click)="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 
                             flex items-center justify-center
                             text-white/50 hover:text-white 
@@ -164,10 +201,15 @@
                         </button>
                     </div>
                     @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+                    @if (registerForm.get('password')?.hasError('serverError')) {
+                    <span class="text-xs text-red-500 font-medium pl-1">{{
+                        registerForm.get('password')?.getError('serverError') }}</span>
+                    } @else {
                     <div class="text-xs text-red-400 pl-1 flex flex-col gap-0.5">
                         <span>Mínimo 8 caracteres</span>
                         <span>1 Mayúscula, 1 minúscula, 1 número</span>
                     </div>
+                    }
                     }
                 </div>
 
