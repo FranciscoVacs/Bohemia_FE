@@ -4,8 +4,16 @@
 @theme {
   /* Colores de la marca */
   --color-primary: #CCFF00;
+  --color-primary-variant: #b7ff00;
+  --color-primary-dark: #7acc00;
+  --color-primary-light: #c8ff33;
   --color-secondary: #00E0FF;
+
+  /* Colores de superficie */
   --color-surface: #0A0A0A;
+  --color-surface-light: #121212;
+  --color-background: #050508;
+  --color-background-dark: #111111;
 
   /* Fuentes */
   --font-display: "Anton", sans-serif;

@@ -1,14 +1,14 @@
-<div class="min-h-screen bg-linear-to-b from-[#0a0a0a] to-[#111111]">
+<div class="min-h-screen bg-linear-to-b from-surface to-background-dark">
     <!-- Header - Fixed navbar -->
     <nav
-        class="fixed top-0 left-0 right-0 min-h-14 flex items-center px-4 md:px-8 pt-[env(safe-area-inset-top)] bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
+        class="fixed top-0 left-0 right-0 min-h-14 flex items-center px-4 md:px-8 pt-[env(safe-area-inset-top)] bg-black/95 backdrop-blur-md border-b border-primary-variant/20 z-50">
         <button (click)="goBack()"
-            class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-[#b7ff00]/10 hover:text-[#b7ff00] cursor-pointer bg-transparent border-none">
+            class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-primary-variant/10 hover:text-primary-variant cursor-pointer bg-transparent border-none">
             <span class="material-symbols-outlined text-[20px]">arrow_back</span>
             <span class="hidden md:inline">Volver al Listado</span>
         </button>
         <span
-            class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
+            class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-primary-variant to-primary-dark text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
             GALERIA
         </span>
     </nav>
@@ -17,7 +17,7 @@
         <!-- Info: subir fotos antes de publicar -->
         @if (!isPublished() && !canPublish()) {
         <div class="mb-6 bg-white/5 border border-white/10 rounded-xl p-4 flex items-center gap-3">
-            <span class="text-[#b7ff00]">ℹ️</span>
+            <span class="text-primary-variant">ℹ️</span>
             <p class="text-sm text-white/50">Subí fotos para poder publicar la galería.</p>
         </div>
         }
@@ -27,7 +27,7 @@
             <div>
                 <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2 uppercase tracking-wider">
                     Gestionar
-                    <span class="text-[#b7ff00] italic">Galería</span>
+                    <span class="text-primary-variant italic">Galería</span>
                 </h1>
                 <p class="text-white/60 text-lg">
                     {{ eventName() || 'Cargando...' }}
@@ -42,8 +42,8 @@
                 class="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col items-center gap-3 min-w-[200px]">
                 <div class="flex items-center gap-2">
                     @if (isPublished()) {
-                    <span class="w-3 h-3 rounded-full bg-[#b7ff00] animate-pulse"></span>
-                    <span class="text-[#b7ff00] font-medium text-sm uppercase">Publicada</span>
+                    <span class="w-3 h-3 rounded-full bg-primary-variant animate-pulse"></span>
+                    <span class="text-primary-variant font-medium text-sm uppercase">Publicada</span>
                     } @else {
                     <span class="w-3 h-3 rounded-full bg-white/30"></span>
                     <span class="text-white/50 font-medium text-sm uppercase">Archivada</span>
@@ -53,7 +53,7 @@
                     [disabled]="updatingStatus() || (!isPublished() && !canPublish())"
                     [class]="isPublished() 
                         ? 'w-full px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer border-none bg-white/10 text-white/70 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed'
-                        : 'w-full px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer border-none bg-[#b7ff00] text-black hover:bg-[#c8ff33] disabled:opacity-50 disabled:cursor-not-allowed'">
+                        : 'w-full px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer border-none bg-primary-variant text-black hover:bg-primary-light disabled:opacity-50 disabled:cursor-not-allowed'">
                     @if (updatingStatus()) {
                     <span>Actualizando...</span>
                     } @else if (isPublished()) {
@@ -79,27 +79,27 @@
         <section class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-8">
             <div (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
                 [class]="isDragOver() 
-                    ? 'border-2 border-dashed border-[#b7ff00] rounded-xl p-8 flex flex-col items-center justify-center text-center bg-[#b7ff00]/10 transition-all'
-                    : 'border-2 border-dashed border-white/20 rounded-xl p-8 flex flex-col items-center justify-center text-center hover:border-[#b7ff00]/50 hover:bg-white/5 transition-all'">
+                    ? 'border-2 border-dashed border-primary-variant rounded-xl p-8 flex flex-col items-center justify-center text-center bg-primary-variant/10 transition-all'
+                    : 'border-2 border-dashed border-white/20 rounded-xl p-8 flex flex-col items-center justify-center text-center hover:border-primary-variant/50 hover:bg-white/5 transition-all'">
 
                 @if (uploading()) {
                 <div class="w-full max-w-md">
-                    <div class="w-16 h-16 rounded-full bg-[#b7ff00]/20 flex items-center justify-center mb-4 mx-auto">
+                    <div class="w-16 h-16 rounded-full bg-primary-variant/20 flex items-center justify-center mb-4 mx-auto">
                         <span class="text-3xl">📤</span>
                     </div>
                     <p class="text-white font-medium mb-1 text-center">Subiendo imágenes...</p>
-                    <p class="text-[#b7ff00] font-bold text-2xl text-center mb-3">{{ uploadProgress() }}%</p>
+                    <p class="text-primary-variant font-bold text-2xl text-center mb-3">{{ uploadProgress() }}%</p>
                     <!-- Progress Bar -->
                     <div class="w-full bg-white/10 rounded-full h-3 overflow-hidden">
-                        <div class="bg-linear-to-r from-[#b7ff00] to-[#7acc00] h-full rounded-full transition-all duration-300 ease-out"
+                        <div class="bg-linear-to-r from-primary-variant to-primary-dark h-full rounded-full transition-all duration-300 ease-out"
                             [style.width.%]="uploadProgress()">
                         </div>
                     </div>
                     <p class="text-xs text-white/40 mt-2 text-center">Por favor espera, no cierres esta página</p>
                 </div>
                 } @else {
-                <div class="w-16 h-16 rounded-full bg-[#b7ff00]/20 flex items-center justify-center mb-4">
-                    <span class="text-3xl text-[#b7ff00]">☁️</span>
+                <div class="w-16 h-16 rounded-full bg-primary-variant/20 flex items-center justify-center mb-4">
+                    <span class="text-3xl text-primary-variant">☁️</span>
                 </div>
                 <p class="text-white font-medium mb-1">Arrastra y suelta tus fotos aquí</p>
                 <p class="text-xs text-white/40 mb-4">Soporta imágenes de alta resolución (JPG, PNG, WEBP). Tamaño
@@ -163,14 +163,14 @@
                 @for (image of images(); track image.id) {
                 <div (click)="toggleSelection(image.id)"
                     [class]="isSelected(image.id) 
-                        ? 'relative aspect-square rounded-xl overflow-hidden cursor-pointer ring-2 ring-[#b7ff00] ring-offset-2 ring-offset-[#111111]'
+                        ? 'relative aspect-square rounded-xl overflow-hidden cursor-pointer ring-2 ring-primary-variant ring-offset-2 ring-offset-background-dark'
                         : 'relative aspect-square rounded-xl overflow-hidden cursor-pointer hover:ring-2 hover:ring-white/30 transition-all group'">
                     <img [src]="image.cloudinaryUrl" [alt]="image.originalName" class="w-full h-full object-cover">
 
                     <!-- Selection Overlay -->
                     @if (isSelected(image.id)) {
-                    <div class="absolute inset-0 bg-[#b7ff00]/20 flex items-center justify-center">
-                        <div class="w-8 h-8 rounded-full bg-[#b7ff00] flex items-center justify-center">
+                    <div class="absolute inset-0 bg-primary-variant/20 flex items-center justify-center">
+                        <div class="w-8 h-8 rounded-full bg-primary-variant flex items-center justify-center">
                             <span class="text-black text-lg">✓</span>
                         </div>
                     </div>

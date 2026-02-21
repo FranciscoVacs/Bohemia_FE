@@ -156,7 +156,7 @@ export class EventStatsComponent implements OnInit, OnDestroy {
    * Determina el color de la barra de progreso según porcentaje
    */
   getProgressBarColor(percentage: number): string {
-    if (percentage >= 75) return 'bg-[#b7ff00]';
+    if (percentage >= 75) return 'bg-primary-variant';
     if (percentage >= 40) return 'bg-white/30';
     return 'bg-white/15';
   }

@@ -1,9 +1,9 @@
-<section id="listado-eventos" class="bg-[#0a0a0a] border border-white/10 rounded-3xl overflow-hidden shadow-2xl relative">
+<section id="listado-eventos" class="bg-surface border border-white/10 rounded-3xl overflow-hidden shadow-2xl relative">
     <!-- Top gradient line -->
     <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-secondary via-primary to-secondary opacity-50"></div>
 
     <!-- Header con filtros -->
-    <div class="p-6 md:p-8 border-b border-white/10 bg-[#121212]/50 backdrop-blur-sm">
+    <div class="p-6 md:p-8 border-b border-white/10 bg-surface-light/50 backdrop-blur-sm">
         <div class="flex flex-col gap-6">
             <!-- Título y Total -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -133,7 +133,7 @@
         <!-- Vista Mobile: Cards -->
         <div class="md:hidden flex flex-col divide-y divide-white/5">
             @for (event of paginatedEvents(); track event.id) {
-            <div class="p-6 bg-[#121212] relative">
+            <div class="p-6 bg-surface-light relative">
                 <!-- Badge de estado -->
                 <div class="absolute top-6 right-6 z-10">
                     @if (isEventPast(event)) {
@@ -302,7 +302,7 @@
                                 title="Galería">
                                 <span class="material-symbols-outlined text-[18px]">photo_library</span>
                                 @if (event.isGalleryPublished) {
-                                <span class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full border border-[#0a0a0a]"></span>
+                                <span class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full border border-surface"></span>
                                 }
                             </button>
                             <button (click)="viewTickets(event)"

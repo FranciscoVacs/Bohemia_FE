@@ -51,7 +51,7 @@
           class="absolute -inset-0.5 bg-gradient-to-r from-secondary to-primary rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500">
         </div>
         <div
-          class="relative p-6 rounded-2xl bg-[#121212] border border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+          class="relative p-6 rounded-2xl bg-surface-light border border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
           <div class="flex-1">
             <div class="flex items-center gap-3 mb-2">
               <h3
@@ -90,7 +90,7 @@
       @case ('closed') {
       <!-- CLOSED: grayed out, no interaction -->
       <div
-        class="p-6 rounded-2xl bg-[#0A0A0A] border border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-50 pointer-events-none select-none">
+        class="p-6 rounded-2xl bg-surface border border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-50 pointer-events-none select-none">
         <div class="flex-1">
           <div class="flex items-center gap-3 mb-2">
             <h3 class="font-display text-2xl uppercase tracking-wide text-gray-500">{{ ticketType.ticketTypeName }}
@@ -107,7 +107,7 @@
       @case ('sold_out') {
       <!-- SOLD OUT: grayed out, no interaction -->
       <div
-        class="p-6 rounded-2xl bg-[#0A0A0A] border border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-50 pointer-events-none select-none">
+        class="p-6 rounded-2xl bg-surface border border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-50 pointer-events-none select-none">
         <div class="flex-1">
           <div class="flex items-center gap-3 mb-2">
             <h3 class="font-display text-2xl uppercase tracking-wide text-gray-500">{{ ticketType.ticketTypeName }}
@@ -124,7 +124,7 @@
       @case ('pending') {
       <!-- PENDING: only name, no price -->
       <div
-        class="p-6 rounded-2xl bg-[#0A0A0A] border border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-60 pointer-events-none select-none">
+        class="p-6 rounded-2xl bg-surface border border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-60 pointer-events-none select-none">
         <div class="flex-1">
           <div class="flex items-center gap-3 mb-2">
             <h3 class="font-display text-2xl uppercase tracking-wide text-gray-400">{{ ticketType.ticketTypeName }}
@@ -171,7 +171,7 @@
     <div class="lg:col-span-4">
       <div class="sticky top-28 space-y-4">
         <div
-          class="bg-[#121212] rounded-3xl p-6 border border-white/10 shadow-2xl relative overflow-hidden ring-1 ring-white/5">
+          class="bg-surface-light rounded-3xl p-6 border border-white/10 shadow-2xl relative overflow-hidden ring-1 ring-white/5">
           <div class="absolute top-0 left-0 w-full h-1 bg-gradient-primary"></div>
           <h3 class="font-display text-2xl uppercase tracking-wide mb-6 flex justify-between items-center">
             Resumen
@@ -262,7 +262,7 @@
       <span class="material-symbols-outlined text-secondary">explore</span>
       Ubicación
     </h2>
-    <div class="bg-[#121212] rounded-[32px] p-1 border border-white/10 overflow-hidden relative group z-10">
+    <div class="bg-surface-light rounded-[32px] p-1 border border-white/10 overflow-hidden relative group z-10">
       <div class="relative h-[450px] w-full rounded-[28px] overflow-hidden shadow-2xl shadow-primary/5">
         <div id="map" class="w-full h-full"></div>
       </div>

@@ -1,22 +1,22 @@
-<div class="min-h-screen bg-linear-to-b from-[#0a0a0a] to-[#111111]">
+<div class="min-h-screen bg-linear-to-b from-surface to-background-dark">
     <!-- Header - Fixed navbar -->
     @if (isEditingPublished()) {
     <!-- Navbar para edicion de evento publicado -->
     <nav
-        class="fixed top-0 left-0 right-0 min-h-14 flex items-center justify-between px-4 md:px-8 pt-[env(safe-area-inset-top)] bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
+        class="fixed top-0 left-0 right-0 min-h-14 flex items-center justify-between px-4 md:px-8 pt-[env(safe-area-inset-top)] bg-black/95 backdrop-blur-md border-b border-primary-variant/20 z-50">
         <button (click)="goBackToList()"
-            class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-[#b7ff00]/10 hover:text-[#b7ff00] cursor-pointer bg-transparent border-none">
+            class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-primary-variant/10 hover:text-primary-variant cursor-pointer bg-transparent border-none">
             <span class="material-symbols-outlined text-[20px]">arrow_back</span>
             <span class="hidden sm:inline">Volver al Listado</span>
         </button>
         <span
-            class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
+            class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-primary-variant to-primary-dark text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
             EDICION TICKETS
         </span>
         <button (click)="saveAllChanges()" [disabled]="saving() || !hasUnsavedChanges()"
             class="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-lg font-bold transition-all cursor-pointer border-none disabled:opacity-40 disabled:cursor-not-allowed"
             [class]="hasUnsavedChanges() && !saving()
-                ? 'bg-[#b7ff00] text-black hover:bg-[#c8ff33]'
+                ? 'bg-primary-variant text-black hover:bg-primary-light'
                 : 'bg-white/10 text-white/50'">
             @if (saving()) {
             <span class="animate-spin material-symbols-outlined text-[18px]">progress_activity</span>
@@ -30,14 +30,14 @@
     } @else {
     <!-- Navbar para creacion (paso 2 de 2) -->
     <nav
-        class="fixed top-0 left-0 right-0 min-h-14 flex items-center justify-between px-4 md:px-8 pt-[env(safe-area-inset-top)] bg-black/95 backdrop-blur-md border-b border-[#b7ff00]/20 z-50">
+        class="fixed top-0 left-0 right-0 min-h-14 flex items-center justify-between px-4 md:px-8 pt-[env(safe-area-inset-top)] bg-black/95 backdrop-blur-md border-b border-primary-variant/20 z-50">
         <button (click)="goBackToEventData()"
-            class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-[#b7ff00]/10 hover:text-[#b7ff00] cursor-pointer bg-transparent border-none">
+            class="inline-flex items-center gap-2 text-white no-underline text-sm px-4 py-2 rounded-lg transition-all hover:bg-primary-variant/10 hover:text-primary-variant cursor-pointer bg-transparent border-none">
             <span class="material-symbols-outlined text-[20px]">arrow_back</span>
             <span class="hidden sm:inline">Volver</span>
         </button>
         <span
-            class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
+            class="absolute left-1/2 -translate-x-1/2 bg-linear-to-r from-primary-variant to-primary-dark text-black px-4 py-1.5 rounded-full font-bold text-xs tracking-wider">
             PASO 2 DE 2
         </span>
         <button (click)="cancelAndDelete()" [disabled]="deleting()"
@@ -54,17 +54,17 @@
             @if (isEditingPublished()) {
             <h1 class="text-2xl md:text-4xl font-extrabold text-white mb-2 uppercase tracking-wider">
                 CONFIGURAR
-                <span class="text-[#b7ff00] italic">TICKETS</span>
+                <span class="text-primary-variant italic">TICKETS</span>
             </h1>
             <p class="text-white/60 text-sm md:text-base">
                 {{ currentEvent()?.eventName }} — Modifica los tipos de entradas, precios y disponibilidad.
             </p>
             } @else {
-            <p class="text-[#b7ff00] text-xs font-bold uppercase tracking-widest mb-2">PASO 2 DE 2 - CONFIGURACION FINAL
+            <p class="text-primary-variant text-xs font-bold uppercase tracking-widest mb-2">PASO 2 DE 2 - CONFIGURACION FINAL
             </p>
             <h1 class="text-2xl md:text-4xl font-extrabold text-white mb-2 uppercase tracking-wider">
                 CONFIGURACION DE
-                <span class="text-[#b7ff00] italic">TICKETS</span>
+                <span class="text-primary-variant italic">TICKETS</span>
             </h1>
             <p class="text-white/60 text-sm md:text-base">
                 Define los tipos de entradas, precios y disponibilidad para tu evento. El primer ticket creado se activa
@@ -125,7 +125,7 @@
                     TIPOS DE TICKETS
                 </h2>
                 <button (click)="toggleNewTicketForm()" data-cy="new-ticket-button"
-                    class="text-xs bg-[#b7ff00]/10 text-[#b7ff00] border border-[#b7ff00]/20 px-4 py-2 rounded-lg hover:bg-[#b7ff00]/20 transition-colors uppercase font-bold tracking-wider flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
+                    class="text-xs bg-primary-variant/10 text-primary-variant border border-primary-variant/20 px-4 py-2 rounded-lg hover:bg-primary-variant/20 transition-colors uppercase font-bold tracking-wider flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
                     <span>+</span> NUEVO TICKET
                 </button>
             </div>
@@ -138,19 +138,19 @@
             <div class="md:hidden space-y-3 mb-6">
                 @for (ticket of allDisplayedTickets(); track ticket.isPending ? ticket.tempId : ticket.id) {
                 <div [ngClass]="ticket.isPending 
-                    ? 'bg-[#b7ff00]/5 rounded-xl p-4 border border-[#b7ff00]/20 border-dashed' 
+                    ? 'bg-primary-variant/5 rounded-xl p-4 border border-primary-variant/20 border-dashed' 
                     : ticket.status === 'active' 
-                        ? 'bg-black/30 rounded-xl p-4 border border-[#b7ff00]/30' 
+                        ? 'bg-black/30 rounded-xl p-4 border border-primary-variant/30' 
                         : 'bg-black/30 rounded-xl p-4 border border-white/10'">
                     <div class="flex justify-between items-start mb-3">
                         <div class="flex items-center gap-2 flex-1 min-w-0">
                             <span class="text-white/40 text-xs font-mono shrink-0">#{{ ticket.sortOrder }}</span>
                             <input type="text" [value]="ticket.ticketTypeName"
                                 (blur)="ticket.isPending ? updatePendingTicketField(ticket.tempId!, 'ticketTypeName', $any($event.target).value) : updateTicketField(ticket.id, 'ticketTypeName', $any($event.target).value)"
-                                class="bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-medium text-sm py-0.5 px-1 outline-none transition-colors w-full min-w-0">
+                                class="bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-medium text-sm py-0.5 px-1 outline-none transition-colors w-full min-w-0">
                             @if (ticket.isPending) {
                             <span
-                                class="bg-[#b7ff00]/20 text-[#b7ff00] px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">NUEVO</span>
+                                class="bg-primary-variant/20 text-primary-variant px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">NUEVO</span>
                             } @else if (ticket.hasEdits) {
                             <span
                                 class="bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">MODIFICADO</span>
@@ -175,23 +175,23 @@
                             <span class="text-white/40 text-xs">Precio ($)</span>
                             <input type="number" [value]="ticket.price" min="0"
                                 (blur)="ticket.isPending ? updatePendingTicketField(ticket.tempId!, 'price', $any($event.target).value) : updateTicketField(ticket.id, 'price', $any($event.target).value)"
-                                class="w-full bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors">
+                                class="w-full bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors">
                         </div>
                         <div>
                             <span class="text-white/40 text-xs">Stock</span>
                             <input type="number" [value]="ticket.maxQuantity" min="1"
                                 (blur)="ticket.isPending ? updatePendingTicketField(ticket.tempId!, 'maxQuantity', $any($event.target).value) : updateTicketField(ticket.id, 'maxQuantity', $any($event.target).value)"
-                                class="w-full bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors">
+                                class="w-full bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors">
                         </div>
                         <div class="col-span-2">
                             <span class="text-white/40 text-xs">Estado</span>
                             <div class="mt-1">
                                 @if (ticket.isPending) {
                                 <span
-                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-0.5 rounded text-xs font-bold">PENDIENTE</span>
+                                    class="bg-primary-variant/20 text-primary-variant px-2 py-0.5 rounded text-xs font-bold">PENDIENTE</span>
                                 } @else if (ticket.status === 'active') {
                                 <span
-                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-0.5 rounded text-xs font-bold">ACTIVO</span>
+                                    class="bg-primary-variant/20 text-primary-variant px-2 py-0.5 rounded text-xs font-bold">ACTIVO</span>
                                 } @else if (ticket.status === 'pending') {
                                 <span class="bg-white/10 text-white/60 px-2 py-0.5 rounded text-xs">EN COLA</span>
                                 } @else if (ticket.status === 'sold_out') {
@@ -223,11 +223,11 @@
                     <tbody>
                         @for (ticket of allDisplayedTickets(); track ticket.isPending ? ticket.tempId : ticket.id) {
                         <tr [ngClass]="ticket.isPending 
-                            ? 'border-b border-[#b7ff00]/10 bg-[#b7ff00]/5' 
+                            ? 'border-b border-primary-variant/10 bg-primary-variant/5' 
                             : ticket.hasEdits
                                 ? 'border-b border-yellow-500/10 hover:bg-white/5 transition-colors bg-yellow-500/5'
                                 : ticket.status === 'active' 
-                                    ? 'border-b border-white/5 hover:bg-white/5 transition-colors bg-[#b7ff00]/5' 
+                                    ? 'border-b border-white/5 hover:bg-white/5 transition-colors bg-primary-variant/5' 
                                     : 'border-b border-white/5 hover:bg-white/5 transition-colors'">
                             <td class="py-4 px-2">
                                 <span class="text-white/40 font-mono text-sm">#{{ ticket.sortOrder }}</span>
@@ -236,10 +236,10 @@
                                 <div class="flex items-center gap-2">
                                     <input type="text" [value]="ticket.ticketTypeName"
                                         (blur)="ticket.isPending ? updatePendingTicketField(ticket.tempId!, 'ticketTypeName', $any($event.target).value) : updateTicketField(ticket.id, 'ticketTypeName', $any($event.target).value)"
-                                        class="bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-medium text-sm py-0.5 px-1 outline-none transition-colors w-full max-w-[200px]">
+                                        class="bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-medium text-sm py-0.5 px-1 outline-none transition-colors w-full max-w-[200px]">
                                     @if (ticket.isPending) {
                                     <span
-                                        class="bg-[#b7ff00]/20 text-[#b7ff00] px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">NUEVO</span>
+                                        class="bg-primary-variant/20 text-primary-variant px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">NUEVO</span>
                                     } @else if (ticket.hasEdits) {
                                     <span
                                         class="bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">MODIFICADO</span>
@@ -249,20 +249,20 @@
                             <td class="py-4 px-2">
                                 <input type="number" [value]="ticket.price" min="0"
                                     (blur)="ticket.isPending ? updatePendingTicketField(ticket.tempId!, 'price', $any($event.target).value) : updateTicketField(ticket.id, 'price', $any($event.target).value)"
-                                    class="bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors w-24">
+                                    class="bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors w-24">
                             </td>
                             <td class="py-4 px-2">
                                 <input type="number" [value]="ticket.maxQuantity" min="1"
                                     (blur)="ticket.isPending ? updatePendingTicketField(ticket.tempId!, 'maxQuantity', $any($event.target).value) : updateTicketField(ticket.id, 'maxQuantity', $any($event.target).value)"
-                                    class="bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors w-20">
+                                    class="bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors w-20">
                             </td>
                             <td class="py-4 px-2">
                                 @if (ticket.isPending) {
                                 <span
-                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-1 rounded text-xs font-bold">PENDIENTE</span>
+                                    class="bg-primary-variant/20 text-primary-variant px-2 py-1 rounded text-xs font-bold">PENDIENTE</span>
                                 } @else if (ticket.status === 'active') {
                                 <span
-                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-1 rounded text-xs font-bold">ACTIVO</span>
+                                    class="bg-primary-variant/20 text-primary-variant px-2 py-1 rounded text-xs font-bold">ACTIVO</span>
                                 } @else if (ticket.status === 'pending') {
                                 <span class="bg-white/10 text-white/60 px-2 py-1 rounded text-xs">EN COLA</span>
                                 } @else if (ticket.status === 'sold_out') {
@@ -306,13 +306,13 @@
             <div class="md:hidden space-y-3 mb-6">
                 @for (ticket of sortedTicketTypes(); track ticket.id) {
                 <div
-                    [ngClass]="ticket.status === 'active' ? 'bg-black/30 rounded-xl p-4 border border-[#b7ff00]/30' : 'bg-black/30 rounded-xl p-4 border border-white/10'">
+                    [ngClass]="ticket.status === 'active' ? 'bg-black/30 rounded-xl p-4 border border-primary-variant/30' : 'bg-black/30 rounded-xl p-4 border border-white/10'">
                     <div class="flex justify-between items-start mb-3">
                         <div class="flex items-center gap-2 flex-1 min-w-0">
                             <span class="text-white/40 text-xs font-mono shrink-0">#{{ ticket.sortOrder }}</span>
                             <input type="text" [value]="ticket.ticketTypeName"
                                 (blur)="updateTicketField(ticket.id, 'ticketTypeName', $any($event.target).value)"
-                                class="bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-medium text-sm py-0.5 px-1 outline-none transition-colors w-full min-w-0">
+                                class="bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-medium text-sm py-0.5 px-1 outline-none transition-colors w-full min-w-0">
                         </div>
                         <div class="flex items-center gap-1 shrink-0 ml-2">
                             @if (ticket.status === 'active') {
@@ -332,20 +332,20 @@
                             <span class="text-white/40 text-xs">Precio ($)</span>
                             <input type="number" [value]="ticket.price" min="0"
                                 (blur)="updateTicketField(ticket.id, 'price', $any($event.target).value)"
-                                class="w-full bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors">
+                                class="w-full bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors">
                         </div>
                         <div>
                             <span class="text-white/40 text-xs">Stock</span>
                             <input type="number" [value]="ticket.maxQuantity" min="1"
                                 (blur)="updateTicketField(ticket.id, 'maxQuantity', $any($event.target).value)"
-                                class="w-full bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors">
+                                class="w-full bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors">
                         </div>
                         <div class="col-span-2">
                             <span class="text-white/40 text-xs">Estado</span>
                             <div class="mt-1">
                                 @if (ticket.status === 'active') {
                                 <span
-                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-0.5 rounded text-xs font-bold">ACTIVO</span>
+                                    class="bg-primary-variant/20 text-primary-variant px-2 py-0.5 rounded text-xs font-bold">ACTIVO</span>
                                 } @else if (ticket.status === 'pending') {
                                 <span class="bg-white/10 text-white/60 px-2 py-0.5 rounded text-xs">EN COLA</span>
                                 } @else if (ticket.status === 'sold_out') {
@@ -377,29 +377,29 @@
                     <tbody>
                         @for (ticket of sortedTicketTypes(); track ticket.id) {
                         <tr
-                            [ngClass]="ticket.status === 'active' ? 'border-b border-white/5 hover:bg-white/5 transition-colors bg-[#b7ff00]/5' : 'border-b border-white/5 hover:bg-white/5 transition-colors'">
+                            [ngClass]="ticket.status === 'active' ? 'border-b border-white/5 hover:bg-white/5 transition-colors bg-primary-variant/5' : 'border-b border-white/5 hover:bg-white/5 transition-colors'">
                             <td class="py-4 px-2">
                                 <span class="text-white/40 font-mono text-sm">#{{ ticket.sortOrder }}</span>
                             </td>
                             <td class="py-4 px-2">
                                 <input type="text" [value]="ticket.ticketTypeName"
                                     (blur)="updateTicketField(ticket.id, 'ticketTypeName', $any($event.target).value)"
-                                    class="bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-medium text-sm py-0.5 px-1 outline-none transition-colors w-full max-w-[200px]">
+                                    class="bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-medium text-sm py-0.5 px-1 outline-none transition-colors w-full max-w-[200px]">
                             </td>
                             <td class="py-4 px-2">
                                 <input type="number" [value]="ticket.price" min="0"
                                     (blur)="updateTicketField(ticket.id, 'price', $any($event.target).value)"
-                                    class="bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors w-24">
+                                    class="bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors w-24">
                             </td>
                             <td class="py-4 px-2">
                                 <input type="number" [value]="ticket.maxQuantity" min="1"
                                     (blur)="updateTicketField(ticket.id, 'maxQuantity', $any($event.target).value)"
-                                    class="bg-transparent border-b border-white/10 focus:border-[#b7ff00]/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors w-20">
+                                    class="bg-transparent border-b border-white/10 focus:border-primary-variant/50 text-white font-mono text-sm py-0.5 px-1 outline-none transition-colors w-20">
                             </td>
                             <td class="py-4 px-2">
                                 @if (ticket.status === 'active') {
                                 <span
-                                    class="bg-[#b7ff00]/20 text-[#b7ff00] px-2 py-1 rounded text-xs font-bold">ACTIVO</span>
+                                    class="bg-primary-variant/20 text-primary-variant px-2 py-1 rounded text-xs font-bold">ACTIVO</span>
                                 } @else if (ticket.status === 'pending') {
                                 <span class="bg-white/10 text-white/60 px-2 py-1 rounded text-xs">EN COLA</span>
                                 } @else if (ticket.status === 'sold_out') {
@@ -438,9 +438,9 @@
 
             <!-- New Ticket Form (Inline) - Compartido -->
             @if (showNewTicketForm()) {
-            <div class="bg-black/30 border border-[#b7ff00]/20 rounded-xl p-4 md:p-5 mb-4">
+            <div class="bg-black/30 border border-primary-variant/20 rounded-xl p-4 md:p-5 mb-4">
                 <h3 class="text-white font-medium mb-4 flex items-center gap-2">
-                    <span class="text-[#b7ff00]">+</span> Nuevo Tipo de Ticket
+                    <span class="text-primary-variant">+</span> Nuevo Tipo de Ticket
                 </h3>
                 <form [formGroup]="ticketForm" (ngSubmit)="addTicketType()" class="space-y-4">
                     <!-- Row 1: Name -->
@@ -452,7 +452,7 @@
                             [class.border-red-500]="(ticketForm.get('ticketTypeName')?.invalid && ticketForm.get('ticketTypeName')?.touched) || ticketForm.get('ticketTypeName')?.hasError('serverError')"
                             [class.bg-red-500]="ticketForm.get('ticketTypeName')?.hasError('serverError')"
                             [ngStyle]="{'background-color': ticketForm.get('ticketTypeName')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
-                            class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white focus:outline-none focus:border-[#b7ff00]/50 transition-all"
+                            class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white focus:outline-none focus:border-primary-variant/50 transition-all"
                             placeholder="Ej: General Early Bird">
                         @if (ticketForm.get('ticketTypeName')?.touched && ticketForm.get('ticketTypeName')?.invalid) {
                         @if (ticketForm.get('ticketTypeName')?.hasError('serverError')) {
@@ -474,7 +474,7 @@
                                 [class.border-red-500]="(ticketForm.get('price')?.invalid && ticketForm.get('price')?.touched) || ticketForm.get('price')?.hasError('serverError')"
                                 [class.bg-red-500]="ticketForm.get('price')?.hasError('serverError')"
                                 [ngStyle]="{'background-color': ticketForm.get('price')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
-                                class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
+                                class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-primary-variant/50 transition-all">
                             @if (ticketForm.get('price')?.touched && ticketForm.get('price')?.invalid) {
                             @if (ticketForm.get('price')?.hasError('serverError')) {
                             <p class="text-red-500 font-medium text-[10px] mt-1">{{
@@ -492,7 +492,7 @@
                                 [class.border-red-500]="(ticketForm.get('maxQuantity')?.invalid && ticketForm.get('maxQuantity')?.touched) || ticketForm.get('maxQuantity')?.hasError('serverError')"
                                 [class.bg-red-500]="ticketForm.get('maxQuantity')?.hasError('serverError')"
                                 [ngStyle]="{'background-color': ticketForm.get('maxQuantity')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
-                                class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
+                                class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-primary-variant/50 transition-all">
                             @if (ticketForm.get('maxQuantity')?.touched && ticketForm.get('maxQuantity')?.invalid) {
                             @if (ticketForm.get('maxQuantity')?.hasError('serverError')) {
                             <p class="text-red-500 font-medium text-[10px] mt-1">{{
@@ -510,7 +510,7 @@
                                 [class.border-red-500]="(ticketForm.get('sortOrder')?.invalid && ticketForm.get('sortOrder')?.touched) || ticketForm.get('sortOrder')?.hasError('serverError')"
                                 [class.bg-red-500]="ticketForm.get('sortOrder')?.hasError('serverError')"
                                 [ngStyle]="{'background-color': ticketForm.get('sortOrder')?.hasError('serverError') ? 'rgba(239, 68, 68, 0.1)' : ''}"
-                                class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-[#b7ff00]/50 transition-all">
+                                class="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-3 text-base text-white font-mono focus:outline-none focus:border-primary-variant/50 transition-all">
                             @if (ticketForm.get('sortOrder')?.touched && ticketForm.get('sortOrder')?.invalid) {
                             @if (ticketForm.get('sortOrder')?.hasError('serverError')) {
                             <p class="text-red-500 font-medium text-[10px] mt-1">{{
@@ -528,7 +528,7 @@
                             Cancelar
                         </button>
                         <button type="submit" [disabled]="submitting()" data-cy="add-ticket-submit-button"
-                            class="bg-[#b7ff00] text-black px-6 py-3 rounded-lg font-bold text-sm hover:bg-[#a8e600] transition-colors cursor-pointer disabled:opacity-50 w-full sm:w-auto">
+                            class="bg-primary-variant text-black px-6 py-3 rounded-lg font-bold text-sm hover:bg-[#a8e600] transition-colors cursor-pointer disabled:opacity-50 w-full sm:w-auto">
                             @if (isEditingPublished()) {
                             {{ submitting() ? 'Agregando...' : 'Agregar Ticket' }}
                             } @else {
@@ -571,7 +571,7 @@
                     </div>
                     <div class="text-center">
                         <p class="text-white/40 text-[10px] uppercase tracking-widest mb-1">Ganancia Estimada</p>
-                        <p class="text-[#b7ff00] text-2xl md:text-3xl font-bold">${{ estimatedRevenue().toLocaleString()
+                        <p class="text-primary-variant text-2xl md:text-3xl font-bold">${{ estimatedRevenue().toLocaleString()
                             }}</p>
                     </div>
                 </div>
@@ -583,7 +583,7 @@
         <div class="flex justify-center pb-8">
             <button (click)="showPublishConfirmation()" [disabled]="!canPublish() || publishing()"
                 data-cy="publish-event-button"
-                class="w-full md:w-auto bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black font-bold text-lg md:text-xl uppercase py-4 px-8 md:px-12 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(183,255,0,0.3)] hover:shadow-[0_0_50px_rgba(183,255,0,0.5)] flex items-center justify-center gap-3 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100">
+                class="w-full md:w-auto bg-linear-to-r from-primary-variant to-primary-dark text-black font-bold text-lg md:text-xl uppercase py-4 px-8 md:px-12 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(183,255,0,0.3)] hover:shadow-[0_0_50px_rgba(183,255,0,0.5)] flex items-center justify-center gap-3 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100">
                 @if (publishing()) {
                 Publicando...
                 } @else {
@@ -603,7 +603,7 @@
         @if (isEditingPublished() && hasUnsavedChanges()) {
         <div class="flex justify-center pb-8">
             <button (click)="saveAllChanges()" [disabled]="saving()"
-                class="w-full md:w-auto bg-linear-to-r from-[#b7ff00] to-[#7acc00] text-black font-bold text-lg md:text-xl uppercase py-4 px-8 md:px-12 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(183,255,0,0.3)] hover:shadow-[0_0_50px_rgba(183,255,0,0.5)] flex items-center justify-center gap-3 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100">
+                class="w-full md:w-auto bg-linear-to-r from-primary-variant to-primary-dark text-black font-bold text-lg md:text-xl uppercase py-4 px-8 md:px-12 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(183,255,0,0.3)] hover:shadow-[0_0_50px_rgba(183,255,0,0.5)] flex items-center justify-center gap-3 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100">
                 @if (saving()) {
                 <span class="animate-spin material-symbols-outlined">progress_activity</span>
                 Guardando cambios...
@@ -694,7 +694,7 @@
 <!-- Publish Confirmation Modal -->
 @if (showPublishModal()) {
 <div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-    <div class="bg-[#1a1a1a] border border-[#b7ff00]/20 rounded-2xl p-6 max-w-md w-full shadow-2xl">
+    <div class="bg-[#1a1a1a] border border-primary-variant/20 rounded-2xl p-6 max-w-md w-full shadow-2xl">
         <div class="text-center mb-6">
             <h3 class="text-xl font-bold text-white mb-2">Publicar evento?</h3>
             <p class="text-white/60 text-sm mb-4">
@@ -711,7 +711,7 @@
                 </div>
                 <div class="flex justify-between text-sm">
                     <span class="text-white/50">Ganancia estimada:</span>
-                    <span class="text-[#b7ff00] font-bold">${{ estimatedRevenue().toLocaleString() }}</span>
+                    <span class="text-primary-variant font-bold">${{ estimatedRevenue().toLocaleString() }}</span>
                 </div>
             </div>
         </div>
@@ -721,7 +721,7 @@
                 Revisar
             </button>
             <button (click)="confirmPublish()" [disabled]="publishing()" data-cy="confirm-publish-button"
-                class="flex-1 px-4 py-3 bg-[#b7ff00] text-black rounded-xl font-bold hover:bg-[#a8e600] transition-colors cursor-pointer border-none disabled:opacity-50">
+                class="flex-1 px-4 py-3 bg-primary-variant text-black rounded-xl font-bold hover:bg-[#a8e600] transition-colors cursor-pointer border-none disabled:opacity-50">
                 @if (publishing()) {
                 Publicando...
                 } @else {
