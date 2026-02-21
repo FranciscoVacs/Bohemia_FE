@@ -195,11 +195,16 @@ export class EventFormComponent implements OnInit {
     }
 
     private formatDateForInput(date: Date): string {
-        return date.toISOString().slice(0, 10);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 
     private formatTimeForInput(date: Date): string {
-        return date.toTimeString().slice(0, 5);
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${hours}:${minutes}`;
     }
 
     onFileSelected(event: Event) {
@@ -292,7 +297,9 @@ export class EventFormComponent implements OnInit {
 
     // Combine date and time fields into a single Date object
     private combineDateAndTime(dateStr: string, timeStr: string): Date {
-        return new Date(`${dateStr}T${timeStr}:00`);
+        const [year, month, day] = dateStr.split('-').map(Number);
+        const [hours, minutes] = timeStr.split(':').map(Number);
+        return new Date(year, month - 1, day, hours, minutes, 0);
     }
 
     // Validate that end date is after start date
@@ -454,6 +461,6 @@ export class EventFormComponent implements OnInit {
 
     private formatToBackendDate(date: Date): string {
         const pad = (n: number) => n.toString().padStart(2, '0');
-        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+        return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())} ${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}`;
     }
 }
